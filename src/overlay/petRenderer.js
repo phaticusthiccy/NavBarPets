@@ -63,6 +63,15 @@ class PetRenderer {
       case 'penguin':
         this.drawPenguin(ctx, pose, accessories);
         break;
+      case 'jett':
+        this.drawJett(ctx, pose, accessories);
+        break;
+      case 'mario':
+        this.drawMario(ctx, pose, accessories);
+        break;
+      case 'pikachu':
+        this.drawPikachu(ctx, pose, accessories);
+        break;
       default:
         this.drawNeko(ctx, pose, accessories);
     }
@@ -1406,6 +1415,565 @@ class PetRenderer {
     ctx.ellipse(16, 0, 4, 8, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
+  }
+
+  // ==========================================
+  // 9. VALORANT JETT RENDERER
+  // ==========================================
+  drawJett(ctx, pose, acc) {
+    const p = {
+      bodyX: 0,
+      bodyY: pose.bodyY || -16,
+      bodyRot: pose.bodyRot || 0,
+      headX: 0,
+      headY: pose.headY || -32,
+      headRot: pose.headRot || 0,
+      tailAngle: pose.tailAngle || 0,
+      eyeState: pose.eyeState || 'open',
+      mouthState: pose.mouthState || 'w',
+      pawFL_x: pose.pawFL_x || 6,
+      pawFL_y: pose.pawFL_y || 0,
+      pawFR_x: pose.pawFR_x || 12,
+      pawFR_y: pose.pawFR_y || 0,
+      pawBL_x: pose.pawBL_x || -10,
+      pawBL_y: pose.pawBL_y || 0,
+      pawBR_x: pose.pawBR_x || -4,
+      pawBR_y: pose.pawBR_y || 0,
+      squishX: pose.squishX || 1.0,
+      squishY: pose.squishY || 1.0
+    };
+
+    // 1. Wind Dash Aura / Swirl
+    ctx.save();
+    ctx.translate(p.bodyX, p.bodyY + 8);
+    ctx.beginPath();
+    ctx.ellipse(-12, 6, 14, 4, 0.2, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0, 245, 212, 0.22)';
+    ctx.fill();
+    ctx.restore();
+
+    // 2. High Flowing Ponytail (acts as hair tail)
+    ctx.save();
+    ctx.translate(p.headX - 6, p.headY - 6);
+    ctx.rotate(p.tailAngle * 0.8 - 0.3);
+    
+    // Ponytail Ribbon / Tie
+    ctx.beginPath();
+    ctx.arc(0, 0, 3, 0, Math.PI * 2);
+    ctx.fillStyle = '#00F5D4';
+    ctx.fill();
+
+    // Flowing White Ponytail Hair
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.quadraticCurveTo(-14, -12, -26, 4);
+    ctx.quadraticCurveTo(-18, 14, -6, 4);
+    ctx.closePath();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+    ctx.strokeStyle = '#D0E1F9';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    // Ice-blue Hair Tip
+    ctx.beginPath();
+    ctx.moveTo(-20, -2);
+    ctx.quadraticCurveTo(-26, 4, -22, 10);
+    ctx.quadraticCurveTo(-16, 6, -20, -2);
+    ctx.fillStyle = '#A0E7E5';
+    ctx.fill();
+    ctx.restore();
+
+    // 3. 2 Bipedal Runner Legs & Cyan Soles
+    ctx.save();
+    ctx.fillStyle = '#1E2235';
+    // Left Leg (Behind)
+    ctx.beginPath();
+    ctx.ellipse(p.pawBL_x, p.pawBL_y - 2, 3.5, 6, 0.1, 0, Math.PI * 2);
+    ctx.fill();
+    // Left Cyan Sole
+    ctx.fillStyle = '#00F5D4';
+    ctx.fillRect(p.pawBL_x - 3, p.pawBL_y - 1, 6, 2.5);
+
+    // Right Leg (Front)
+    ctx.fillStyle = '#1E2235';
+    ctx.beginPath();
+    ctx.ellipse(p.pawFL_x, p.pawFL_y - 2, 3.5, 6, -0.1, 0, Math.PI * 2);
+    ctx.fill();
+    // Right Cyan Sole
+    ctx.fillStyle = '#00F5D4';
+    ctx.fillRect(p.pawFL_x - 3, p.pawFL_y - 1, 6, 2.5);
+    ctx.restore();
+
+    // 4. Arms (Left resting/swinging, Right directing wind Kunai)
+    ctx.save();
+    ctx.fillStyle = '#1E2235';
+    // Left arm
+    ctx.beginPath();
+    ctx.ellipse(p.bodyX - 9, p.bodyY + 2, 3, 5, 0.3, 0, Math.PI * 2);
+    ctx.fill();
+    // Left hand
+    ctx.fillStyle = '#FEE5D8';
+    ctx.beginPath();
+    ctx.arc(p.bodyX - 10, p.bodyY + 6, 2.2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Right arm (reaching toward floating Kunai)
+    ctx.fillStyle = '#1E2235';
+    ctx.beginPath();
+    ctx.ellipse(p.bodyX + 8, p.bodyY - 1, 3, 5, -0.4, 0, Math.PI * 2);
+    ctx.fill();
+    // Right hand
+    ctx.fillStyle = '#FEE5D8';
+    ctx.beginPath();
+    ctx.arc(p.bodyX + 11, p.bodyY - 3, 2.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // 4. Torso / Windrunner Vest
+    ctx.save();
+    ctx.translate(p.bodyX, p.bodyY);
+    ctx.rotate(p.bodyRot);
+    ctx.scale(p.squishX, p.squishY);
+
+    // Dark Navy Jacket Base
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 13, 11, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#1E2235';
+    ctx.fill();
+
+    // Cyan Wind Inlay & Belt
+    ctx.beginPath();
+    ctx.arc(0, 2, 10, 0, Math.PI);
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = '#00F5D4';
+    ctx.stroke();
+
+    // White High Collar Vest
+    ctx.beginPath();
+    ctx.ellipse(2, -6, 9, 5, -0.1, 0, Math.PI * 2);
+    ctx.fillStyle = '#EAF0F8';
+    ctx.fill();
+    ctx.restore();
+
+    // 5. Floating Wind Kunai Dagger
+    ctx.save();
+    ctx.translate(p.bodyX + 16, p.bodyY - 6 + Math.sin(Date.now() * 0.006) * 3);
+    ctx.rotate(0.35 + p.bodyRot);
+
+    // Kunai Blade
+    ctx.beginPath();
+    ctx.moveTo(0, -9);
+    ctx.lineTo(4, 0);
+    ctx.lineTo(1.5, 6);
+    ctx.lineTo(-1.5, 6);
+    ctx.lineTo(-4, 0);
+    ctx.closePath();
+    ctx.fillStyle = '#1B2A47';
+    ctx.fill();
+    ctx.strokeStyle = '#00F5D4';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    // Cyan Neon Blade Core
+    ctx.beginPath();
+    ctx.moveTo(0, -7);
+    ctx.lineTo(0, 4);
+    ctx.strokeStyle = '#00F5D4';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Kunai Ring Handle
+    ctx.beginPath();
+    ctx.arc(0, 9, 2.5, 0, Math.PI * 2);
+    ctx.strokeStyle = '#00F5D4';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    ctx.restore();
+
+    // 6. Head & Cute Face
+    ctx.save();
+    ctx.translate(p.headX, p.headY);
+    ctx.rotate(p.headRot);
+
+    // Face base (Peach Anime Skin)
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 12, 10.5, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#FEE5D8';
+    ctx.fill();
+
+    // Side & Front White Anime Bangs
+    ctx.beginPath();
+    ctx.moveTo(-12, -4);
+    ctx.quadraticCurveTo(-14, -14, 0, -13);
+    ctx.quadraticCurveTo(14, -14, 12, -4);
+    ctx.quadraticCurveTo(6, -8, 2, -2);
+    ctx.quadraticCurveTo(-2, -7, -6, -3);
+    ctx.quadraticCurveTo(-9, -7, -12, -4);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+    ctx.strokeStyle = '#D8E2EC';
+    ctx.lineWidth = 1.0;
+    ctx.stroke();
+
+    // Cyan High-tech Mark on Left Cheek
+    ctx.fillStyle = '#00F5D4';
+    ctx.beginPath();
+    ctx.moveTo(-7, 2);
+    ctx.lineTo(-5, 0);
+    ctx.lineTo(-6, 4);
+    ctx.closePath();
+    ctx.fill();
+
+    // Expressive Eyes
+    this.drawEyes(ctx, -4.5, 0, 4.5, 0, p.eyeState, '#00F5D4');
+
+    // Mouth
+    this.drawMouth(ctx, 0, 4, p.mouthState);
+    ctx.restore();
+
+    if (acc && acc.nightcap) this.drawNightcap(ctx, p.headX, p.headY - 9);
+    if (acc && acc.headphones) this.drawHeadphones(ctx, p.headX, p.headY);
+  }
+
+  // ==========================================
+  // 10. SUPER MARIO RENDERER
+  // ==========================================
+  drawMario(ctx, pose, acc) {
+    const p = {
+      bodyX: 0,
+      bodyY: pose.bodyY || -16,
+      bodyRot: pose.bodyRot || 0,
+      headX: 0,
+      headY: pose.headY || -32,
+      headRot: pose.headRot || 0,
+      tailAngle: pose.tailAngle || 0,
+      eyeState: pose.eyeState || 'open',
+      mouthState: pose.mouthState || 'w',
+      pawFL_x: pose.pawFL_x || 7,
+      pawFL_y: pose.pawFL_y || 0,
+      pawFR_x: pose.pawFR_x || 13,
+      pawFR_y: pose.pawFR_y || 0,
+      pawBL_x: pose.pawBL_x || -11,
+      pawBL_y: pose.pawBL_y || 0,
+      pawBR_x: pose.pawBR_x || -5,
+      pawBR_y: pose.pawBR_y || 0,
+      squishX: pose.squishX || 1.0,
+      squishY: pose.squishY || 1.0
+    };
+
+    // 1. 2 Bipedal Work Boots (Left & Right)
+    ctx.save();
+    ctx.fillStyle = '#6B3A19';
+    // Left Boot (Behind)
+    ctx.beginPath();
+    ctx.ellipse(p.pawBL_x, p.pawBL_y - 2, 5, 4, 0, 0, Math.PI * 2);
+    ctx.fill();
+    // Right Boot (Front)
+    ctx.beginPath();
+    ctx.ellipse(p.pawFL_x, p.pawFL_y - 2, 5, 4, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // 2. Torso (Red Shirt & Blue Denim Overalls)
+    ctx.save();
+    ctx.translate(p.bodyX, p.bodyY);
+    ctx.rotate(p.bodyRot);
+    ctx.scale(p.squishX, p.squishY);
+
+    // Red Shirt Base
+    ctx.beginPath();
+    ctx.ellipse(0, -2, 14, 11, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#E52521';
+    ctx.fill();
+
+    // Blue Overalls
+    ctx.beginPath();
+    ctx.ellipse(0, 2, 13, 9, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#1B54B8';
+    ctx.fill();
+
+    // Overalls Straps
+    ctx.fillStyle = '#1B54B8';
+    ctx.fillRect(-8, -8, 4, 8);
+    ctx.fillRect(4, -8, 4, 8);
+
+    // Golden Yellow Buttons
+    ctx.fillStyle = '#FCD116';
+    ctx.beginPath();
+    ctx.arc(-6, -2, 2, 0, Math.PI * 2);
+    ctx.arc(6, -2, 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // 3. Red Sleeves & White Cartoon Gloves (2 Arms)
+    ctx.save();
+    // Left Arm & Glove (Swinging at left side)
+    ctx.fillStyle = '#E52521';
+    ctx.beginPath();
+    ctx.ellipse(p.bodyX - 10, p.bodyY + 1, 3.5, 5, 0.3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.strokeStyle = '#D0D0D0';
+    ctx.lineWidth = 1.0;
+    ctx.beginPath();
+    ctx.arc(p.bodyX - 12, p.bodyY + 5, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Right Arm & Glove (Raised in stride / action)
+    ctx.fillStyle = '#E52521';
+    ctx.beginPath();
+    ctx.ellipse(p.bodyX + 10, p.bodyY - 1, 3.5, 5, -0.4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.arc(p.bodyX + 12, p.bodyY - 4, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+
+    // 4. Head, Nose, Mustache & Red Cap
+    ctx.save();
+    ctx.translate(p.headX, p.headY);
+    ctx.rotate(p.headRot);
+
+    // Peach Head Base
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 13, 11, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#FED0B0';
+    ctx.fill();
+
+    // Sideburns
+    ctx.fillStyle = '#4B280E';
+    ctx.beginPath();
+    ctx.rect(-13, -3, 3, 6);
+    ctx.rect(10, -3, 3, 6);
+    ctx.fill();
+
+    // Friendly Blue Eyes
+    this.drawEyes(ctx, -5, -2, 5, -2, p.eyeState, '#2575FC');
+
+    // Bulbous Peach Nose
+    ctx.beginPath();
+    ctx.ellipse(0, 1, 4.5, 3.5, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#FFC4A0';
+    ctx.fill();
+    ctx.strokeStyle = '#E0A880';
+    ctx.lineWidth = 1.0;
+    ctx.stroke();
+
+    // Bushy Curved Dark Brown Mustache
+    ctx.fillStyle = '#4B280E';
+    ctx.beginPath();
+    ctx.arc(-4, 4, 4, Math.PI * 0.8, Math.PI * 1.9);
+    ctx.arc(0, 4.5, 3.5, Math.PI * 0.9, Math.PI * 2.1);
+    ctx.arc(4, 4, 4, Math.PI * 1.1, Math.PI * 2.2);
+    ctx.quadraticCurveTo(0, 8.5, -7, 5);
+    ctx.fill();
+
+    // Red Mario Cap
+    ctx.fillStyle = '#E52521';
+    // Cap Dome
+    ctx.beginPath();
+    ctx.ellipse(0, -9, 14, 8, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Cap Visor / Brim
+    ctx.beginPath();
+    ctx.ellipse(0, -4, 15, 4, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // White 'M' Emblem Circle
+    ctx.beginPath();
+    ctx.arc(0, -9, 4.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+
+    // Red 'M' letter
+    ctx.fillStyle = '#E52521';
+    ctx.font = 'bold 6px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('M', 0, -9);
+    ctx.restore();
+
+    if (acc && acc.nightcap) this.drawNightcap(ctx, p.headX, p.headY - 14);
+    if (acc && acc.headphones) this.drawHeadphones(ctx, p.headX, p.headY);
+  }
+
+  // ==========================================
+  // 11. PIKACHU RENDERER
+  // ==========================================
+  drawPikachu(ctx, pose, acc) {
+    const p = {
+      bodyX: 0,
+      bodyY: pose.bodyY || -16,
+      bodyRot: pose.bodyRot || 0,
+      headX: 0,
+      headY: pose.headY || -32,
+      headRot: pose.headRot || 0,
+      tailAngle: pose.tailAngle || 0,
+      earTwitchL: pose.earTwitchL || 0,
+      earTwitchR: pose.earTwitchR || 0,
+      eyeState: pose.eyeState || 'open',
+      mouthState: pose.mouthState || 'w',
+      pawFL_x: pose.pawFL_x || 7,
+      pawFL_y: pose.pawFL_y || 0,
+      pawFR_x: pose.pawFR_x || 13,
+      pawFR_y: pose.pawFR_y || 0,
+      pawBL_x: pose.pawBL_x || -11,
+      pawBL_y: pose.pawBL_y || 0,
+      pawBR_x: pose.pawBR_x || -5,
+      pawBR_y: pose.pawBR_y || 0,
+      squishX: pose.squishX || 1.0,
+      squishY: pose.squishY || 1.0
+    };
+
+    // 1. Zigzag Lightning Bolt Tail
+    ctx.save();
+    ctx.translate(p.bodyX - 11, p.bodyY + 2);
+    ctx.rotate(p.tailAngle * 0.9 - 0.4);
+
+    // Brown Tail Base
+    ctx.fillStyle = '#8B4513';
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(-5, -6);
+    ctx.lineTo(-2, -8);
+    ctx.lineTo(2, -2);
+    ctx.closePath();
+    ctx.fill();
+
+    // Yellow Lightning Zigzags
+    ctx.fillStyle = '#FCD116';
+    ctx.strokeStyle = '#D4A800';
+    ctx.lineWidth = 1.0;
+    ctx.beginPath();
+    ctx.moveTo(-4, -6);
+    ctx.lineTo(-12, -14);
+    ctx.lineTo(-7, -16);
+    ctx.lineTo(-18, -28);
+    ctx.lineTo(-5, -24);
+    ctx.lineTo(-8, -20);
+    ctx.lineTo(0, -12);
+    ctx.lineTo(-3, -10);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+
+    // 2. 2 Bipedal Yellow Hind Feet (Ground Stepping)
+    ctx.save();
+    ctx.fillStyle = '#FCD116';
+    // Left Hind Foot (Behind)
+    ctx.beginPath();
+    ctx.ellipse(p.pawBL_x, p.pawBL_y - 2, 5, 3.5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    // Right Hind Foot (Front)
+    ctx.beginPath();
+    ctx.ellipse(p.pawFL_x, p.pawFL_y - 2, 5, 3.5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // 3. Golden Yellow Chubby Body & Brown Back Stripes
+    ctx.save();
+    ctx.translate(p.bodyX, p.bodyY);
+    ctx.rotate(p.bodyRot);
+    ctx.scale(p.squishX, p.squishY);
+
+    // Body
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 14, 11.5, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#FCD116';
+    ctx.fill();
+
+    // Brown Back Stripes
+    ctx.fillStyle = '#8B4513';
+    ctx.beginPath();
+    ctx.ellipse(-6, -4, 2.5, 5, -0.2, 0, Math.PI * 2);
+    ctx.ellipse(0, -5, 2.5, 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 2 Cute Tiny Front Paws on Chest
+    ctx.fillStyle = '#FCD116';
+    ctx.strokeStyle = '#D4A800';
+    ctx.lineWidth = 0.8;
+    // Left tiny paw
+    ctx.beginPath();
+    ctx.ellipse(-3, 3, 2.5, 4, 0.4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    // Right tiny paw
+    ctx.beginPath();
+    ctx.ellipse(4, 3, 2.5, 4, -0.4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+
+    // 4. Head, Long Pointed Ears & Red Cheek Pouches
+    ctx.save();
+    ctx.translate(p.headX, p.headY);
+    ctx.rotate(p.headRot);
+
+    // Left Ear
+    ctx.save();
+    ctx.translate(-7, -8);
+    ctx.rotate(-0.45 + p.earTwitchL);
+    ctx.beginPath();
+    ctx.ellipse(0, -9, 3.5, 11, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#FCD116';
+    ctx.fill();
+    // Black tip
+    ctx.beginPath();
+    ctx.ellipse(0, -16, 3.2, 4.5, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#1E1E1E';
+    ctx.fill();
+    ctx.restore();
+
+    // Right Ear
+    ctx.save();
+    ctx.translate(7, -8);
+    ctx.rotate(0.45 + p.earTwitchR);
+    ctx.beginPath();
+    ctx.ellipse(0, -9, 3.5, 11, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#FCD116';
+    ctx.fill();
+    // Black tip
+    ctx.beginPath();
+    ctx.ellipse(0, -16, 3.2, 4.5, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#1E1E1E';
+    ctx.fill();
+    ctx.restore();
+
+    // Round Head Base
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 13, 11, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#FCD116';
+    ctx.fill();
+
+    // Bright Crimson Red Electric Cheek Pouches
+    ctx.fillStyle = '#E83A3A';
+    ctx.beginPath();
+    ctx.arc(-8, 3, 3.8, 0, Math.PI * 2);
+    ctx.arc(8, 3, 3.8, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Eyes
+    this.drawEyes(ctx, -5, -2, 5, -2, p.eyeState, '#1E1E1E');
+
+    // Tiny Nose
+    ctx.fillStyle = '#1E1E1E';
+    ctx.beginPath();
+    ctx.arc(0, 1.5, 1, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Mouth
+    this.drawMouth(ctx, 0, 4.5, p.mouthState);
+    ctx.restore();
+
+    if (acc && acc.nightcap) this.drawNightcap(ctx, p.headX, p.headY - 10);
+    if (acc && acc.headphones) this.drawHeadphones(ctx, p.headX, p.headY);
   }
 }
 

@@ -2,67 +2,10 @@
  * @file dashboard.js
  * @description Dashboard Application Controller & UI View Model for NavBarPets.
  * Handles pet gallery selection, live preview rendering loops, sleep scheduling,
- * media status telemetry, ground geometry sliders, and application themes.
+ * media status telemetry, ground geometry sliders, application themes, and multi-language i18n.
  */
 
-const PET_CATALOG = [
-  {
-    id: 'neko',
-    name: 'Neko Kedi',
-    species: 'Felis Catus',
-    traits: ['🐱 Meraklı', '✨ Çevik', '💤 Ekmek Somunu'],
-    desc: 'Pati atar, gerinir, kelebek kovalar ve müzikte disko dansı yapar.'
-  },
-  {
-    id: 'shiba',
-    name: 'Shiba Inu',
-    species: 'Canis Familiaris',
-    traits: ['🐕 Sadık', '⚡ Zoomies', '🍖 Kemik Avcısı'],
-    desc: 'Kuyruğunu sallar, yeri koklar, blep yapar ve neşeyle koşar.'
-  },
-  {
-    id: 'slime',
-    name: 'Cyber Slime',
-    species: 'Digitalis Amoeba',
-    traits: ['🟢 Neon Jel', '✨ Parıldayan', '🔮 Yaylanan'],
-    desc: 'Holografik çekirdeğe sahiptir, jöle gibi esner ve parıldar.'
-  },
-  {
-    id: 'dragon',
-    name: 'Mini Dragon',
-    species: 'Draco Chibi',
-    traits: ['🐉 Ateş Nefesi', '✨ Kanat Çırpma', '👑 Efsanevi'],
-    desc: 'Duman halkaları çıkarır, havada süzülür ve kuyruğuna sarılır.'
-  },
-  {
-    id: 'duck',
-    name: 'Pixel Duck',
-    species: 'Anas Platyrhynchos',
-    traits: ['🦆 Paytak', '💧 Yüzücü', '🎵 360 Spin'],
-    desc: 'Paytak adımlarla yürür, suya dalar ve dönerek dans eder.'
-  },
-  {
-    id: 'fox',
-    name: 'Kitsune Fox',
-    species: 'Vulpes Vulpes',
-    traits: ['🦊 Çevik', '🔥 Ateş Kuyruğu', '✨ Büyülü'],
-    desc: 'Büyük kabarık tilki kuyruğu sallar, büyülü parıltılar saçar ve merakla zıplar.'
-  },
-  {
-    id: 'bunny',
-    name: 'Mochi Bunny',
-    species: 'Oryctolagus Chibi',
-    traits: ['🐰 Pofuduk', '🥕 Havuç Seven', '⚡ Zıp Zıp'],
-    desc: 'Uzun kulaklarını oynatır, minik burnunu seğirtir ve neşeyle zıp zıp zıplar.'
-  },
-  {
-    id: 'penguin',
-    name: 'Chilly Penguin',
-    species: 'Aptenodytes Micro',
-    traits: ['🐧 Sevimli', '❄️ Kış Atkısı', '🐟 Paytak Yürüyüş'],
-    desc: 'Minik kanatlarını çırpar, kırmızı kış atkısını savurur ve neşeyle gezinir.'
-  }
-];
+const PET_IDS = ['neko', 'shiba', 'slime', 'dragon', 'duck', 'fox', 'bunny', 'penguin', 'jett', 'mario', 'pikachu'];
 
 class DashboardApp {
   constructor() {
@@ -70,6 +13,7 @@ class DashboardApp {
       species: 'neko',
       scale: 1.0,
       theme: 'theme-midnight',
+      language: 'tr',
       startup: false,
       minimizeToTray: true,
       groundMode: 'taskbar_bottom',
@@ -89,6 +33,8 @@ class DashboardApp {
     this.behaviors = new AnimationBehaviors();
     this.previewCanvases = {};
     this.previewTimes = {};
+    this.lastMediaStatus = null;
+    this.lastTaskbarInfo = null;
 
     this.init();
   }
@@ -121,6 +67,10 @@ class DashboardApp {
       });
     }
 
+    if (typeof i18n !== 'undefined') {
+      i18n.setLanguage(this.settings.language || 'tr');
+    }
+
     this.applyTheme(this.settings.theme);
     this.renderPetCards();
     this.bindEvents();
@@ -134,27 +84,37 @@ class DashboardApp {
    */
   updateMediaStatus(media) {
     if (!media) return;
+    this.lastMediaStatus = media;
+
     const box = document.getElementById('nowPlayingBox');
     const liveBadge = document.getElementById('mediaLiveBadge');
     const liveText = document.getElementById('mediaLiveStatusText');
     const titleEl = document.getElementById('nowPlayingTitle');
     const artistEl = document.getElementById('nowPlayingArtist');
     const sourceEl = document.getElementById('nowPlayingSource');
+    const lang = this.settings.language || 'tr';
+
+    const playingText = typeof i18n !== 'undefined' ? i18n.t('media_live_playing', lang) : 'Müzik Çalıyor';
+    const silentText = typeof i18n !== 'undefined' ? i18n.t('media_live_silent', lang) : 'Müzik Yok (Sessiz)';
+    const silentTitle = typeof i18n !== 'undefined' ? i18n.t('media_silent_title', lang) : 'Şu Anda Müzik Çalmıyor';
+    const silentDesc = typeof i18n !== 'undefined' ? i18n.t('media_silent_desc', lang) : "Spotify veya YouTube'dan bir şarkı açın";
+    const systemSource = typeof i18n !== 'undefined' ? i18n.t('media_source_system', lang) : 'Sistem';
+    const silentSource = typeof i18n !== 'undefined' ? i18n.t('media_source_silent', lang) : 'Sessiz';
 
     if (media.isPlaying) {
       if (box) box.classList.add('playing');
       if (liveBadge) liveBadge.classList.add('playing');
-      if (liveText) liveText.textContent = 'Müzik Çalıyor';
-      if (titleEl) titleEl.textContent = media.title || 'Aktif Parça';
-      if (artistEl) artistEl.textContent = media.artist || 'Sanatçı Bilgisi Yok';
-      if (sourceEl) sourceEl.textContent = media.source || 'Medya';
+      if (liveText) liveText.textContent = playingText;
+      if (titleEl) titleEl.textContent = media.title || (lang === 'tr' ? 'Aktif Parça' : 'Active Track');
+      if (artistEl) artistEl.textContent = media.artist || (lang === 'tr' ? 'Sanatçı Bilgisi Yok' : 'Unknown Artist');
+      if (sourceEl) sourceEl.textContent = media.source || systemSource;
     } else {
       if (box) box.classList.remove('playing');
       if (liveBadge) liveBadge.classList.remove('playing');
-      if (liveText) liveText.textContent = 'Müzik Yok (Sessiz)';
-      if (titleEl) titleEl.textContent = 'Şu Anda Müzik Çalmıyor';
-      if (artistEl) artistEl.textContent = "Spotify veya YouTube'dan bir şarkı açın";
-      if (sourceEl) sourceEl.textContent = 'Sessiz';
+      if (liveText) liveText.textContent = silentText;
+      if (titleEl) titleEl.textContent = silentTitle;
+      if (artistEl) artistEl.textContent = silentDesc;
+      if (sourceEl) sourceEl.textContent = silentSource;
     }
   }
 
@@ -164,24 +124,31 @@ class DashboardApp {
    */
   updateTaskbarStatus(taskbarInfo) {
     if (!taskbarInfo) return;
+    this.lastTaskbarInfo = taskbarInfo;
+
     const banner = document.getElementById('taskbarWarningBanner');
+    const warningTitle = document.querySelector('.warning-title');
     const warningText = document.getElementById('taskbarWarningText');
     const moodEl = document.getElementById('petCurrentMood');
     const indicatorEl = document.querySelector('.status-indicator');
+    const lang = this.settings.language || 'tr';
 
     if (!taskbarInfo.isValid) {
       if (banner) banner.style.display = 'flex';
-      if (warningText && taskbarInfo.warningMessage) {
-        warningText.textContent = taskbarInfo.warningMessage;
+      if (warningTitle) {
+        warningTitle.textContent = typeof i18n !== 'undefined' ? i18n.t('warning_title', lang) : 'Görev Çubuğu Alt Konumda Değil';
       }
-      if (moodEl) moodEl.textContent = '⚠️ Görev Çubuğu Uygun Değil';
+      if (warningText) {
+        warningText.textContent = typeof i18n !== 'undefined' ? i18n.t('warning_desc', lang) : 'NavBarPets petlerinin görev çubuğunun üzerinde yürümesi için Windows Görev Çubuğunun ekranın ALT kısmında yer alması gerekir.';
+      }
+      if (moodEl) moodEl.textContent = typeof i18n !== 'undefined' ? i18n.t('status_unsupported', lang) : '⚠️ Görev Çubuğu Uygun Değil';
       if (indicatorEl) {
         indicatorEl.classList.remove('live');
         indicatorEl.classList.add('warning');
       }
     } else {
       if (banner) banner.style.display = 'none';
-      if (moodEl) moodEl.textContent = 'Görev Çubuğunda Aktif';
+      if (moodEl) moodEl.textContent = typeof i18n !== 'undefined' ? i18n.t('status_active', lang) : 'Görev Çubuğunda Aktif';
       if (indicatorEl) {
         indicatorEl.classList.add('live');
         indicatorEl.classList.remove('warning');
@@ -196,30 +163,48 @@ class DashboardApp {
     const grid = document.getElementById('petCardsGrid');
     if (!grid) return;
 
-    grid.innerHTML = PET_CATALOG.map((pet) => `
-      <div class="pet-card ${pet.id === this.settings.species ? 'selected' : ''}" data-pet-id="${pet.id}">
-        <div class="pet-preview-box">
-          <canvas id="canvas_preview_${pet.id}" width="120" height="120" class="pet-preview-canvas"></canvas>
-        </div>
-        <div class="pet-info">
-          <h2 class="pet-name">${pet.name}</h2>
-          <div class="pet-species-type">${pet.species}</div>
-          <div class="pet-traits">
-            ${pet.traits.map(t => `<span class="trait-tag">${t}</span>`).join('')}
+    const lang = this.settings.language || 'tr';
+    const activeLabel = typeof i18n !== 'undefined' ? i18n.t('btn_select_active', lang) : 'Aktif Pet';
+    const pickLabel = typeof i18n !== 'undefined' ? i18n.t('btn_select_pick', lang) : 'Bu Peti Seç';
+    const activeBadge = typeof i18n !== 'undefined' ? i18n.t('badge_active_pet', lang) : 'AKTİF';
+
+    grid.innerHTML = PET_IDS.map((id) => {
+      const pet = (typeof i18n !== 'undefined' && i18n.getPetData(id, lang)) || {
+        name: id,
+        species: id,
+        traits: ['🐾 Pet'],
+        desc: ''
+      };
+      const isSelected = id === this.settings.species;
+
+      return `
+        <div class="pet-card ${isSelected ? 'selected' : ''}" data-pet-id="${id}">
+          ${isSelected ? `<span class="pet-active-badge">✓ ${activeBadge}</span>` : ''}
+          <div class="pet-preview-box">
+            <canvas id="canvas_preview_${id}" width="120" height="120" class="pet-preview-canvas"></canvas>
           </div>
-          <button class="btn-select-pet">
-            ${pet.id === this.settings.species ? 'Aktif Pet' : 'Bu Peti Seç'}
-          </button>
+          <div class="pet-info">
+            <h2 class="pet-name">${pet.name}</h2>
+            <div class="pet-species-type">${pet.species}</div>
+            <div class="pet-traits">
+              ${pet.traits.map(t => `<span class="trait-tag">${t}</span>`).join('')}
+            </div>
+            <button class="btn-select-pet">
+              ${isSelected ? activeLabel : pickLabel}
+            </button>
+          </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
 
     // Cache canvas elements and randomized time offsets
-    PET_CATALOG.forEach((pet) => {
-      const c = document.getElementById(`canvas_preview_${pet.id}`);
+    PET_IDS.forEach((id) => {
+      const c = document.getElementById(`canvas_preview_${id}`);
       if (c) {
-        this.previewCanvases[pet.id] = c;
-        this.previewTimes[pet.id] = Math.random() * 10;
+        this.previewCanvases[id] = c;
+        if (!this.previewTimes[id]) {
+          this.previewTimes[id] = Math.random() * 10;
+        }
       }
     });
 
@@ -247,7 +232,8 @@ class DashboardApp {
    * Updates sidebar active pet name.
    */
   updateStatusBanner() {
-    const petObj = PET_CATALOG.find(p => p.id === this.settings.species);
+    const lang = this.settings.language || 'tr';
+    const petObj = typeof i18n !== 'undefined' ? i18n.getPetData(this.settings.species, lang) : null;
     const activeNameEl = document.getElementById('activePetName');
     if (activeNameEl && petObj) {
       activeNameEl.textContent = petObj.name;
@@ -255,23 +241,46 @@ class DashboardApp {
   }
 
   /**
+   * Switches language, translates DOM, updates pet catalog and persists setting.
+   * @param {string} lang - 'tr' or 'en'
+   */
+  changeLanguage(lang) {
+    if (lang !== 'tr' && lang !== 'en') lang = 'tr';
+    this.settings.language = lang;
+
+    if (typeof i18n !== 'undefined') {
+      i18n.setLanguage(lang);
+    }
+
+    this.updateStatusBanner();
+    this.renderPetCards();
+    if (this.lastMediaStatus) this.updateMediaStatus(this.lastMediaStatus);
+    if (this.lastTaskbarInfo) this.updateTaskbarStatus(this.lastTaskbarInfo);
+    this.updateUIFromSettings();
+    this.saveSettings();
+  }
+
+  /**
    * Attaches event listeners to sidebar tabs, sliders, toggles, and buttons.
    */
   bindEvents() {
-    // 1. Sidebar Tab Navigation
-    document.querySelectorAll('.nav-item').forEach((item) => {
+    // 1. Sidebar Navigation Tabs
+    const navItems = document.querySelectorAll('.nav-item');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    navItems.forEach((item) => {
       item.addEventListener('click', () => {
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        const targetTab = item.getAttribute('data-tab');
+        navItems.forEach(n => n.classList.remove('active'));
+        tabPanes.forEach(p => p.classList.remove('active'));
 
         item.classList.add('active');
-        const tabId = item.getAttribute('data-tab');
-        const pane = document.getElementById(`tab-${tabId}`);
-        if (pane) pane.classList.add('active');
+        const targetPane = document.getElementById(`tab-${targetTab}`);
+        if (targetPane) targetPane.classList.add('active');
       });
     });
 
-    // 2. Window Controls
+    // 2. Custom Title Bar Controls
     const btnMinimize = document.getElementById('btnMinimizeTray');
     if (btnMinimize) {
       btnMinimize.addEventListener('click', () => {
@@ -282,13 +291,7 @@ class DashboardApp {
     const btnClose = document.getElementById('btnClose');
     if (btnClose) {
       btnClose.addEventListener('click', () => {
-        if (window.dashboardAPI) {
-          if (this.settings.minimizeToTray) {
-            window.dashboardAPI.minimizeToTray();
-          } else {
-            window.dashboardAPI.closeApp();
-          }
-        }
+        if (window.dashboardAPI) window.dashboardAPI.closeDashboard();
       });
     }
 
@@ -331,6 +334,20 @@ class DashboardApp {
       });
     }
 
+    const btnQuickSleep = document.getElementById('btnQuickSleep');
+    if (btnQuickSleep) {
+      btnQuickSleep.addEventListener('click', () => {
+        if (window.dashboardAPI) window.dashboardAPI.triggerPetAction('sleep');
+      });
+    }
+
+    const btnQuickWake = document.getElementById('btnQuickWake');
+    if (btnQuickWake) {
+      btnQuickWake.addEventListener('click', () => {
+        if (window.dashboardAPI) window.dashboardAPI.triggerPetAction('wake');
+      });
+    }
+
     // 4. Reactions & Audio Controls
     const toggleAudioDance = document.getElementById('toggleAudioDance');
     if (toggleAudioDance) {
@@ -346,8 +363,10 @@ class DashboardApp {
       sliderAudioSens.addEventListener('input', (e) => {
         const val = parseFloat(e.target.value);
         this.settings.audio.sensitivity = val;
-        if (labelAudioSens) {
-          labelAudioSens.textContent = val > 0.7 ? 'Yüksek' : val < 0.4 ? 'Düşük' : 'Orta';
+        const lang = this.settings.language || 'tr';
+        if (labelAudioSens && typeof i18n !== 'undefined') {
+          const key = val > 0.7 ? 'audio_sens_high' : val < 0.4 ? 'audio_sens_low' : 'audio_sens_med';
+          labelAudioSens.textContent = `${i18n.t(key, lang)} (${val.toFixed(2)}x)`;
         }
         this.saveSettings();
       });
@@ -400,7 +419,15 @@ class DashboardApp {
       });
     }
 
-    // 5. Themes & Windows Preferences
+    // 5. Language Selector Options
+    document.querySelectorAll('.language-option').forEach((opt) => {
+      opt.addEventListener('click', () => {
+        const lang = opt.getAttribute('data-lang');
+        this.changeLanguage(lang);
+      });
+    });
+
+    // 6. Themes & Windows Preferences
     document.querySelectorAll('.theme-option').forEach((opt) => {
       opt.addEventListener('click', () => {
         document.querySelectorAll('.theme-option').forEach(o => o.classList.remove('active'));
@@ -444,6 +471,15 @@ class DashboardApp {
   updateUIFromSettings() {
     this.updateStatusBanner();
 
+    // Language active state
+    document.querySelectorAll('.language-option').forEach((opt) => {
+      if (opt.getAttribute('data-lang') === (this.settings.language || 'tr')) {
+        opt.classList.add('active');
+      } else {
+        opt.classList.remove('active');
+      }
+    });
+
     const toggleAutoSleep = document.getElementById('toggleAutoSleep');
     if (toggleAutoSleep) toggleAutoSleep.checked = this.settings.sleepSchedule.enabled;
 
@@ -457,13 +493,23 @@ class DashboardApp {
     if (toggleAudioDance) toggleAudioDance.checked = this.settings.audio.enabled;
 
     const sliderAudioSens = document.getElementById('sliderAudioSens');
-    if (sliderAudioSens) sliderAudioSens.value = this.settings.audio.sensitivity;
+    const labelAudioSens = document.getElementById('labelAudioSens');
+    if (sliderAudioSens) {
+      sliderAudioSens.value = this.settings.audio.sensitivity;
+      const lang = this.settings.language || 'tr';
+      if (labelAudioSens && typeof i18n !== 'undefined') {
+        const val = this.settings.audio.sensitivity;
+        const key = val > 0.7 ? 'audio_sens_high' : val < 0.4 ? 'audio_sens_low' : 'audio_sens_med';
+        labelAudioSens.textContent = `${i18n.t(key, lang)} (${val.toFixed(2)}x)`;
+      }
+    }
 
     const sliderPetScale = document.getElementById('sliderPetScale');
-    if (sliderPetScale) sliderPetScale.value = this.settings.scale;
-
     const labelPetScale = document.getElementById('labelPetScale');
-    if (labelPetScale) labelPetScale.textContent = `${this.settings.scale.toFixed(1)}x`;
+    if (sliderPetScale) {
+      sliderPetScale.value = this.settings.scale;
+      if (labelPetScale) labelPetScale.textContent = `${this.settings.scale.toFixed(1)}x`;
+    }
 
     // Ground mode active button
     document.querySelectorAll('.btn-ground-mode').forEach((btn) => {
@@ -518,22 +564,22 @@ class DashboardApp {
       const dt = 0.016;
       this.renderer.update(dt);
 
-      PET_CATALOG.forEach((pet) => {
-        const c = this.previewCanvases[pet.id];
+      PET_IDS.forEach((id) => {
+        const c = this.previewCanvases[id];
         if (c) {
           const ctx = c.getContext('2d');
           ctx.clearRect(0, 0, c.width, c.height);
 
-          this.previewTimes[pet.id] += dt;
+          this.previewTimes[id] += dt;
           const pose = this.behaviors.calculatePose(
             'idle_breathe',
             0.5,
-            this.previewTimes[pet.id],
-            pet.id
+            this.previewTimes[id],
+            id
           );
 
           this.renderer.render(ctx, {
-            species: pet.id,
+            species: id,
             x: 60,
             y: 85,
             scale: 1.2,

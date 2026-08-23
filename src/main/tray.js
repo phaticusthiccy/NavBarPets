@@ -1,7 +1,7 @@
 /**
  * @file tray.js
  * @description Windows Notification Area / System Tray Integration.
- * Provides quick actions, species switching, sleep toggle, and dashboard access.
+ * Provides quick actions, species switching, sleep toggle, multi-language localization, and dashboard access.
  */
 
 const { Tray, Menu, nativeImage } = require('electron');
@@ -34,11 +34,36 @@ class AppTray {
   }
 
   /**
-   * Rebuilds the context menu dynamically based on current pet state and species.
+   * Rebuilds the context menu dynamically based on current pet state, species, and selected language.
    */
   updateContextMenu() {
     const currentSpecies = this.mainApp.settings.species;
     const isSleeping = this.mainApp.isPetSleeping;
+    const lang = this.mainApp.settings.language || 'tr';
+    const isTr = lang === 'tr';
+
+    const labels = {
+      dashboard: isTr ? '🖥️ Dashboard / Ayarlar' : '🖥️ Dashboard / Settings',
+      changePet: isTr ? '🐱 Pet Değiştir' : '🐱 Change Pet',
+      wake: isTr ? '☀️ Peti Uyandır' : '☀️ Wake Up Pet',
+      sleep: isTr ? '🌙 Peti Uyut' : '🌙 Put Pet to Sleep',
+      testDance: isTr ? '🎵 Müzik Dansı Test Et' : '🎵 Test Music Dance',
+      petLove: isTr ? '❤️ Peti Sev (Kalp Çıkar)' : '❤️ Pet Companion (Hearts)',
+      exit: isTr ? '❌ Tamamen Kapat' : '❌ Exit Application',
+      pets: {
+        neko: isTr ? 'Neko Kedi' : 'Neko Cat',
+        shiba: 'Shiba Inu',
+        slime: 'Cyber Slime',
+        dragon: 'Mini Dragon',
+        duck: 'Pixel Duck',
+        fox: 'Kitsune Fox',
+        bunny: isTr ? 'Mochi Tavşan' : 'Mochi Bunny',
+        penguin: isTr ? 'Kutup Pengueni' : 'Chilly Penguin',
+        jett: 'Valorant Jett',
+        mario: 'Super Mario',
+        pikachu: 'Pikachu'
+      }
+    };
 
     const contextMenu = Menu.buildFromTemplate([
       {
@@ -47,80 +72,98 @@ class AppTray {
       },
       { type: 'separator' },
       {
-        label: '🖥️ Dashboard / Settings',
+        label: labels.dashboard,
         click: () => this.mainApp.showDashboard()
       },
       {
-        label: '🐱 Change Pet',
+        label: labels.changePet,
         submenu: [
           {
-            label: 'Neko Cat',
+            label: labels.pets.neko,
             type: 'radio',
             checked: currentSpecies === 'neko',
             click: () => this.mainApp.changeSpecies('neko')
           },
           {
-            label: 'Shiba Inu',
+            label: labels.pets.shiba,
             type: 'radio',
             checked: currentSpecies === 'shiba',
             click: () => this.mainApp.changeSpecies('shiba')
           },
           {
-            label: 'Cyber Slime',
+            label: labels.pets.slime,
             type: 'radio',
             checked: currentSpecies === 'slime',
             click: () => this.mainApp.changeSpecies('slime')
           },
           {
-            label: 'Mini Dragon',
+            label: labels.pets.dragon,
             type: 'radio',
             checked: currentSpecies === 'dragon',
             click: () => this.mainApp.changeSpecies('dragon')
           },
           {
-            label: 'Pixel Duck',
+            label: labels.pets.duck,
             type: 'radio',
             checked: currentSpecies === 'duck',
             click: () => this.mainApp.changeSpecies('duck')
           },
           {
-            label: 'Kitsune Fox',
+            label: labels.pets.fox,
             type: 'radio',
             checked: currentSpecies === 'fox',
             click: () => this.mainApp.changeSpecies('fox')
           },
           {
-            label: 'Mochi Bunny',
+            label: labels.pets.bunny,
             type: 'radio',
             checked: currentSpecies === 'bunny',
             click: () => this.mainApp.changeSpecies('bunny')
           },
           {
-            label: 'Chilly Penguin',
+            label: labels.pets.penguin,
             type: 'radio',
             checked: currentSpecies === 'penguin',
             click: () => this.mainApp.changeSpecies('penguin')
+          },
+          {
+            label: labels.pets.jett,
+            type: 'radio',
+            checked: currentSpecies === 'jett',
+            click: () => this.mainApp.changeSpecies('jett')
+          },
+          {
+            label: labels.pets.mario,
+            type: 'radio',
+            checked: currentSpecies === 'mario',
+            click: () => this.mainApp.changeSpecies('mario')
+          },
+          {
+            label: labels.pets.pikachu,
+            type: 'radio',
+            checked: currentSpecies === 'pikachu',
+            click: () => this.mainApp.changeSpecies('pikachu')
           }
         ]
       },
       {
-        label: isSleeping ? '☀️ Wake Up Pet' : '🌙 Put Pet to Sleep',
+        label: isSleeping ? labels.wake : labels.sleep,
         click: () => {
           this.mainApp.togglePetSleep();
           this.updateContextMenu();
         }
       },
       {
-        label: '🎵 Test Music Dance',
+        label: labels.testDance,
         click: () => this.mainApp.triggerAction('dance')
       },
       {
-        label: '❤️ Pet / Give Love',
+        label: labels.petLove,
         click: () => this.mainApp.triggerAction('pet')
       },
       { type: 'separator' },
       {
-        label: '❌ Exit App',
+        label: labels.exit,
         click: () => this.mainApp.quitApp()
       }
     ]);

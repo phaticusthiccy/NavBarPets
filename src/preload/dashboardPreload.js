@@ -27,6 +27,9 @@ contextBridge.exposeInMainWorld('dashboardAPI', {
   /** Hides dashboard to system tray */
   minimizeToTray: () => ipcRenderer.send('minimize-to-tray'),
 
+  /** Closes or hides dashboard based on minimizeToTray setting */
+  closeDashboard: () => ipcRenderer.send('close-dashboard'),
+
   /** Quits the application completely */
   closeApp: () => ipcRenderer.send('close-app'),
 

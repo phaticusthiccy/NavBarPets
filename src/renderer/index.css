@@ -449,8 +449,7 @@ body {
   box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);
 }
 
-.pet-card.selected::after {
-  content: '✓ AKTİF';
+.pet-active-badge {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -460,6 +459,7 @@ body {
   font-weight: 700;
   padding: 4px 8px;
   border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .pet-preview-box {
@@ -909,6 +909,83 @@ input:checked + .slider:before {
 }
 
 .theme-option.active .theme-check-icon {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+  box-shadow: 0 0 8px var(--accent-primary);
+}
+
+/* Language Selector Component */
+.language-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.language-option {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1.5px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  position: relative;
+}
+
+.language-option:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.language-option.active {
+  border-color: var(--accent-primary);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 14px var(--border-glow);
+}
+
+.lang-flag {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.lang-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.lang-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.lang-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.lang-check-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid var(--text-dim);
+  color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  transition: var(--transition-fast);
+}
+
+.language-option.active .lang-check-icon {
   background: var(--accent-primary);
   border-color: var(--accent-primary);
   color: #ffffff;

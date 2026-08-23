@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NavBarPets - Masaüstü Evcil Hayvanları</title>
+  <title>NavBarPets - Desktop Companions</title>
   <link rel="stylesheet" href="index.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,15 +18,15 @@
           <img src="../assets/icons/icon.png" class="brand-logo-img" alt="NavBarPets" onerror="this.outerHTML='🐾'">
         </div>
         <div class="brand-text">
-          <span class="brand-title">NavBarPets</span>
-          <span class="brand-tag">Windows Companion</span>
+          <span class="brand-title" data-i18n="brand_title">NavBarPets</span>
+          <span class="brand-tag" data-i18n="brand_tag">Windows Companion</span>
         </div>
       </div>
       <div class="window-controls">
-        <button id="btnMinimizeTray" class="win-btn" title="Sistem Tepsisine Küçült">
+        <button id="btnMinimizeTray" class="win-btn" data-i18n-title="window_minimize" title="Sistem Tepsisine Küçült">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </button>
-        <button id="btnClose" class="win-btn close-btn" title="Kapat">
+        <button id="btnClose" class="win-btn close-btn" data-i18n-title="window_close" title="Kapat">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </div>
@@ -39,23 +39,23 @@
         <ul class="nav-list">
           <li class="nav-item active" data-tab="sanctuary">
             <span class="nav-icon">🐾</span>
-            <span class="nav-label">Pet Sığınağı</span>
+            <span class="nav-label" data-i18n="nav_sanctuary">Pet Sığınağı</span>
           </li>
           <li class="nav-item" data-tab="position">
             <span class="nav-icon">📏</span>
-            <span class="nav-label">Boyut & Zemin</span>
+            <span class="nav-label" data-i18n="nav_position">Boyut & Zemin</span>
           </li>
           <li class="nav-item" data-tab="scheduler">
             <span class="nav-icon">⏰</span>
-            <span class="nav-label">Uyku Saatleri</span>
+            <span class="nav-label" data-i18n="nav_scheduler">Uyku Saatleri</span>
           </li>
           <li class="nav-item" data-tab="reactions">
             <span class="nav-icon">🎵</span>
-            <span class="nav-label">Müzik & Tepkiler</span>
+            <span class="nav-label" data-i18n="nav_reactions">Müzik & Tepkiler</span>
           </li>
           <li class="nav-item" data-tab="settings">
             <span class="nav-icon">⚙️</span>
-            <span class="nav-label">Ayarlar & Tema</span>
+            <span class="nav-label" data-i18n="nav_settings">Ayarlar & Tema</span>
           </li>
         </ul>
 
@@ -63,7 +63,7 @@
           <div class="status-indicator live"></div>
           <div class="status-info">
             <span class="status-title" id="activePetName">Neko Kedi</span>
-            <span class="status-state" id="petCurrentMood">Görev Çubuğunda Aktif</span>
+            <span class="status-state" id="petCurrentMood" data-i18n="status_active">Görev Çubuğunda Aktif</span>
           </div>
         </div>
       </nav>
@@ -75,8 +75,8 @@
         <div id="taskbarWarningBanner" class="taskbar-warning-banner" style="display: none;">
           <div class="warning-icon">⚠️</div>
           <div class="warning-content">
-            <h4 class="warning-title">Görev Çubuğu Alt Konumda Değil</h4>
-            <p class="warning-desc" id="taskbarWarningText">NavBarPets petlerinin görev çubuğunun üzerinde yürümesi için Windows Görev Çubuğunun ekranın ALT kısmında yer alması gerekir.</p>
+            <h4 class="warning-title" data-i18n="warning_title">Görev Çubuğu Alt Konumda Değil</h4>
+            <p class="warning-desc" id="taskbarWarningText" data-i18n="warning_desc">NavBarPets petlerinin görev çubuğunun üzerinde yürümesi için Windows Görev Çubuğunun ekranın ALT kısmında yer alması gerekir.</p>
           </div>
         </div>
 
@@ -84,10 +84,10 @@
         <section id="tab-sanctuary" class="tab-pane active">
           <div class="section-header">
             <div>
-              <h1 class="section-title">Pet Sığınağı</h1>
-              <p class="section-subtitle">Görev çubuğunda seninle yaşayacak sevimli yol arkadaşını seç</p>
+              <h1 class="section-title" data-i18n="sanctuary_title">Pet Sığınağı</h1>
+              <p class="section-subtitle" data-i18n="sanctuary_subtitle">Görev çubuğunda seninle yaşayacak sevimli yol arkadaşını seç</p>
             </div>
-            <div class="badge-live-count">8 Özel Pet Türü</div>
+            <div class="badge-live-count" data-i18n="sanctuary_badge">11 Özel Pet Türü</div>
           </div>
 
           <div class="pet-cards-grid" id="petCardsGrid">
@@ -99,21 +99,21 @@
         <section id="tab-position" class="tab-pane">
           <div class="section-header">
             <div>
-              <h1 class="section-title">Boyut & Zemin Konumu</h1>
-              <p class="section-subtitle">Pet'in boyutunu, görev çubuğundaki konumunu ve dikey hizasını özelleştir</p>
+              <h1 class="section-title" data-i18n="position_title">Boyut & Zemin Konumu</h1>
+              <p class="section-subtitle" data-i18n="position_subtitle">Pet'in boyutunu, görev çubuğundaki konumunu ve dikey hizasını özelleştir</p>
             </div>
           </div>
 
           <div class="settings-grid">
             <div class="glass-card">
               <div class="card-header">
-                <h3>📏 Pet Boyutu & Ölçek</h3>
+                <h3 data-i18n="scale_title">📏 Pet Boyutu & Ölçek</h3>
               </div>
-              <p class="card-desc">Pet'in ekranınızda kapladığı alanı zevkinize göre büyütün veya küçültün.</p>
+              <p class="card-desc" data-i18n="scale_desc">Pet'in ekranınızda kapladığı alanı zevkinize göre büyütün veya küçültün.</p>
 
               <div class="setting-slider-group">
                 <div class="slider-header">
-                  <span>Ölçek Katsayısı</span>
+                  <span data-i18n="scale_label">Ölçek Katsayısı</span>
                   <span id="labelPetScale">1.0x</span>
                 </div>
                 <input type="range" id="sliderPetScale" min="0.6" max="2.0" step="0.1" value="1.0" class="custom-range">
@@ -122,27 +122,27 @@
 
             <div class="glass-card">
               <div class="card-header">
-                <h3>⚓ Zemin Hizalama & Yükseklik</h3>
+                <h3 data-i18n="ground_title">⚓ Zemin Hizalama & Yükseklik</h3>
               </div>
-              <p class="card-desc">Pet'in görev çubuğunun tam üstünde mi yoksa ekranın tabanında mı duracağını belirleyin.</p>
+              <p class="card-desc" data-i18n="ground_desc">Pet'in görev çubuğunun tam üstünde mi yoksa ekranın tabanında mı duracağını belirleyin.</p>
 
               <div class="setting-slider-group">
                 <div class="slider-header">
-                  <span>Zemin Konum Modu</span>
+                  <span data-i18n="ground_mode_label">Zemin Konum Modu</span>
                 </div>
                 <div class="ground-mode-selector">
                   <button type="button" class="btn-ground-mode active" data-mode="taskbar_bottom">
-                    <span>⚓</span> Görev Çubuğu Tabanı
+                    <span>⚓</span> <span data-i18n="ground_bottom">Görev Çubuğu Tabanı</span>
                   </button>
                   <button type="button" class="btn-ground-mode" data-mode="taskbar_top">
-                    <span>🪜</span> Görev Çubuğu Üstü
+                    <span>🪜</span> <span data-i18n="ground_top">Görev Çubuğu Üstü</span>
                   </button>
                 </div>
               </div>
 
               <div class="setting-slider-group">
                 <div class="slider-header">
-                  <span>Yükseklik İnce Ayarı (Offset)</span>
+                  <span data-i18n="offset_label">Yükseklik İnce Ayarı (Offset)</span>
                   <span id="labelFloorOffset">0 px</span>
                 </div>
                 <input type="range" id="sliderFloorOffset" min="-40" max="40" step="1" value="0" class="custom-range">
@@ -155,50 +155,56 @@
         <section id="tab-scheduler" class="tab-pane">
           <div class="section-header">
             <div>
-              <h1 class="section-title">Uyku & Uyanma Planlayıcı</h1>
-              <p class="section-subtitle">Pet'lerinin biyolojik saatini düzenle; uyku saatlerinde Zzz moduna geçerler</p>
+              <h1 class="section-title" data-i18n="scheduler_title">Uyku & Uyanma Planlayıcı</h1>
+              <p class="section-subtitle" data-i18n="scheduler_subtitle">Pet'lerinin biyolojik saatini düzenle; uyku saatlerinde Zzz moduna geçerler</p>
             </div>
           </div>
 
           <div class="scheduler-grid">
             <div class="glass-card clock-card">
               <div class="card-header">
-                <h3>⏰ Biyolojik Zaman Çizelgesi</h3>
+                <h3 data-i18n="sleep_schedule_title">⏰ Biyolojik Zaman Çizelgesi</h3>
                 <label class="toggle-switch">
                   <input type="checkbox" id="toggleAutoSleep">
                   <span class="slider"></span>
                 </label>
               </div>
-              <p class="card-desc">Otomatik uyku modu açıkken pet'ler belirlenen saatlerde gece şapkalarını takıp uykuya dalar.</p>
+              <p class="card-desc" data-i18n="sleep_schedule_desc">Otomatik uyku modu açıkken pet'ler belirlenen saatlerde gece şapkalarını takıp uykuya dalar.</p>
 
               <div class="time-pickers-row">
                 <div class="time-input-group">
-                  <label for="inputSleepTime">🌙 Uyku Başlangıç Saati</label>
+                  <label for="inputSleepTime" data-i18n="sleep_time_label">🌙 Uyku Başlangıç Saati</label>
                   <input type="time" id="inputSleepTime" value="23:00" class="custom-time-input">
                 </div>
                 <div class="time-input-group">
-                  <label for="inputWakeTime">☀️ Sabah Uyanma Saati</label>
+                  <label for="inputWakeTime" data-i18n="wake_time_label">☀️ Sabah Uyanma Saati</label>
                   <input type="time" id="inputWakeTime" value="08:00" class="custom-time-input">
                 </div>
               </div>
 
               <div class="scheduler-actions">
                 <button id="btnForceSleep" class="btn btn-secondary">
-                  <span>🌙</span> Şimdi Uykuya Geçir
+                  <span>🌙</span> <span data-i18n="btn_sleep">Şimdi Uykuya Geçir</span>
                 </button>
                 <button id="btnForceWake" class="btn btn-secondary">
-                  <span>☀️</span> Hemen Uyandır
+                  <span>☀️</span> <span data-i18n="btn_wake">Hemen Uyandır</span>
                 </button>
               </div>
             </div>
 
-            <div class="glass-card sleep-preview-card">
-              <h3>💤 Uyku Modu Davranışları</h3>
-              <ul class="feature-bullets">
-                <li>✨ <strong>Kesintisiz Geçiş:</strong> Uyku sırasında farenizle kaldırsanız dahi mahmurca bacaklarını sallar ve inince tekrar kıvrılır.</li>
-                <li>💤 <strong>Zzz Parçacıkları:</strong> Başının üzerinden ritmik gece balonları ve hilal süzülür.</li>
-                <li>🔕 <strong>Sessiz Dinlenme:</strong> Uykudayken yüksek sese ve ani hareketlere karşı rahatsız edilmez.</li>
-              </ul>
+            <div class="glass-card">
+              <div class="card-header">
+                <h3 data-i18n="manual_actions_title">🎮 Manuel Kontroller</h3>
+              </div>
+              <p class="card-desc" data-i18n="manual_actions_desc">İstediğiniz an pet'inizi uyutabilir veya uyandırabilirsiniz.</p>
+              <div class="setting-slider-group" style="display: flex; gap: 10px; margin-top: 12px;">
+                <button id="btnQuickSleep" class="btn btn-secondary" style="flex: 1;">
+                  <span>🌙</span> <span data-i18n="btn_quick_sleep">Uyut</span>
+                </button>
+                <button id="btnQuickWake" class="btn btn-primary" style="flex: 1;">
+                  <span>☀️</span> <span data-i18n="btn_quick_wake">Uyandır</span>
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -207,21 +213,21 @@
         <section id="tab-reactions" class="tab-pane">
           <div class="section-header">
             <div>
-              <h1 class="section-title">Müzik & Çevresel Tepkiler</h1>
-              <p class="section-subtitle">Pet'in bilgisayarında çalan şarkılara ve hareketlerine tepki versin</p>
+              <h1 class="section-title" data-i18n="reactions_title">Müzik & Canlı Tepkiler</h1>
+              <p class="section-subtitle" data-i18n="reactions_subtitle">Pet'in bilgisayarında çalan şarkılara ve hareketlerine tepki versin</p>
             </div>
           </div>
 
           <div class="settings-grid">
             <div class="glass-card">
               <div class="card-header">
-                <h3>🎵 Müzik & Ritim Dansı</h3>
+                <h3 data-i18n="audio_dance_title">🎵 Müzik & Ritim Dansı</h3>
                 <label class="toggle-switch">
                   <input type="checkbox" id="toggleAudioDance">
                   <span class="slider"></span>
                 </label>
               </div>
-              <p class="card-desc">Spotify, YouTube veya oyun müziklerinde ritmi yakalayıp kulaklıklarını takar ve dans eder.</p>
+              <p class="card-desc" data-i18n="audio_dance_desc">Spotify, YouTube veya Medya Oynatıcılardan bir şarkı çaldığında pet otomatik olarak kulaklık takıp dans etmeye başlar.</p>
 
               <!-- Now Playing Active Track Info -->
               <div class="now-playing-box" id="nowPlayingBox">
@@ -249,45 +255,74 @@
 
               <div class="setting-slider-group">
                 <div class="slider-header">
-                  <span>Ritim Algılama Hassasiyeti</span>
-                  <span id="labelAudioSens">Orta (0.5x)</span>
+                  <span data-i18n="audio_sens_title">Ritim Algılama Hassasiyeti</span>
+                  <span id="labelAudioSens">Orta (0.50x)</span>
                 </div>
                 <input type="range" id="sliderAudioSens" min="0.1" max="1.0" step="0.05" value="0.5" class="custom-range">
               </div>
 
               <button id="btnSimulateMusic" class="btn btn-primary btn-full">
-                <span>🎶</span> 5 Saniyelik Müzik Dansı Test Et
+                <span>🎶</span> <span data-i18n="btn_test_dance">5 Saniyelik Müzik Dansı Test Et</span>
               </button>
             </div>
 
             <div class="glass-card">
               <div class="card-header">
-                <h3>❤️ Sevgi & Etkileşim</h3>
+                <h3 data-i18n="love_title">❤️ Sevgi & Etkileşim</h3>
               </div>
-              <p class="card-desc">Pet'inizi okşayarak veya aşağıdaki butona tıklayarak kalpler çıkarabilir ve mutlu edebilirsiniz.</p>
+              <p class="card-desc" data-i18n="love_desc">Pet'inizi okşayarak veya aşağıdaki butona tıklayarak kalpler çıkarabilir ve mutlu edebilirsiniz.</p>
 
               <div class="setting-slider-group">
                 <button id="btnPetLove" class="btn btn-secondary btn-full">
-                  <span>❤️</span> Pet'i Sev (Kalp Çıkar)
+                  <span>❤️</span> <span data-i18n="btn_pet_love">Pet'i Sev (Kalp Çıkar)</span>
                 </button>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- TAB 4: SETTINGS & THEMES -->
+        <!-- TAB 5: SETTINGS & THEMES -->
         <section id="tab-settings" class="tab-pane">
           <div class="section-header">
             <div>
-              <h1 class="section-title">Uygulama & Görünüm Ayarları</h1>
-              <p class="section-subtitle">Uygulama temasını ve Windows başlatma tercihlerini yönet</p>
+              <h1 class="section-title" data-i18n="settings_title">Uygulama & Görünüm Ayarları</h1>
+              <p class="section-subtitle" data-i18n="settings_subtitle">Uygulama dilini, temasını ve Windows başlatma tercihlerini yönet</p>
             </div>
           </div>
 
           <div class="settings-grid">
+            <!-- Language Selector Card -->
             <div class="glass-card">
               <div class="card-header">
-                <h3>🎨 Arayüz Teması</h3>
+                <h3 data-i18n="language_title">🌐 Dil / Language</h3>
+              </div>
+              <p class="card-desc" data-i18n="language_desc">Uygulama arayüzü ve sistem tepsisi dilini değiştirin.</p>
+              
+              <div class="language-picker-grid">
+                <div class="language-option active" data-lang="tr">
+                  <div class="lang-flag">🇹🇷</div>
+                  <div class="lang-info">
+                    <span class="lang-name">Türkçe</span>
+                    <span class="lang-sub" data-i18n="lang_tr_sub">Varsayılan</span>
+                  </div>
+                  <span class="lang-check-icon">✓</span>
+                </div>
+
+                <div class="language-option" data-lang="en">
+                  <div class="lang-flag">🇺🇸</div>
+                  <div class="lang-info">
+                    <span class="lang-name">English</span>
+                    <span class="lang-sub" data-i18n="lang_en_sub">Uluslararası</span>
+                  </div>
+                  <span class="lang-check-icon">✓</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interface Theme Picker Card -->
+            <div class="glass-card">
+              <div class="card-header">
+                <h3 data-i18n="theme_title">🎨 Arayüz Teması</h3>
               </div>
               <div class="theme-picker-grid">
                 <div class="theme-option active" data-theme="theme-midnight">
@@ -299,7 +334,7 @@
                     </div>
                   </div>
                   <div class="theme-info-row">
-                    <span class="theme-name">Midnight Glass</span>
+                    <span class="theme-name" data-i18n="theme_midnight">Midnight Glass</span>
                     <span class="theme-check-icon">✓</span>
                   </div>
                 </div>
@@ -313,7 +348,7 @@
                     </div>
                   </div>
                   <div class="theme-info-row">
-                    <span class="theme-name">Cyber Neon</span>
+                    <span class="theme-name" data-i18n="theme_cyber">Cyber Neon</span>
                     <span class="theme-check-icon">✓</span>
                   </div>
                 </div>
@@ -327,7 +362,7 @@
                     </div>
                   </div>
                   <div class="theme-info-row">
-                    <span class="theme-name">Cozy Pastel</span>
+                    <span class="theme-name" data-i18n="theme_pastel">Cozy Pastel</span>
                     <span class="theme-check-icon">✓</span>
                   </div>
                 </div>
@@ -341,7 +376,7 @@
                     </div>
                   </div>
                   <div class="theme-info-row">
-                    <span class="theme-name">Deep OLED</span>
+                    <span class="theme-name" data-i18n="theme_oled">Deep OLED</span>
                     <span class="theme-check-icon">✓</span>
                   </div>
                 </div>
@@ -355,7 +390,7 @@
                     </div>
                   </div>
                   <div class="theme-info-row">
-                    <span class="theme-name">Sunset Aurora</span>
+                    <span class="theme-name" data-i18n="theme_sunset">Sunset Aurora</span>
                     <span class="theme-check-icon">✓</span>
                   </div>
                 </div>
@@ -369,7 +404,7 @@
                     </div>
                   </div>
                   <div class="theme-info-row">
-                    <span class="theme-name">Emerald Forest</span>
+                    <span class="theme-name" data-i18n="theme_emerald">Emerald Forest</span>
                     <span class="theme-check-icon">✓</span>
                   </div>
                 </div>
@@ -383,7 +418,7 @@
                     </div>
                   </div>
                   <div class="theme-info-row">
-                    <span class="theme-name">Vampire Velvet</span>
+                    <span class="theme-name" data-i18n="theme_dracula">Vampire Velvet</span>
                     <span class="theme-check-icon">✓</span>
                   </div>
                 </div>
@@ -397,22 +432,23 @@
                     </div>
                   </div>
                   <div class="theme-info-row">
-                    <span class="theme-name">Nordic Frost</span>
+                    <span class="theme-name" data-i18n="theme_nordic">Nordic Frost</span>
                     <span class="theme-check-icon">✓</span>
                   </div>
                 </div>
               </div>
             </div>
 
+            <!-- Windows Integration Card -->
             <div class="glass-card">
               <div class="card-header">
-                <h3>🚀 Windows Entegrasyonu</h3>
+                <h3 data-i18n="windows_title">🚀 Windows Entegrasyonu</h3>
               </div>
 
               <div class="setting-row">
                 <div class="setting-info">
-                  <span class="setting-name">Windows ile Birlikte Başlat</span>
-                  <span class="setting-hint">Bilgisayar açıldığında pet'in otomatik olarak görev çubuğuna gelsin</span>
+                  <span class="setting-name" data-i18n="startup_name">Windows ile Birlikte Başlat</span>
+                  <span class="setting-hint" data-i18n="startup_hint">Bilgisayar açıldığında pet'in otomatik olarak görev çubuğuna gelsin</span>
                 </div>
                 <label class="toggle-switch">
                   <input type="checkbox" id="toggleStartup">
@@ -422,8 +458,8 @@
 
               <div class="setting-row">
                 <div class="setting-info">
-                  <span class="setting-name">Kapatıldığında Tepsiye Küçül</span>
-                  <span class="setting-hint">Pencereyi kapattığında gizli simgeler alanında çalışmaya devam eder</span>
+                  <span class="setting-name" data-i18n="tray_name">Kapatıldığında Tepsiye Küçül</span>
+                  <span class="setting-hint" data-i18n="tray_hint">Pencereyi kapattığında gizli simgeler alanında çalışmaya devam eder</span>
                 </div>
                 <label class="toggle-switch">
                   <input type="checkbox" id="toggleMinimizeToTray" checked>
@@ -440,6 +476,7 @@
 
   <script src="../overlay/petRenderer.js"></script>
   <script src="../overlay/animationBehaviors.js"></script>
+  <script src="i18n.js"></script>
   <script src="dashboard.js"></script>
 </body>
 </html>

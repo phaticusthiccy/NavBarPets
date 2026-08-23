@@ -52,6 +52,7 @@ class MainApp {
       species: 'neko',
       scale: 1.0,
       theme: 'theme-midnight',
+      language: 'tr',
       startup: false,
       minimizeToTray: true,
       groundMode: 'taskbar_bottom', // 'taskbar_bottom' (screen bottom baseline) or 'taskbar_top' (taskbar top shelf)
@@ -447,8 +448,18 @@ class MainApp {
     });
 
     ipcMain.on('minimize-to-tray', () => {
-      if (this.dashboardWindow) {
+      if (this.dashboardWindow && !this.dashboardWindow.isDestroyed()) {
         this.dashboardWindow.hide();
+      }
+    });
+
+    ipcMain.on('close-dashboard', () => {
+      if (this.dashboardWindow && !this.dashboardWindow.isDestroyed()) {
+        if (this.settings.minimizeToTray) {
+          this.dashboardWindow.hide();
+        } else {
+          this.quitApp();
+        }
       }
     });
 
