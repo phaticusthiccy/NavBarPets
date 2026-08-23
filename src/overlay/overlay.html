@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NavBarPets Overlay</title>
+  <link rel="stylesheet" href="overlay.css">
+</head>
+<body>
+  <canvas id="petCanvas"></canvas>
+
+  <script src="particleSystem.js"></script>
+  <script src="petRenderer.js"></script>
+  <script src="animationBehaviors.js"></script>
+  <script src="stateTransitioner.js"></script>
+  <script src="audioReactive.js"></script>
+  <script src="petEngine.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('petCanvas');
+      const engine = new PetEngine(canvas);
+      engine.start();
+
+      // Listen to IPC events from Electron main process
+      if (window.electronAPI) {
+        window.electronAPI.onSettingsUpdate((settings) => {
+          if (settings.species) engine.setSpecies(settings.species);
+          if (settings.scale) engine.setScale(settings.scale);
+          if (settings.sleepSchedule) engine.setScheduleConfig(settings.sleepSchedule);
+          if (settings.groundMode || settings.floorOffset !== undefined || settings.taskbarHeight) {
+            engine.setGroundConfig(settings.groundMode, settings.floorOffset, settings.taskbarHeight);
+          }
+          if (settings.audio) {
+            engine.setAudioDanceConfig(settings.audio.enabled, settings.audio.sensitivity);
+          }
+        });
+
+        window.electronAPI.onMediaStatus((status) => {
+          engine.setMediaStatus(status);
+        });
+
+        window.electronAPI.onPauseUpdate((isPaused) => {
+          if (isPaused) {
+            engine.pause();
+          } else {
+            engine.resume();
+          }
+        });
+
+        window.electronAPI.onTriggerAction((action) => {
+          if (action === 'sleep') {
+            engine.transitioner.enterSleep(engine);
+          } else if (action === 'wake') {
+            engine.transitioner.wakeUp(engine);
+          } else if (action === 'dance') {
+            engine.isMusicActive = true;
+            engine.transitioner.handleMusicStart(engine);
+            setTimeout(() => {
+              if (!engine.isMusicActive) {
+                engine.transitioner.handleMusicStop(engine);
+              }
+            }, 5000);
+          } else if (action === 'pet') {
+            engine.transitioner.handlePetting(engine);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

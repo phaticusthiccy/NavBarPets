@@ -1,0 +1,27 @@
+{
+  "name": "navbar-pets",
+  "version": "1.0.0",
+  "description": "Interactive, reactive, animated companions living on the Windows Taskbar",
+  "main": "src/main/index.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --enable-logging",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [
+    "desktop-pet",
+    "taskbar-pet",
+    "electron",
+    "windows",
+    "virtual-pet",
+    "tamagotchi"
+  ],
+  "author": "NavBarPets Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^34.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "dependencies": {}
+}
