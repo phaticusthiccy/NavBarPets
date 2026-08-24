@@ -16,10 +16,10 @@ class TaskbarDetector {
     const primaryDisplay = screen.getPrimaryDisplay();
     const { bounds, workArea } = primaryDisplay;
 
-    const diffBottom = bounds.height - workArea.height;
-    const diffTop = workArea.y;
-    const diffLeft = workArea.x;
-    const diffRight = bounds.width - workArea.width;
+    const diffTop = workArea.y - bounds.y;
+    const diffLeft = workArea.x - bounds.x;
+    const diffRight = (bounds.x + bounds.width) - (workArea.x + workArea.width);
+    const diffBottom = (bounds.y + bounds.height) - (workArea.y + workArea.height);
 
     let position = 'bottom';
     let height = diffBottom;
@@ -36,7 +36,7 @@ class TaskbarDetector {
       height = diffLeft;
       isValid = false;
       warningMessage = 'Görev çubuğu ekranın SOL kısmında algılandı. NavBarPets sadece görev çubuğu ALT konumdayken çalışır.';
-    } else if (diffRight > 0 && workArea.x === 0 && workArea.y === 0 && diffBottom === 0) {
+    } else if (diffRight > 0 && diffLeft === 0 && diffTop === 0 && diffBottom === 0) {
       position = 'right';
       height = diffRight;
       isValid = false;
@@ -57,7 +57,7 @@ class TaskbarDetector {
     return {
       position,
       height: height > 0 ? height : 48,
-      taskbarTop: workArea.height > 0 ? workArea.height : bounds.height - 48,
+      taskbarTop: (workArea.height > 0 ? workArea.y + workArea.height : bounds.y + bounds.height - 48),
       bounds,
       workArea,
       isValid,

@@ -65,6 +65,18 @@ class DashboardApp {
       window.dashboardAPI.onMediaStatus((media) => {
         this.updateMediaStatus(media);
       });
+
+      window.dashboardAPI.onSettingsChanged((settings) => {
+        if (settings) {
+          this.settings = { ...this.settings, ...settings };
+          if (typeof i18n !== 'undefined' && settings.language) {
+            i18n.setLanguage(settings.language);
+          }
+          this.applyTheme(this.settings.theme);
+          this.updateUIFromSettings();
+          this.renderPetCards();
+        }
+      });
     }
 
     if (typeof i18n !== 'undefined') {

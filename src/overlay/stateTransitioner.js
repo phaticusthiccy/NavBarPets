@@ -81,7 +81,7 @@ class StateTransitioner {
     }
 
     if (this.currentState === 'dance') {
-      if (petEngine.isMusicActive && petEngine.audioDanceEnabled) {
+      if (petEngine.isMusicActive && (petEngine.audioDanceEnabled || petEngine.isTestDancing)) {
         // Continue dancing while audio stream or media playback is active
         const danceSub = this.behaviors.getRandomBehavior('dance');
         this.setSubBehavior(danceSub, 1.8 + Math.random() * 1.5, 'dance');

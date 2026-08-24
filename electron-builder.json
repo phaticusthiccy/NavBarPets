@@ -8,6 +8,9 @@
     "src/**/*",
     "package.json"
   ],
+  "asarUnpack": [
+    "**/*.ps1"
+  ],
   "win": {
     "target": [
       {

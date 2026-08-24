@@ -58,7 +58,7 @@ class MainApp {
       groundMode: 'taskbar_bottom', // 'taskbar_bottom' (screen bottom baseline) or 'taskbar_top' (taskbar top shelf)
       floorOffset: 0, // Fine-tuning vertical offset in pixels (-40 to +40)
       audio: {
-        enabled: false,
+        enabled: true,
         sensitivity: 0.5
       },
       sleepSchedule: {
@@ -84,6 +84,10 @@ class MainApp {
    */
   saveSettingsToFile() {
     try {
+      const dir = path.dirname(this.settingsPath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
       fs.writeFileSync(this.settingsPath, JSON.stringify(this.settings, null, 2), 'utf8');
     } catch (err) {
       console.error('[MainApp] Error persisting settings to disk:', err);
@@ -159,12 +163,13 @@ class MainApp {
     const taskbarInfo = TaskbarDetector.getTaskbarInfo();
     const overlayHeight = 140;
     const { width, height } = taskbarInfo.bounds;
-    const overlayY = height - overlayHeight;
+    const overlayX = taskbarInfo.bounds.x || 0;
+    const overlayY = (taskbarInfo.bounds.y || 0) + height - overlayHeight;
 
     this.overlayWindow = new BrowserWindow({
       width: width,
       height: overlayHeight,
-      x: 0,
+      x: overlayX,
       y: overlayY,
       transparent: true,
       frame: false,
@@ -245,10 +250,11 @@ class MainApp {
     }
 
     const { width, height } = taskbarInfo.bounds;
-    const overlayY = height - overlayHeight;
+    const overlayX = taskbarInfo.bounds.x || 0;
+    const overlayY = (taskbarInfo.bounds.y || 0) + height - overlayHeight;
 
     this.overlayWindow.setBounds({
-      x: 0,
+      x: overlayX,
       y: overlayY,
       width: width,
       height: overlayHeight

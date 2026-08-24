@@ -13,7 +13,7 @@
 [![Download for Windows](https://img.shields.io/badge/⬇️_Windows_İçin_İndİr-6366F1?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/phaticusthiccy/NavBarPets/releases/latest)
 <br/>
 
-[![Electron](https://img.shields.io/badge/Electron-30.0.0-47848F?style=flat-square&logo=electron&logoColor=white)](https://electronjs.org/)
+[![Electron](https://img.shields.io/badge/Electron-34.0.0-47848F?style=flat-square&logo=electron&logoColor=white)](https://electronjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-22.x-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D6?style=flat-square&logo=windows&logoColor=white)](https://microsoft.com/windows)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
@@ -65,12 +65,12 @@ Her biri kendine has animasyonlara, parçacık efektlerine ve ses/dans tepkileri
 
 ### 🎬 2. 75+ Zengin Prosedürel Kinematik & Durum Havuzu
 Petler sıkıcı döngülere girmeden 6 farklı ana davranış havuzundan ve geçiş matrislerinden rastgele hareketler seçer:
-- **Idle (Boşta Bekleme):** Kulak temizleme, havayı koklama, tüyleri silkeleme, ayakta uyuklama, esneme, kutuya girme.
-- **Walk (Yürüme):** Gururlu adımlama, temkinli süzülme, paytak sallanma, parmak ucu yürüyüşü.
-- **Run (Koşma & Hızlanma):** Dörtnala zıplama, viraj drifti, zikzak koşusu, turbo sprint.
-- **Dance (Dans & Müzik):** Robot pop-and-lock, dalga shuffle, coşkulu yüksek zıplama, step/tap dansı, moonwalk.
-- **Play (Oyun):** Kendi etrafında takla atma, ce-ee yapma, kelebek yakalama, hedef kilitlenip atılma.
-- **Sleep (Uyku):** Sırt üstü yayılma, horlama baloncukları, rüyada koşma, kuyruğuna sarılarak uyuma.
+- **Boşta Bekleme:** Kulak temizleme, havayı koklama, tüyleri silkeleme, ayakta uyuklama, esneme, kutuya girme.
+- **Yürüme:** Gururlu adımlama, temkinli süzülme, paytak sallanma, parmak ucu yürüyüşü.
+- **Koşma & Hızlanma:** Dörtnala zıplama, viraj drifti, zikzak koşusu, turbo sprint.
+- **Dans & Müzik:** Robot pop-and-lock, dalga shuffle, coşkulu yüksek zıplama, step/tap dansı, moonwalk.
+- **Oyun:** Kendi etrafında takla atma, ce-ee yapma, kelebek yakalama, hedef kilitlenip atılma.
+- **Uyku:** Sırt üstü yayılma, horlama baloncukları, rüyada koşma, kuyruğuna sarılarak uyuma.
 
 ---
 
@@ -130,7 +130,7 @@ npm start
 ```bash
 npm run dist
 ```
-Oluşturulan kurulum (`NavBarPets Setup 1.0.0.exe`) ve taşınabilir (`NavBarPets 1.0.0.exe`) dosyaları `dist/` klasöründe yer alır.
+Oluşturulan kurulum (`NavBarPets Setup x.x.x.exe`) ve taşınabilir (`NavBarPets x.x.x.exe`) dosyaları `dist/` klasöründe yer alır.
 
 ---
 

@@ -7,6 +7,7 @@
 
 const { execFile } = require('child_process');
 const path = require('path');
+const fs = require('fs');
 const { screen } = require('electron');
 
 class FullscreenDetector {
@@ -18,7 +19,11 @@ class FullscreenDetector {
     this.isFullscreen = false;
     this.intervalId = null;
     this.isQuerying = false;
-    this.scriptPath = path.join(__dirname, 'checkFullscreen.ps1');
+
+    // Resolve script path with fallback for packaged ASAR archives
+    const defaultPath = path.join(__dirname, 'checkFullscreen.ps1');
+    const unpackedPath = defaultPath.replace('app.asar', 'app.asar.unpacked');
+    this.scriptPath = fs.existsSync(unpackedPath) ? unpackedPath : defaultPath;
   }
 
   /**

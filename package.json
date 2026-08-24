@@ -1,13 +1,13 @@
 {
   "name": "navbar-pets",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Interactive, reactive, animated companions living on the Windows Taskbar",
   "main": "src/main/index.js",
   "scripts": {
     "start": "electron .",
     "dev": "electron . --enable-logging",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "rmdir /s /q dist && electron-builder"
   },
   "keywords": [
     "desktop-pet",

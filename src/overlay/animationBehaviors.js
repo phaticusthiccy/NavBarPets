@@ -977,6 +977,41 @@ class AnimationBehaviors {
       // =============================================================
       // 7. DRAGGING & FALLING
       // =============================================================
+      case 'drag_startled': {
+        pose.bodyRot = (Math.random() - 0.5) * 0.15;
+        pose.headRot = (Math.random() - 0.5) * 0.2;
+        pose.bodyY -= 14;
+        pose.headY -= 24;
+        pose.squishX = 0.86;
+        pose.squishY = 1.20;
+        pose.pawFL_y = -8;
+        pose.pawFR_y = -8;
+        pose.pawBL_y = 4;
+        pose.pawBR_y = 4;
+        pose.tailAngle = 0.9;
+        pose.eyeState = 'wide';
+        pose.mouthState = 'open';
+        break;
+      }
+
+      case 'drag_groggy_hang': {
+        const sway = Math.sin(time * 2.2) * 0.08;
+        pose.bodyRot = sway;
+        pose.headRot = 0.25 - sway * 0.4;
+        pose.bodyY -= 12;
+        pose.headY -= 20;
+        pose.squishX = 0.94;
+        pose.squishY = 1.10;
+        pose.pawFL_y = 2 + Math.sin(time * 2.0) * 2;
+        pose.pawFR_y = 2 - Math.sin(time * 2.0) * 2;
+        pose.pawBL_y = 6 + Math.cos(time * 2.0) * 2;
+        pose.pawBR_y = 6 - Math.cos(time * 2.0) * 2;
+        pose.tailAngle = -1.1 - sway * 1.5;
+        pose.eyeState = 'sleep';
+        pose.mouthState = 'blep';
+        break;
+      }
+
       case 'drag_dangle': {
         const sway = Math.sin(time * 3.5) * 0.12;
         pose.bodyRot = sway;

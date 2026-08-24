@@ -53,13 +53,7 @@
           } else if (action === 'wake') {
             engine.transitioner.wakeUp(engine);
           } else if (action === 'dance') {
-            engine.isMusicActive = true;
-            engine.transitioner.handleMusicStart(engine);
-            setTimeout(() => {
-              if (!engine.isMusicActive) {
-                engine.transitioner.handleMusicStop(engine);
-              }
-            }, 5000);
+            engine.triggerTestDance(5);
           } else if (action === 'pet') {
             engine.transitioner.handlePetting(engine);
           }

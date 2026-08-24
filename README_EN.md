@@ -14,7 +14,7 @@
 
 <br/>
 
-[![Electron](https://img.shields.io/badge/Electron-30.0.0-47848F?style=flat-square&logo=electron&logoColor=white)](https://electronjs.org/)
+[![Electron](https://img.shields.io/badge/Electron-34.0.0-47848F?style=flat-square&logo=electron&logoColor=white)](https://electronjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-22.x-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D6?style=flat-square&logo=windows&logoColor=white)](https://microsoft.com/windows)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
@@ -131,7 +131,7 @@ npm start
 ```bash
 npm run dist
 ```
-Compiled setup (`NavBarPets Setup 1.0.0.exe`) and portable (`NavBarPets 1.0.0.exe`) binaries are generated in the `dist/` directory.
+Compiled setup (`NavBarPets Setup x.x.x.exe`) and portable (`NavBarPets x.x.x.exe`) binaries are generated in the `dist/` directory.
 
 ---
 

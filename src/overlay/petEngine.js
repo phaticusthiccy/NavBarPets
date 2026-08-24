@@ -150,6 +150,10 @@ class PetEngine {
    */
   setMediaStatus(status) {
     if (!status) return;
+    this.lastMediaStatus = status;
+
+    if (this.isTestDancing) return;
+
     this.isMusicActive = !!status.isPlaying;
 
     if (this.isMusicActive && this.audioDanceEnabled) {
@@ -161,6 +165,31 @@ class PetEngine {
         this.transitioner.handleMusicStop(this);
       }
     }
+  }
+
+  /**
+   * Triggers a temporary test music dance sequence.
+   * @param {number} [durationSec=5.0]
+   */
+  triggerTestDance(durationSec = 5.0) {
+    if (this.transitioner.currentState === 'sleep' || this.transitioner.currentState === 'drag' || this.transitioner.currentState === 'fall') {
+      return;
+    }
+    this.isTestDancing = true;
+    this.isMusicActive = true;
+    this.transitioner.handleMusicStart(this);
+
+    if (this.testDanceTimeout) {
+      clearTimeout(this.testDanceTimeout);
+    }
+
+    this.testDanceTimeout = setTimeout(() => {
+      this.isTestDancing = false;
+      if (!this.lastMediaStatus || !this.lastMediaStatus.isPlaying) {
+        this.isMusicActive = false;
+        this.transitioner.handleMusicStop(this);
+      }
+    }, durationSec * 1000);
   }
 
   /**
