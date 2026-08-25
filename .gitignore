@@ -49,3 +49,5 @@ logs/
 # Package-lock
 package-lock.json
 
+# Agents & AI Customizations
+.agents/
