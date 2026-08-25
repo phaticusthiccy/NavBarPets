@@ -38,7 +38,7 @@ NavBarPets'i hemen bilgisayarınızda çalıştırmak için aşağıdaki bağlan
 
 ## 📖 Genel Bakış
 
-**NavBarPets**, Windows Görev Çubuğunuzun (Taskbar) üzerinde özgürce gezen, bilgisayarınızda çalan şarkılara kulaklık takıp dans eden, gerçek zamanlı biyolojik uyku takvimine sahip, çift skin (Efsanevi & Klasik) desteği sunan ve 75'ten fazla akıcı prosedürel animasyon barındıran modern bir masaüstü arkadaşı uygulamasıdır.
+**NavBarPets**, Windows Görev Çubuğunuzun (Taskbar) üzerinde özgürce gezen, bilgisayarınızda çalan şarkılara kulaklık takıp dans eden, gerçek zamanlı biyolojik uyku takvimine sahip, **13 farklı türe ve 5 morfolojik skine** (Efsanevi, Klasik, Pixel Art, Sakura, Evori Dreamwings) sahip, fareyle sevilip taşınabilen ve 75'ten fazla akıcı prosedürel animasyon barındıran modern bir masaüstü arkadaşı uygulamasıdır.
 
 Transparan pencere motoru ve donanım hızlandırmalı HTML5 Canvas çizim sistemi sayesinde sistem kaynaklarını yormadan (düşük CPU & RAM) arka planda sessizce çalışır.
 
@@ -46,11 +46,11 @@ Transparan pencere motoru ve donanım hızlandırmalı HTML5 Canvas çizim siste
 
 ## ✨ Temel Özellikler
 
-### 🐾 1. 11 Benzersiz Pet & Efsanevi Karakter
-Her biri kendine has animasyonlara, parçacık efektlerine ve ses/dans tepkilerine sahip 11 farklı yol arkadaşı:
+### 🐾 1. 13 Benzersiz Pet & Efsanevi Karakter
+Her biri kendine has animasyonlara, parçacık efektlerine ve ses/dans tepkilerine sahip 13 farklı yol arkadaşı:
 
-- **🐱 Neko Kedi (`neko`):** Çift ruhani kuyruk, kulak seğirmesi, pati temizleme, ekmek somunu (loaf) pozisyonu, disko dansı.
-- **🐕 Shiba Inu (`shiba`):** Kıvrık kuyruk sallama, yeri koklama, blep dili çıkarma, zoomies koşusu ve sevinç zıplamaları.
+- **🐱 Neko Kedi (`neko`):** Ruhani kuyruk, kulak seğirmesi, pati temizleme, ekmek somunu (loaf) pozisyonu, disko dansı.
+- **🐕 Shiba Inu (`shiba`):** Kıvrık kuyruk sallama, yeri koklama, tatlı blep dili, zoomies koşusu ve sevinç zıplamaları.
 - **🟢 Cyber Slime (`slime`):** Holografik parıldama, neon çekirdek, jöle yaylanması ve elektrik parçacıkları.
 - **🐉 Mini Dragon (`dragon`):** Duman halkaları çıkarma, kanat çırparak süzülme, kuyruğuna sarılma.
 - **🦆 Pixel Duck (`duck`):** Paytak paytak yürüme, suya dalma hareketi, 360 derece dönerek dans etme.
@@ -60,17 +60,30 @@ Her biri kendine has animasyonlara, parçacık efektlerine ve ses/dans tepkileri
 - **💨 Valorant Jett (`jett`):** Anime yüz hatları, parlak turkuaz gözler, rüzgar aurası, havada süzülen Kunai bıçakları ve fırtına deparları.
 - **🍄 Super Mario (`mario`):** İkonik kırmızı 'M' şapkası, tulumu, sevimli bıyığı ve süper zıplayışları.
 - **⚡ Pikachu (`pikachu`):** Zikzak şimşek kuyruk, kırmızı elektrik yanak keseleri ve bağımsız kulak hareketleri.
+- **🌱 Cyberleek (`cyberleek`):** Duyarlı biyo-robotik siber pırasa, salınan plazma yaprak taçları, neşeli yaprak dönüşleri ve zıplamalar.
+- **🐂 Boğa Maskotu (`bull`):** Güçlü ve sevimli chibi boğa, kavisli boynuzlar, parıltılı burun halkası, toynak vurma ve şarj deparı.
 
 ---
 
-### 👗 2. Çift Skin Desteği & Görünüm Vitrini (Wardrobe)
-- **✨ Efsanevi (`✦ MYTHIC`):** Neon siber detaylar, dinamik gölgelendirme, parıltılı parçacıklar ve yüksek çözünürlüklü kaplamalar.
-- **🌟 Klasik (`★ RETRO`):** Nostaljik sade piksel sanat tarzı, orijinal renk paleti ve minimalist masaüstü estetiği.
+### 👗 2. 5 Morfolojik Skin Sistemi & Görünüm Vitrini (Wardrobe)
+Her companion için sadece renkleri değil, fiziksel morfolojiyi de değiştiren 5 zengin skin:
+
+- **✦ Efsanevi (`cool` / `MYTHIC`):** Neon siber detaylar, parıldayan veri devreleri, dinamik gölgelendirme ve yüksek çözünürlüklü kaplamalar.
+- **★ Klasik (`classic` / `RETRO`):** Nostaljik sade çizim tarzı, orijinal organik renk paleti ve minimalist masaüstü estetiği.
+- **👾 Pixel Art (`pixel` / `8-BIT`):** Otantik 8-bit basamaklı piksel geometrisi, retro arcade kare gözler ve bloklu kuyruklar/kanatlar.
+- **🌸 Sakura & Japon Baharı (`sakura`):** Bahar esintisi, 5 taç yapraklı kiraz çiçeği çiçekleri, uçuşan sakura yaprakları, tapınak ve kimono süslemeleri.
+- **✨ Evori Dreamwings (`evori`):** Yarı saydam parıldayan peri/kelebek rüya kanatları, göksel yıldız haloları, parıldayan yıldız parçacıkları ve astral takımyıldız tozları.
 - **🔍 Görünüm Vitrini Modalı:** Büyük ölçekli 160x160 döner canlı platform (turntable) üzerinde pet'leri inceleme, `Breathe`, `Walk`, `Dance` ve `Sleep` pozlarını canlı test etme ve tek tıkla kuşanma.
 
 ---
 
-### 🎬 3. 75+ Zengin Prosedürel Kinematik & Durum Havuzu
+### ❤️ 3. Sevme (Petting) & Etkileşim Reaksiyonları
+- Fare imleciyle görev çubuğundaki petin üzerinden geçerek veya Dashboard'daki **"Pet'i Sev"** butonuna basarak yol arkadaşınızı sevebilirsiniz.
+- Pet sevilmekten mest olup gözlerini kısar (`happy`), gövdesi sevinçle yaylanır, kuyruğunu hızla sallar ve etrafında türe özel renklerde sevgi kalpleri ve ışıltı şok dalgaları saçar.
+
+---
+
+### 🎬 4. 75+ Zengin Prosedürel Kinematik & Durum Havuzu
 Petler sıkıcı döngülere girmeden 6 farklı ana davranış havuzundan ve geçiş matrislerinden rastgele hareketler seçer:
 - **Boşta Bekleme:** Kulak temizleme, havayı koklama, tüyleri silkeleme, ayakta uyuklama, esneme, kutuya girme.
 - **Yürüme:** Gururlu adımlama, temkinli süzülme, paytak sallanma, 4 bacaklı çapraz adım kinematiği.
@@ -81,20 +94,20 @@ Petler sıkıcı döngülere girmeden 6 farklı ana davranış havuzundan ve ge�
 
 ---
 
-### 🎵 4. Spotify & YouTube Canlı Müzik Algılama
+### 🎵 5. Spotify & YouTube Canlı Müzik Algılama
 - Bilgisayarınızda (Spotify, YouTube, Medya Oynatıcılar, vb.) çalan şarkıları otomatik algılar.
 - Pet hemen **kulaklıklarını takar**, müzik ritmine göre dans figürlerine geçer ve nota parçacıkları yayar.
 - Dashboard arayüzünde aktif çalan parça, sanatçı bilgisi ve canlı ekolayzer görselleştiricisi gösterilir.
 
 ---
 
-### ⏰ 5. Biyolojik Uyku & Uyanma Planlayıcı
+### ⏰ 6. Biyolojik Uyku & Uyanma Planlayıcı
 - Belirlenen saatlerde (Örn: `23:00 - 08:00`) petler otomatik olarak **gece şapkalarını** takar ve tatlı Zzz balonlarıyla derin uykuya dalar.
 - İstenildiği an dashboard veya sistem tepsisi üzerinden manuel uyutma/uyandırma yapılabilir.
 
 ---
 
-### 📏 6. Görev Çubuğu Zemin, Boyut & Görünürlük Ayarları
+### 📏 7. Görev Çubuğu Zemin, Boyut & Görünürlük Ayarları
 - **👁️ Petleri Aç/Kapat Switch'i:** Dashboard başlığından veya Sistem Tepsisinden tek tıkla petleri anında gizleme/gösterme.
 - **Pet Boyut Ölçeği:** 0.6x ile 2.0x arasında serbest boyutlandırma.
 - **Zemin Hizalama Modu:** Görev çubuğunun üst yüzeyinde yürüme veya en alt tabanında durma.
@@ -102,15 +115,16 @@ Petler sıkıcı döngülere girmeden 6 farklı ana davranış havuzundan ve ge�
 
 ---
 
-### 🎨 7. 8 Modern Arayüz Teması & Tam Çift Dil Desteği
+### 🎨 8. 8 Modern Arayüz Teması & Tam Çift Dil Desteği
 - **8 Özel Tema:** *Midnight Glass, Cyber Neon, Cozy Pastel, Deep OLED, Sunset Aurora, Emerald Forest, Vampire Velvet, Nordic Frost*.
 - **🇹🇷 Türkçe & 🇬🇧 İngilizce:** SVG vektör bayraklı şık dil seçici ile tek tıkla anında çeviri.
 
 ---
 
-### 🚀 8. Windows Entegrasyonu & Sistem Tepsisi
-- Pencere kapatıldığında arka planda **Sistem Tepsisi (Tray)** alanında çalışmaya devam eder.
-- Tepsi menüsünden tek tıkla pet değiştirme, görünürlük kontrolü, uyutma/uyandırma ve müzik dansı testi.
+### 🚀 9. Yüksek Performans, Sıfır Kaynak Tüketimi & Sistem Tepsisi
+- **⚡ Akıllı Culling:** Tam ekran oyunlarda veya uygulamalarda render motoru tamamen dondurulur (%0 CPU/GPU).
+- **📦 Optimize Sığınak:** Pet Sığınağı'nda yalnızca ekranda görünen kartlar akıllı FPS hızlandırmasıyla çizilir.
+- **Sistem Tepsisi (Tray):** Dashboard kapalıyken arka planda çalışmaya devam eder; tepsi menüsünden tek tıkla yönetim sunar.
 - Windows açılışında otomatik başlatma desteği.
 
 ---
@@ -159,11 +173,11 @@ NavBarPets/
 │   ├── overlay/
 │   │   ├── overlay.html         # Şeffaf Masaüstü Katmanı
 │   │   ├── petEngine.js         # Ana Motor & Evrensel Çözümleyici
-│   │   ├── petRenderer.js       # Karakter Çizim Ana Yöneticisi
+│   │   ├── petRenderer.js       # Karakter Çizim Ana Yöneticisi (13 Tür + 5 Skin)
 │   │   ├── animationBehaviors.js# Kinematik Ana Yöneticisi
 │   │   ├── particleSystem.js    # Parçacık Ana Yöneticisi
 │   │   ├── stateTransitioner.js # Durum Makinesi Ana Yöneticisi
-│   │   ├── renderers/           # 11 Ayrı Tür Çizicisi + sharedHelpers.js
+│   │   ├── renderers/           # 13 Ayrı Tür Çizicisi + sharedHelpers.js
 │   │   ├── behaviors/           # idle, locomotion, dance, play/sleep & species
 │   │   ├── particles/           # particleRenderers.js & particleEmitters.js
 │   │   ├── states/              # stateInterrupts.js & stateAutonomous.js
@@ -177,6 +191,7 @@ NavBarPets/
 │       ├── i18n.js              # Türkçe & İngilizce Çeviri Sözlüğü
 │       ├── modules/             # sanctuary, telemetry, settings, eventBinder
 │       └── styles/              # variables, themes, layout, components, sanctuary, tabs
+├── ARCHITECTURE.md              # Kapsamlı Proje Mimari Kılavuzu
 ├── electron-builder.json        # NSIS & Portable Dağıtım Yapılandırması
 ├── package.json
 └── README.md

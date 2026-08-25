@@ -31,18 +31,24 @@ const StateAutonomous = {
       return;
     }
 
+    // Active drag or fall safety guard: Never autonomously interrupt drag or fall physics
+    if (this.currentState === 'drag' || this.currentState === 'fall' || (petEngine && petEngine.isDragging)) {
+      return;
+    }
+
+    if (petEngine && petEngine.isMusicActive && (petEngine.audioDanceEnabled || petEngine.isTestDancing)) {
+      // Continue or transition into dancing while audio stream or media playback is active
+      petEngine.accessories.headphones = true;
+      const danceSub = this.behaviors.getRandomBehavior('dance');
+      this.setSubBehavior(danceSub, 1.8 + Math.random() * 1.5, 'dance');
+      this.particles.spawnMusicNotes(petEngine.x, petEngine.y, 2);
+      return;
+    }
+
     if (this.currentState === 'dance') {
-      if (petEngine.isMusicActive && (petEngine.audioDanceEnabled || petEngine.isTestDancing)) {
-        // Continue dancing while audio stream or media playback is active
-        const danceSub = this.behaviors.getRandomBehavior('dance');
-        this.setSubBehavior(danceSub, 1.8 + Math.random() * 1.5, 'dance');
-        this.particles.spawnMusicNotes(petEngine.x, petEngine.y, 2);
-        return;
-      } else {
-        // Music ended: Smoothly exit dance mode back to idle
-        this.handleMusicStop(petEngine);
-        return;
-      }
+      // Music ended: Smoothly exit dance mode back to idle
+      this.handleMusicStop(petEngine);
+      return;
     }
 
     // Normal awake behavior cycle: Weighted probabilities

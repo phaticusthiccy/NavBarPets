@@ -443,6 +443,27 @@ const PlaySleepInteractBehaviors = {
             pose.mouthState = 'open';
             break;
 
+          case 'cyberleek':
+            pose.headY = -35 + Math.sin(time * 16) * 3;
+            pose.tailAngle = Math.sin(time * 24) * 0.9;
+            pose.squishX = 1.15 + Math.sin(time * 20) * 0.08;
+            pose.squishY = 0.85 - Math.sin(time * 20) * 0.08;
+            pose.pawFL_y = Math.sin(time * 16) * 4;
+            pose.pawFR_y = -Math.sin(time * 16) * 4;
+            pose.mouthState = 'open';
+            break;
+
+          case 'bull':
+            pose.headRot = 0.28 + Math.sin(time * 8) * 0.1;
+            pose.headY = -34 + Math.sin(time * 12) * 2;
+            pose.tailAngle = Math.sin(time * 28) * 1.2;
+            pose.pawFL_y = Math.sin(time * 14) * 3.5;
+            pose.pawFR_y = -Math.sin(time * 14) * 3.5;
+            pose.squishX = 1.08;
+            pose.squishY = 0.92;
+            pose.mouthState = 'smile';
+            break;
+
           default:
             pose.headRot = 0.24;
             pose.headY -= 3;

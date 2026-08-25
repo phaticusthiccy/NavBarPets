@@ -10,7 +10,9 @@ const StateInterrupts = {
    */
   handleDragStart(petEngine) {
     this.wasAsleep = (this.currentState === 'sleep');
+    this.wasDancing = (this.currentState === 'dance');
     this.sequenceQueue = [];
+    if (petEngine) petEngine.vx = 0;
 
     if (this.wasAsleep) {
       // Interrupted during sleep: Startled -> Groggy Hang
@@ -23,7 +25,7 @@ const StateInterrupts = {
         state: 'drag'
       });
     } else {
-      // Standard awake pickup: Active kicking hang
+      // Standard awake / dancing pickup: Active kicking hang
       this.setSubBehavior('drag_startled', 0.2, 'drag');
       this.sequenceQueue.push({
         behavior: 'drag_active_hang',
@@ -75,6 +77,21 @@ const StateInterrupts = {
         duration: 4.0,
         state: 'sleep'
       });
+    } else if (petEngine && petEngine.isMusicActive && (petEngine.audioDanceEnabled || petEngine.isTestDancing)) {
+      // Resume music dancing smoothly upon landing
+      this.sequenceQueue.push({
+        behavior: 'idle_tail_wag',
+        duration: 0.5,
+        state: 'idle',
+        onStart: () => {
+          petEngine.accessories.headphones = true;
+        }
+      });
+      this.sequenceQueue.push({
+        behavior: this.behaviors.getRandomBehavior('dance'),
+        duration: 2.5,
+        state: 'dance'
+      });
     } else {
       this.sequenceQueue.push({
         behavior: 'idle_tail_wag',
@@ -123,7 +140,7 @@ const StateInterrupts = {
    */
   handleMusicStart(petEngine) {
     if (this.currentState === 'sleep') return;
-    if (this.currentState === 'drag' || this.currentState === 'fall') return;
+    if (this.currentState === 'drag' || this.currentState === 'fall' || this.currentState === 'landing' || (petEngine && petEngine.isDragging)) return;
 
     petEngine.accessories.headphones = true;
     const danceSub = this.behaviors.getRandomBehavior('dance');

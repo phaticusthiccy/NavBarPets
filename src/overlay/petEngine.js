@@ -170,11 +170,6 @@ class PetEngine {
     // 2. State & Transition Machine
     const stateInfo = this.transitioner.update(dt, this);
 
-    // Safety watchdog: auto-release if pointer event was lost while dragging
-    if (this.isDragging && (performance.now() - this.lastDragTime > 800)) {
-      this.releaseDrag();
-    }
-
     // 3. Physics & Gravity
     this.updatePhysics(dt, stateInfo);
 
@@ -226,7 +221,7 @@ class PetEngine {
     // Render Pet with active skin
     this.renderer.render(this.ctx, {
       species: this.species,
-      skin: (this.petSkins && this.petSkins[this.species]) || 'cool',
+      skin: (this.petSkins && this.petSkins[this.species]) || 'classic',
       x: this.x,
       y: this.y,
       scale: this.scale,

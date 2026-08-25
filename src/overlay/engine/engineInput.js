@@ -151,12 +151,12 @@ const EngineInput = {
    * @returns {boolean}
    */
   isPointInsidePet(px, py) {
-    const boxW = 80 * this.scale;
-    const boxH = 80 * this.scale;
+    const boxW = 92 * this.scale;
+    const boxH = 92 * this.scale;
     const minX = this.x - boxW / 2;
     const maxX = this.x + boxW / 2;
-    const minY = this.y - boxH;
-    const maxY = this.y + 16;
+    const minY = this.y - boxH - 16 * this.scale;
+    const maxY = this.y + 20 * this.scale;
     return px >= minX && px <= maxX && py >= minY && py <= maxY;
   }
 };

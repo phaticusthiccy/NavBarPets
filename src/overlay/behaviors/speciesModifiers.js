@@ -32,6 +32,16 @@ const SpeciesModifiers = {
       pose.tailAngle = Math.sin(time * 4) * 0.35;
     } else if (species === 'mario') {
       pose.squishY *= 0.96;
+    } else if (species === 'cyberleek') {
+      pose.tailAngle = Math.sin(time * 4.5) * 0.3;
+      if (behavior.startsWith('walk') || behavior.startsWith('run')) {
+        pose.squishY = (pose.squishY || 1.0) + Math.sin(time * 8) * 0.05;
+      }
+    } else if (species === 'bull') {
+      pose.tailAngle = Math.sin(time * 5) * 0.4;
+      if (behavior.startsWith('walk') || behavior.startsWith('run') || behavior.startsWith('play')) {
+        pose.bodyRot = (pose.bodyRot || 0) + Math.sin(time * 6) * 0.08;
+      }
     }
   }
 };

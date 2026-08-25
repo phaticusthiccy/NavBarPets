@@ -13,13 +13,23 @@ const EngineAudioSchedule = {
     if (enabled !== undefined) {
       this.audioDanceEnabled = !!enabled;
       this.audio.enabled = !!enabled;
+      if (this.audioDanceEnabled) {
+        if (typeof this.audio.start === 'function') this.audio.start();
+      } else {
+        if (typeof this.audio.stop === 'function') this.audio.stop();
+      }
     }
     if (sensitivity !== undefined) {
       this.audio.sensitivity = sensitivity;
     }
 
     if (this.audioDanceEnabled && this.isMusicActive) {
-      if (this.transitioner.currentState !== 'sleep' && this.transitioner.currentState !== 'drag' && this.transitioner.currentState !== 'dance') {
+      if (this.transitioner.currentState !== 'sleep' && 
+          this.transitioner.currentState !== 'drag' && 
+          this.transitioner.currentState !== 'fall' && 
+          this.transitioner.currentState !== 'landing' && 
+          !this.isDragging && 
+          this.transitioner.currentState !== 'dance') {
         this.transitioner.handleMusicStart(this);
       }
     } else {
@@ -42,7 +52,12 @@ const EngineAudioSchedule = {
     this.isMusicActive = !!status.isPlaying;
 
     if (this.isMusicActive && this.audioDanceEnabled) {
-      if (this.transitioner.currentState !== 'sleep' && this.transitioner.currentState !== 'drag' && this.transitioner.currentState !== 'dance') {
+      if (this.transitioner.currentState !== 'sleep' && 
+          this.transitioner.currentState !== 'drag' && 
+          this.transitioner.currentState !== 'fall' && 
+          this.transitioner.currentState !== 'landing' && 
+          !this.isDragging && 
+          this.transitioner.currentState !== 'dance') {
         this.transitioner.handleMusicStart(this);
       }
     } else {
@@ -57,7 +72,10 @@ const EngineAudioSchedule = {
    * @param {number} [durationSec=5.0]
    */
   triggerTestDance(durationSec = 5.0) {
-    if (this.transitioner.currentState === 'sleep' || this.transitioner.currentState === 'drag' || this.transitioner.currentState === 'fall') {
+    if (this.transitioner.currentState === 'sleep' || 
+        this.transitioner.currentState === 'drag' || 
+        this.transitioner.currentState === 'fall' || 
+        this.isDragging) {
       return;
     }
     this.isTestDancing = true;
@@ -90,7 +108,12 @@ const EngineAudioSchedule = {
     this.audio.onMusicStateChange = (isPlaying, energy) => {
       if (isPlaying) {
         this.isMusicActive = true;
-        if (this.audioDanceEnabled && this.transitioner.currentState !== 'sleep' && this.transitioner.currentState !== 'drag') {
+        if (this.audioDanceEnabled && 
+            this.transitioner.currentState !== 'sleep' && 
+            this.transitioner.currentState !== 'drag' && 
+            this.transitioner.currentState !== 'fall' && 
+            this.transitioner.currentState !== 'landing' && 
+            !this.isDragging) {
           this.transitioner.handleMusicStart(this);
         }
       } else {

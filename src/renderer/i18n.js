@@ -48,7 +48,7 @@ const I18N_DICTIONARY = {
     // TAB 1: Pet Sanctuary
     sanctuary_title: "Pet Sığınağı",
     sanctuary_subtitle: "Görev çubuğunda seninle yaşayacak sevimli yol arkadaşını seç",
-    sanctuary_badge: "11 Özel Pet Türü",
+    sanctuary_badge: "13 Özel Pet Türü",
     pet_visibility_label: "Petleri Göster",
     badge_active_pet: "AKTİF",
     btn_select_active: "Aktif Pet",
@@ -57,10 +57,19 @@ const I18N_DICTIONARY = {
     skin_legendary: "Efsanevi",
     skin_cool: "Efsanevi",
     skin_classic: "Klasik",
+    skin_pixel: "Pixel Art",
+    skin_sakura: "Sakura",
+    skin_evori: "Evori",
     skin_rarity_legendary: "✦ EFSANEVİ",
     skin_rarity_classic: "★ KLASİK",
+    skin_rarity_pixel: "👾 PIXEL ART",
+    skin_rarity_sakura: "🌸 SAKURA",
+    skin_rarity_evori: "✨ EVORI",
     skin_tag_mythic: "MYTHIC CYBER",
     skin_tag_retro: "ORIGINAL RETRO",
+    skin_tag_pixel: "8-BIT PIXEL",
+    skin_tag_sakura: "JAPON BAHARI",
+    skin_tag_evori: "RÜYA KANATLARI",
     toast_skin_changed: "Görünüm değiştirildi: ",
 
     // TAB 2: Position & Ground
@@ -211,6 +220,18 @@ const I18N_DICTIONARY = {
         species: "Electric Mouse Pokemon",
         traits: ["⚡ Yıldırım Kuyruk", "🔴 Elektrik Yanaklar", "✨ Pika Pika"],
         desc: "Zikzak şimşek kuyruğunu sallar, kırmızı yanaklarından kıvılcım saçar ve tatlı tatlı kulaklarını oynatır."
+      },
+      cyberleek: {
+        name: "Cyberleek",
+        species: "Allium Digitalis",
+        traits: ["🌱 Siber Pırasa", "⚡ Enerji Yaprakları", "✨ Biyo-Robotik"],
+        desc: "Holografik plazma yapraklarını sallar, sevimli kök ayaklarıyla paytak yürür ve neşeyle döner."
+      },
+      bull: {
+        name: "Boğa Maskotu",
+        species: "Taurus Chibi",
+        traits: ["🐂 Güçlü & Çevik", "⭐ Altın Boynuz", "💨 Şarj Deparı"],
+        desc: "Kavisli boynuzlarını sallar, burnundaki parıltılı halkayı oynatır ve toynaklarını yere vurarak neşeyle koşar."
       }
     }
   },
@@ -257,7 +278,7 @@ const I18N_DICTIONARY = {
     // TAB 1: Pet Sanctuary
     sanctuary_title: "Pet Sanctuary",
     sanctuary_subtitle: "Choose your adorable desktop companion to live on your Windows Taskbar",
-    sanctuary_badge: "11 Unique Pets",
+    sanctuary_badge: "13 Unique Pets",
     pet_visibility_label: "Show Pets",
     badge_active_pet: "ACTIVE",
     btn_select_active: "Active Pet",
@@ -266,10 +287,19 @@ const I18N_DICTIONARY = {
     skin_legendary: "Legendary",
     skin_cool: "Legendary",
     skin_classic: "Classic",
+    skin_pixel: "Pixel Art",
+    skin_sakura: "Sakura",
+    skin_evori: "Evori",
     skin_rarity_legendary: "✦ LEGENDARY",
     skin_rarity_classic: "★ CLASSIC",
+    skin_rarity_pixel: "👾 PIXEL ART",
+    skin_rarity_sakura: "🌸 SAKURA",
+    skin_rarity_evori: "✨ EVORI",
     skin_tag_mythic: "MYTHIC CYBER",
     skin_tag_retro: "ORIGINAL RETRO",
+    skin_tag_pixel: "8-BIT PIXEL",
+    skin_tag_sakura: "SPRING BLOSSOM",
+    skin_tag_evori: "DREAMWINGS",
     toast_skin_changed: "Skin changed to: ",
 
     // TAB 2: Position & Ground
@@ -420,6 +450,18 @@ const I18N_DICTIONARY = {
         species: "Electric Mouse Pokemon",
         traits: ["⚡ Thunderbolt Tail", "🔴 Electric Cheeks", "✨ Pika Pika"],
         desc: "Swishes its zigzag lightning bolt tail, sparks cute electricity from red cheeks, and wiggles long ears."
+      },
+      cyberleek: {
+        name: "Cyberleek",
+        species: "Allium Digitalis",
+        traits: ["🌱 Cyber Leek", "⚡ Energy Blades", "✨ Bio-Robotic"],
+        desc: "Sways holographic plasma leaves, waddles happily on bio-root feet, and spins with vibrant energy."
+      },
+      bull: {
+        name: "Bull Mascot",
+        species: "Taurus Chibi",
+        traits: ["🐂 Mighty & Agile", "⭐ Golden Horns", "💨 Power Charge"],
+        desc: "Tosses sturdy curved horns, wiggles shiny septum ring, stomps cute hooves, and charges joyfully."
       }
     }
   }

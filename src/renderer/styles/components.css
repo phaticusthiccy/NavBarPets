@@ -46,23 +46,32 @@
 .toggle-switch {
   position: relative;
   display: inline-block;
-  width: 44px;
-  height: 24px;
+  width: 46px;
+  min-width: 46px;
+  height: 26px;
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
 .toggle-switch input {
   opacity: 0;
   width: 0;
   height: 0;
+  position: absolute;
 }
 
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(255, 255, 255, 0.15);
-  transition: var(--transition-fast);
-  border-radius: 24px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--border-glass);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 26px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .slider:before {
@@ -71,18 +80,32 @@
   height: 18px;
   width: 18px;
   left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: var(--transition-fast);
+  top: 3px;
+  background-color: #ffffff;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+}
+
+.toggle-switch:hover .slider {
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 input:checked + .slider {
-  background: var(--accent-primary);
+  background: var(--accent-gradient);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 12px var(--border-glow);
 }
 
 input:checked + .slider:before {
   transform: translateX(20px);
+  background-color: #ffffff;
+}
+
+input:focus-visible + .slider {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
 }
 
 /* Time Pickers */
@@ -182,18 +205,22 @@ input:checked + .slider:before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  gap: 16px;
+  padding: 12px 0;
   border-bottom: 1px solid var(--border-glass);
 }
 
 .setting-row:last-child {
   border-bottom: none;
+  padding-bottom: 0;
 }
 
 .setting-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
 }
 
 .setting-name {
@@ -203,8 +230,9 @@ input:checked + .slider:before {
 }
 
 .setting-hint {
-  font-size: 11px;
-  color: var(--text-dim);
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
 }
 
 /* Update Modal Overlay */

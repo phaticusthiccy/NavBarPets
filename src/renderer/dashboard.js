@@ -4,7 +4,7 @@
  * Coordinates modular view controllers (Sanctuary, Telemetry, Settings, EventBinder).
  */
 
-const PET_IDS = ['neko', 'shiba', 'slime', 'dragon', 'duck', 'fox', 'bunny', 'penguin', 'jett', 'mario', 'pikachu'];
+const PET_IDS = ['neko', 'shiba', 'slime', 'dragon', 'duck', 'fox', 'bunny', 'penguin', 'jett', 'mario', 'pikachu', 'cyberleek', 'bull'];
 
 const resolveDashboardModule = (name, path) => {
   if (typeof globalThis !== 'undefined' && globalThis[name]) return globalThis[name];

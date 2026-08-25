@@ -17,7 +17,7 @@ class PetRenderer {
   render(ctx, petState) {
     const {
       species = 'neko',
-      skin = 'cool',
+      skin = 'classic',
       x = 0,
       y = 0,
       scale = 1.0,
@@ -75,6 +75,12 @@ class PetRenderer {
       case 'pikachu':
         this.drawPikachu(ctx, pose, accessories, skin);
         break;
+      case 'cyberleek':
+        this.drawCyberleek(ctx, pose, accessories, skin);
+        break;
+      case 'bull':
+        this.drawBull(ctx, pose, accessories, skin);
+        break;
       default:
         this.drawNeko(ctx, pose, accessories, skin);
     }
@@ -105,6 +111,8 @@ const _PenguinRenderer = resolveRendererModule('PenguinRenderer', './renderers/p
 const _JettRenderer = resolveRendererModule('JettRenderer', './renderers/jettRenderer.js');
 const _MarioRenderer = resolveRendererModule('MarioRenderer', './renderers/marioRenderer.js');
 const _PikachuRenderer = resolveRendererModule('PikachuRenderer', './renderers/pikachuRenderer.js');
+const _CyberleekRenderer = resolveRendererModule('CyberleekRenderer', './renderers/cyberleekRenderer.js');
+const _BullRenderer = resolveRendererModule('BullRenderer', './renderers/bullRenderer.js');
 
 if (_SharedPetHelpers) Object.assign(PetRenderer.prototype, _SharedPetHelpers);
 if (_NekoRenderer) Object.assign(PetRenderer.prototype, _NekoRenderer);
@@ -118,6 +126,8 @@ if (_PenguinRenderer) Object.assign(PetRenderer.prototype, _PenguinRenderer);
 if (_JettRenderer) Object.assign(PetRenderer.prototype, _JettRenderer);
 if (_MarioRenderer) Object.assign(PetRenderer.prototype, _MarioRenderer);
 if (_PikachuRenderer) Object.assign(PetRenderer.prototype, _PikachuRenderer);
+if (_CyberleekRenderer) Object.assign(PetRenderer.prototype, _CyberleekRenderer);
+if (_BullRenderer) Object.assign(PetRenderer.prototype, _BullRenderer);
 
 if (typeof window !== 'undefined') window.PetRenderer = PetRenderer;
 if (typeof globalThis !== 'undefined') globalThis.PetRenderer = PetRenderer;

@@ -22,7 +22,9 @@ const ParticleEmitters = {
       penguin: { glow: '#4CC9F0', stroke: 'rgba(76, 201, 240, 0.85)' },
       jett: { glow: '#2EC4B6', stroke: 'rgba(46, 196, 182, 0.85)' },
       mario: { glow: '#E63946', stroke: 'rgba(230, 57, 70, 0.85)' },
-      pikachu: { glow: '#FFE600', stroke: 'rgba(255, 230, 0, 0.85)' }
+      pikachu: { glow: '#FFE600', stroke: 'rgba(255, 230, 0, 0.85)' },
+      cyberleek: { glow: '#10B981', stroke: 'rgba(16, 185, 129, 0.85)' },
+      bull: { glow: '#F59E0B', stroke: 'rgba(245, 158, 11, 0.85)' }
     };
     const theme = themeColors[species] || themeColors.neko;
 
@@ -58,7 +60,9 @@ const ParticleEmitters = {
       penguin: ['#4CC9F0', '#4895EF', '#4361EE', '#E0FBFC'],
       jett: ['#2EC4B6', '#00F5D4', '#CBF3F0', '#38BDF8'],
       mario: ['#E63946', '#F72585', '#FFB703', '#FF4D6D'],
-      pikachu: ['#FFE600', '#FFD000', '#FF9E00', '#FFF3B0']
+      pikachu: ['#FFE600', '#FFD000', '#FF9E00', '#FFF3B0'],
+      cyberleek: ['#10B981', '#00F5D4', '#6EE7B7', '#A7F3D0'],
+      bull: ['#F59E0B', '#EF4444', '#FDE047', '#FB923C']
     };
     const hues = heartHues[species] || heartHues.neko;
 
