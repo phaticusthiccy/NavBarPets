@@ -9,22 +9,57 @@
 <body>
   <canvas id="petCanvas"></canvas>
 
+  <!-- Particles Subsystem -->
+  <script src="particles/particleRenderers.js"></script>
+  <script src="particles/particleEmitters.js"></script>
   <script src="particleSystem.js"></script>
+
+  <!-- Species Procedural Canvas Renderers -->
+  <script src="renderers/sharedHelpers.js"></script>
+  <script src="renderers/nekoRenderer.js"></script>
+  <script src="renderers/shibaRenderer.js"></script>
+  <script src="renderers/slimeRenderer.js"></script>
+  <script src="renderers/dragonRenderer.js"></script>
+  <script src="renderers/duckRenderer.js"></script>
+  <script src="renderers/foxRenderer.js"></script>
+  <script src="renderers/bunnyRenderer.js"></script>
+  <script src="renderers/penguinRenderer.js"></script>
+  <script src="renderers/jettRenderer.js"></script>
+  <script src="renderers/marioRenderer.js"></script>
+  <script src="renderers/pikachuRenderer.js"></script>
   <script src="petRenderer.js"></script>
+
+  <!-- Animation & State Machine -->
+  <script src="behaviors/idleBehaviors.js"></script>
+  <script src="behaviors/locomotionBehaviors.js"></script>
+  <script src="behaviors/danceBehaviors.js"></script>
+  <script src="behaviors/playSleepInteractBehaviors.js"></script>
+  <script src="behaviors/speciesModifiers.js"></script>
   <script src="animationBehaviors.js"></script>
+  <script src="states/stateInterrupts.js"></script>
+  <script src="states/stateAutonomous.js"></script>
   <script src="stateTransitioner.js"></script>
+
+  <!-- Audio Reactive Subsystem -->
   <script src="audioReactive.js"></script>
+
+  <!-- Engine Subsystems & Master Controller -->
+  <script src="engine/enginePhysics.js"></script>
+  <script src="engine/engineInput.js"></script>
+  <script src="engine/engineAudioSchedule.js"></script>
   <script src="petEngine.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const canvas = document.getElementById('petCanvas');
-      const engine = new PetEngine(canvas);
+      const initialData = (window.electronAPI && window.electronAPI.getInitialData) ? window.electronAPI.getInitialData() : {};
+      const engine = new PetEngine(canvas, initialData);
       engine.start();
 
       // Listen to IPC events from Electron main process
       if (window.electronAPI) {
         window.electronAPI.onSettingsUpdate((settings) => {
           if (settings.species) engine.setSpecies(settings.species);
+          if (settings.petSkins) engine.setPetSkins(settings.petSkins);
           if (settings.scale) engine.setScale(settings.scale);
           if (settings.sleepSchedule) engine.setScheduleConfig(settings.sleepSchedule);
           if (settings.groundMode || settings.floorOffset !== undefined || settings.taskbarHeight) {
@@ -49,8 +84,10 @@
 
         window.electronAPI.onTriggerAction((action) => {
           if (action === 'sleep') {
+            engine.isManualSleep = true;
             engine.transitioner.enterSleep(engine);
           } else if (action === 'wake') {
+            engine.isManualSleep = false;
             engine.transitioner.wakeUp(engine);
           } else if (action === 'dance') {
             engine.triggerTestDance(5);

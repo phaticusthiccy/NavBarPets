@@ -20,6 +20,23 @@ const I18N_DICTIONARY = {
     nav_reactions: "Müzik & Tepkiler",
     nav_settings: "Ayarlar & Tema",
 
+    // Sidebar Actions
+    sidebar_check_update: "Güncelleme Kontrol Et",
+    sidebar_developer: "Geliştirici",
+    sidebar_developer_title: "Geliştirici GitHub Profilini Aç (phaticusthiccy)",
+    sidebar_update_title: "GitHub üzerinden güncellemeleri denetle",
+
+    // Updates
+    update_checking: "Kontrol ediliyor...",
+    update_up_to_date_title: "Uygulama Güncel! 🎉",
+    update_up_to_date_desc: "NavBarPets en son sürümdesiniz",
+    update_available_title: "Yeni Sürüm Mevcut! 🚀",
+    update_available_desc: "yeni sürümü yayınlandı.",
+    update_btn_download: "İndir / GitHub",
+    update_btn_close: "Kapat",
+    update_error_title: "Bağlantı Hatası",
+    update_error_desc: "Güncellemeler denetlenirken bir sorun oluştu.",
+
     // Status Indicator
     status_active: "Görev Çubuğunda Aktif",
     status_unsupported: "⚠️ Görev Çubuğu Uygun Değil",
@@ -32,9 +49,19 @@ const I18N_DICTIONARY = {
     sanctuary_title: "Pet Sığınağı",
     sanctuary_subtitle: "Görev çubuğunda seninle yaşayacak sevimli yol arkadaşını seç",
     sanctuary_badge: "11 Özel Pet Türü",
+    pet_visibility_label: "Petleri Göster",
     badge_active_pet: "AKTİF",
     btn_select_active: "Aktif Pet",
     btn_select_pick: "Bu Peti Seç",
+    skin_selector_label: "Görünüm:",
+    skin_legendary: "Efsanevi",
+    skin_cool: "Efsanevi",
+    skin_classic: "Klasik",
+    skin_rarity_legendary: "✦ EFSANEVİ",
+    skin_rarity_classic: "★ KLASİK",
+    skin_tag_mythic: "MYTHIC CYBER",
+    skin_tag_retro: "ORIGINAL RETRO",
+    toast_skin_changed: "Görünüm değiştirildi: ",
 
     // TAB 2: Position & Ground
     position_title: "Boyut & Zemin Konumu",
@@ -202,6 +229,23 @@ const I18N_DICTIONARY = {
     nav_reactions: "Music & Reactions",
     nav_settings: "Settings & Theme",
 
+    // Sidebar Actions
+    sidebar_check_update: "Check for Updates",
+    sidebar_developer: "Developer",
+    sidebar_developer_title: "Open Developer GitHub Profile (phaticusthiccy)",
+    sidebar_update_title: "Check for latest releases on GitHub",
+
+    // Updates
+    update_checking: "Checking...",
+    update_up_to_date_title: "Up to Date! 🎉",
+    update_up_to_date_desc: "You are running the latest version of NavBarPets",
+    update_available_title: "New Update Available! 🚀",
+    update_available_desc: "has been released.",
+    update_btn_download: "Download / GitHub",
+    update_btn_close: "Dismiss",
+    update_error_title: "Connection Error",
+    update_error_desc: "Could not check for updates. Please verify your connection.",
+
     // Status Indicator
     status_active: "Active on Taskbar",
     status_unsupported: "⚠️ Taskbar Position Unsupported",
@@ -214,9 +258,19 @@ const I18N_DICTIONARY = {
     sanctuary_title: "Pet Sanctuary",
     sanctuary_subtitle: "Choose your adorable desktop companion to live on your Windows Taskbar",
     sanctuary_badge: "11 Unique Pets",
+    pet_visibility_label: "Show Pets",
     badge_active_pet: "ACTIVE",
     btn_select_active: "Active Pet",
     btn_select_pick: "Choose Pet",
+    skin_selector_label: "Skin:",
+    skin_legendary: "Legendary",
+    skin_cool: "Legendary",
+    skin_classic: "Classic",
+    skin_rarity_legendary: "✦ LEGENDARY",
+    skin_rarity_classic: "★ CLASSIC",
+    skin_tag_mythic: "MYTHIC CYBER",
+    skin_tag_retro: "ORIGINAL RETRO",
+    toast_skin_changed: "Skin changed to: ",
 
     // TAB 2: Position & Ground
     position_title: "Size & Ground Baseline",

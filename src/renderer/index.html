@@ -59,11 +59,25 @@
           </li>
         </ul>
 
-        <div class="sidebar-status">
-          <div class="status-indicator live"></div>
-          <div class="status-info">
-            <span class="status-title" id="activePetName">Neko Kedi</span>
-            <span class="status-state" id="petCurrentMood" data-i18n="status_active">Görev Çubuğunda Aktif</span>
+        <div class="sidebar-footer">
+          <div class="sidebar-actions">
+            <button type="button" class="sidebar-action-btn" id="btnCheckUpdate" data-i18n-title="sidebar_update_title" title="GitHub üzerinden güncellemeleri denetle">
+              <span class="action-btn-icon" id="updateBtnIcon">🔄</span>
+              <span class="action-btn-text" data-i18n="sidebar_check_update">Güncelleme Kontrol Et</span>
+            </button>
+            <button type="button" class="sidebar-action-btn developer-btn" id="btnDeveloper" data-i18n-title="sidebar_developer_title" title="Geliştirici GitHub Profilini Aç (phaticusthiccy)">
+              <span class="action-btn-icon">👨‍💻</span>
+              <span class="action-btn-text" data-i18n="sidebar_developer">Geliştirici</span>
+              <svg class="external-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </button>
+          </div>
+
+          <div class="sidebar-status">
+            <div class="status-indicator live"></div>
+            <div class="status-info">
+              <span class="status-title" id="activePetName">Neko Kedi</span>
+              <span class="status-state" id="petCurrentMood" data-i18n="status_active">Görev Çubuğunda Aktif</span>
+            </div>
           </div>
         </div>
       </nav>
@@ -87,7 +101,16 @@
               <h1 class="section-title" data-i18n="sanctuary_title">Pet Sığınağı</h1>
               <p class="section-subtitle" data-i18n="sanctuary_subtitle">Görev çubuğunda seninle yaşayacak sevimli yol arkadaşını seç</p>
             </div>
-            <div class="badge-live-count" data-i18n="sanctuary_badge">11 Özel Pet Türü</div>
+            <div class="section-header-actions">
+              <div class="pet-visibility-control" title="Petleri göster / gizle">
+                <span class="visibility-label" data-i18n="pet_visibility_label">Petleri Göster</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="togglePetVisibility" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="badge-live-count" data-i18n="sanctuary_badge">11 Özel Pet Türü</div>
+            </div>
           </div>
 
           <div class="pet-cards-grid" id="petCardsGrid">
@@ -290,181 +313,207 @@
             </div>
           </div>
 
-          <div class="settings-grid">
-            <!-- Language Selector Card -->
-            <div class="glass-card">
-              <div class="card-header">
-                <h3 data-i18n="language_title">🌐 Dil / Language</h3>
+          <div class="settings-layout">
+            <!-- Left Column: Language & Windows Cards -->
+            <div class="settings-column">
+              <!-- Language Selector Card -->
+              <div class="glass-card">
+                <div class="card-header">
+                  <h3 data-i18n="language_title">🌐 Dil / Language</h3>
+                </div>
+                <p class="card-desc" data-i18n="language_desc">Uygulama arayüzü ve sistem tepsisi dilini değiştirin.</p>
+                
+                <div class="language-picker-list">
+                  <div class="language-option active" data-lang="tr">
+                    <div class="lang-flag-box">
+                      <svg class="lang-flag-svg" viewBox="0 0 1200 800">
+                        <rect width="1200" height="800" fill="#E30A17"/>
+                        <circle cx="425" cy="400" r="200" fill="#ffffff"/>
+                        <circle cx="475" cy="400" r="160" fill="#E30A17"/>
+                        <polygon points="583.33,400 700.86,438.19 628.21,338.19 628.21,461.81 700.86,361.81" fill="#ffffff"/>
+                      </svg>
+                    </div>
+                    <div class="lang-info">
+                      <div class="lang-name-row">
+                        <span class="lang-name">Türkçe</span>
+                        <span class="lang-tag">TR</span>
+                      </div>
+                      <span class="lang-sub" data-i18n="lang_tr_sub">Varsayılan</span>
+                    </div>
+                    <span class="lang-check-icon">✓</span>
+                  </div>
+
+                  <div class="language-option" data-lang="en">
+                    <div class="lang-flag-box">
+                      <svg class="lang-flag-svg" viewBox="0 0 60 30">
+                        <rect width="60" height="30" fill="#012169"/>
+                        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
+                        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="3"/>
+                        <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/>
+                        <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
+                      </svg>
+                    </div>
+                    <div class="lang-info">
+                      <div class="lang-name-row">
+                        <span class="lang-name">English</span>
+                        <span class="lang-tag">EN</span>
+                      </div>
+                      <span class="lang-sub" data-i18n="lang_en_sub">International</span>
+                    </div>
+                    <span class="lang-check-icon">✓</span>
+                  </div>
+                </div>
               </div>
-              <p class="card-desc" data-i18n="language_desc">Uygulama arayüzü ve sistem tepsisi dilini değiştirin.</p>
-              
-              <div class="language-picker-grid">
-                <div class="language-option active" data-lang="tr">
-                  <div class="lang-flag">🇹🇷</div>
-                  <div class="lang-info">
-                    <span class="lang-name">Türkçe</span>
-                    <span class="lang-sub" data-i18n="lang_tr_sub">Varsayılan</span>
-                  </div>
-                  <span class="lang-check-icon">✓</span>
+
+              <!-- Windows Integration Card -->
+              <div class="glass-card">
+                <div class="card-header">
+                  <h3 data-i18n="windows_title">🚀 Windows Entegrasyonu</h3>
                 </div>
 
-                <div class="language-option" data-lang="en">
-                  <div class="lang-flag">🇺🇸</div>
-                  <div class="lang-info">
-                    <span class="lang-name">English</span>
-                    <span class="lang-sub" data-i18n="lang_en_sub">Uluslararası</span>
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <span class="setting-name" data-i18n="startup_name">Windows ile Birlikte Başlat</span>
+                    <span class="setting-hint" data-i18n="startup_hint">Bilgisayar açıldığında pet'in otomatik olarak görev çubuğuna gelsin</span>
                   </div>
-                  <span class="lang-check-icon">✓</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Interface Theme Picker Card -->
-            <div class="glass-card">
-              <div class="card-header">
-                <h3 data-i18n="theme_title">🎨 Arayüz Teması</h3>
-              </div>
-              <div class="theme-picker-grid">
-                <div class="theme-option active" data-theme="theme-midnight">
-                  <div class="theme-preview-card midnight-preview">
-                    <div class="palette-swatch-row">
-                      <span class="swatch" style="background: #6366f1;"></span>
-                      <span class="swatch" style="background: #8b5cf6;"></span>
-                      <span class="swatch" style="background: #06b6d4;"></span>
-                    </div>
-                  </div>
-                  <div class="theme-info-row">
-                    <span class="theme-name" data-i18n="theme_midnight">Midnight Glass</span>
-                    <span class="theme-check-icon">✓</span>
-                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleStartup">
+                    <span class="slider"></span>
+                  </label>
                 </div>
 
-                <div class="theme-option" data-theme="theme-cyber">
-                  <div class="theme-preview-card cyber-preview">
-                    <div class="palette-swatch-row">
-                      <span class="swatch" style="background: #00f5d4;"></span>
-                      <span class="swatch" style="background: #7b2cbf;"></span>
-                      <span class="swatch" style="background: #f72585;"></span>
-                    </div>
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <span class="setting-name" data-i18n="tray_name">Kapatıldığında Tepsiye Küçül</span>
+                    <span class="setting-hint" data-i18n="tray_hint">Pencereyi kapattığında gizli simgeler alanında çalışmaya devam eder</span>
                   </div>
-                  <div class="theme-info-row">
-                    <span class="theme-name" data-i18n="theme_cyber">Cyber Neon</span>
-                    <span class="theme-check-icon">✓</span>
-                  </div>
-                </div>
-
-                <div class="theme-option" data-theme="theme-pastel">
-                  <div class="theme-preview-card pastel-preview">
-                    <div class="palette-swatch-row">
-                      <span class="swatch" style="background: #ffafcc;"></span>
-                      <span class="swatch" style="background: #ffc8dd;"></span>
-                      <span class="swatch" style="background: #bde0fe;"></span>
-                    </div>
-                  </div>
-                  <div class="theme-info-row">
-                    <span class="theme-name" data-i18n="theme_pastel">Cozy Pastel</span>
-                    <span class="theme-check-icon">✓</span>
-                  </div>
-                </div>
-
-                <div class="theme-option" data-theme="theme-oled">
-                  <div class="theme-preview-card oled-preview">
-                    <div class="palette-swatch-row">
-                      <span class="swatch" style="background: #ffffff;"></span>
-                      <span class="swatch" style="background: #a3a3a3;"></span>
-                      <span class="swatch" style="background: #22c55e;"></span>
-                    </div>
-                  </div>
-                  <div class="theme-info-row">
-                    <span class="theme-name" data-i18n="theme_oled">Deep OLED</span>
-                    <span class="theme-check-icon">✓</span>
-                  </div>
-                </div>
-
-                <div class="theme-option" data-theme="theme-sunset">
-                  <div class="theme-preview-card sunset-preview">
-                    <div class="palette-swatch-row">
-                      <span class="swatch" style="background: #ff758f;"></span>
-                      <span class="swatch" style="background: #ffb703;"></span>
-                      <span class="swatch" style="background: #fb8500;"></span>
-                    </div>
-                  </div>
-                  <div class="theme-info-row">
-                    <span class="theme-name" data-i18n="theme_sunset">Sunset Aurora</span>
-                    <span class="theme-check-icon">✓</span>
-                  </div>
-                </div>
-
-                <div class="theme-option" data-theme="theme-emerald">
-                  <div class="theme-preview-card emerald-preview">
-                    <div class="palette-swatch-row">
-                      <span class="swatch" style="background: #10b981;"></span>
-                      <span class="swatch" style="background: #34d399;"></span>
-                      <span class="swatch" style="background: #6ee7b7;"></span>
-                    </div>
-                  </div>
-                  <div class="theme-info-row">
-                    <span class="theme-name" data-i18n="theme_emerald">Emerald Forest</span>
-                    <span class="theme-check-icon">✓</span>
-                  </div>
-                </div>
-
-                <div class="theme-option" data-theme="theme-dracula">
-                  <div class="theme-preview-card dracula-preview">
-                    <div class="palette-swatch-row">
-                      <span class="swatch" style="background: #e63946;"></span>
-                      <span class="swatch" style="background: #9d4edd;"></span>
-                      <span class="swatch" style="background: #ff007f;"></span>
-                    </div>
-                  </div>
-                  <div class="theme-info-row">
-                    <span class="theme-name" data-i18n="theme_dracula">Vampire Velvet</span>
-                    <span class="theme-check-icon">✓</span>
-                  </div>
-                </div>
-
-                <div class="theme-option" data-theme="theme-nordic">
-                  <div class="theme-preview-card nordic-preview">
-                    <div class="palette-swatch-row">
-                      <span class="swatch" style="background: #38bdf8;"></span>
-                      <span class="swatch" style="background: #67e8f9;"></span>
-                      <span class="swatch" style="background: #93c5fd;"></span>
-                    </div>
-                  </div>
-                  <div class="theme-info-row">
-                    <span class="theme-name" data-i18n="theme_nordic">Nordic Frost</span>
-                    <span class="theme-check-icon">✓</span>
-                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleMinimizeToTray" checked>
+                    <span class="slider"></span>
+                  </label>
                 </div>
               </div>
             </div>
 
-            <!-- Windows Integration Card -->
-            <div class="glass-card">
-              <div class="card-header">
-                <h3 data-i18n="windows_title">🚀 Windows Entegrasyonu</h3>
-              </div>
-
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-name" data-i18n="startup_name">Windows ile Birlikte Başlat</span>
-                  <span class="setting-hint" data-i18n="startup_hint">Bilgisayar açıldığında pet'in otomatik olarak görev çubuğuna gelsin</span>
+            <!-- Right Column: Interface Theme Picker Card -->
+            <div class="settings-column">
+              <div class="glass-card">
+                <div class="card-header">
+                  <h3 data-i18n="theme_title">🎨 Arayüz Teması</h3>
                 </div>
-                <label class="toggle-switch">
-                  <input type="checkbox" id="toggleStartup">
-                  <span class="slider"></span>
-                </label>
-              </div>
+                <div class="theme-picker-grid">
+                  <div class="theme-option active" data-theme="theme-midnight">
+                    <div class="theme-preview-card midnight-preview">
+                      <div class="palette-swatch-row">
+                        <span class="swatch" style="background: #6366f1;"></span>
+                        <span class="swatch" style="background: #8b5cf6;"></span>
+                        <span class="swatch" style="background: #06b6d4;"></span>
+                      </div>
+                    </div>
+                    <div class="theme-info-row">
+                      <span class="theme-name" data-i18n="theme_midnight">Midnight Glass</span>
+                      <span class="theme-check-icon">✓</span>
+                    </div>
+                  </div>
 
-              <div class="setting-row">
-                <div class="setting-info">
-                  <span class="setting-name" data-i18n="tray_name">Kapatıldığında Tepsiye Küçül</span>
-                  <span class="setting-hint" data-i18n="tray_hint">Pencereyi kapattığında gizli simgeler alanında çalışmaya devam eder</span>
+                  <div class="theme-option" data-theme="theme-cyber">
+                    <div class="theme-preview-card cyber-preview">
+                      <div class="palette-swatch-row">
+                        <span class="swatch" style="background: #00f5d4;"></span>
+                        <span class="swatch" style="background: #7b2cbf;"></span>
+                        <span class="swatch" style="background: #f72585;"></span>
+                      </div>
+                    </div>
+                    <div class="theme-info-row">
+                      <span class="theme-name" data-i18n="theme_cyber">Cyber Neon</span>
+                      <span class="theme-check-icon">✓</span>
+                    </div>
+                  </div>
+
+                  <div class="theme-option" data-theme="theme-pastel">
+                    <div class="theme-preview-card pastel-preview">
+                      <div class="palette-swatch-row">
+                        <span class="swatch" style="background: #ffafcc;"></span>
+                        <span class="swatch" style="background: #ffc8dd;"></span>
+                        <span class="swatch" style="background: #bde0fe;"></span>
+                      </div>
+                    </div>
+                    <div class="theme-info-row">
+                      <span class="theme-name" data-i18n="theme_pastel">Cozy Pastel</span>
+                      <span class="theme-check-icon">✓</span>
+                    </div>
+                  </div>
+
+                  <div class="theme-option" data-theme="theme-oled">
+                    <div class="theme-preview-card oled-preview">
+                      <div class="palette-swatch-row">
+                        <span class="swatch" style="background: #ffffff;"></span>
+                        <span class="swatch" style="background: #a3a3a3;"></span>
+                        <span class="swatch" style="background: #22c55e;"></span>
+                      </div>
+                    </div>
+                    <div class="theme-info-row">
+                      <span class="theme-name" data-i18n="theme_oled">Deep OLED</span>
+                      <span class="theme-check-icon">✓</span>
+                    </div>
+                  </div>
+
+                  <div class="theme-option" data-theme="theme-sunset">
+                    <div class="theme-preview-card sunset-preview">
+                      <div class="palette-swatch-row">
+                        <span class="swatch" style="background: #ff758f;"></span>
+                        <span class="swatch" style="background: #ffb703;"></span>
+                        <span class="swatch" style="background: #fb8500;"></span>
+                      </div>
+                    </div>
+                    <div class="theme-info-row">
+                      <span class="theme-name" data-i18n="theme_sunset">Sunset Aurora</span>
+                      <span class="theme-check-icon">✓</span>
+                    </div>
+                  </div>
+
+                  <div class="theme-option" data-theme="theme-emerald">
+                    <div class="theme-preview-card emerald-preview">
+                      <div class="palette-swatch-row">
+                        <span class="swatch" style="background: #10b981;"></span>
+                        <span class="swatch" style="background: #34d399;"></span>
+                        <span class="swatch" style="background: #6ee7b7;"></span>
+                      </div>
+                    </div>
+                    <div class="theme-info-row">
+                      <span class="theme-name" data-i18n="theme_emerald">Emerald Forest</span>
+                      <span class="theme-check-icon">✓</span>
+                    </div>
+                  </div>
+
+                  <div class="theme-option" data-theme="theme-dracula">
+                    <div class="theme-preview-card dracula-preview">
+                      <div class="palette-swatch-row">
+                        <span class="swatch" style="background: #e63946;"></span>
+                        <span class="swatch" style="background: #9d4edd;"></span>
+                        <span class="swatch" style="background: #ff007f;"></span>
+                      </div>
+                    </div>
+                    <div class="theme-info-row">
+                      <span class="theme-name" data-i18n="theme_dracula">Vampire Velvet</span>
+                      <span class="theme-check-icon">✓</span>
+                    </div>
+                  </div>
+
+                  <div class="theme-option" data-theme="theme-nordic">
+                    <div class="theme-preview-card nordic-preview">
+                      <div class="palette-swatch-row">
+                        <span class="swatch" style="background: #38bdf8;"></span>
+                        <span class="swatch" style="background: #67e8f9;"></span>
+                        <span class="swatch" style="background: #93c5fd;"></span>
+                      </div>
+                    </div>
+                    <div class="theme-info-row">
+                      <span class="theme-name" data-i18n="theme_nordic">Nordic Frost</span>
+                      <span class="theme-check-icon">✓</span>
+                    </div>
+                  </div>
                 </div>
-                <label class="toggle-switch">
-                  <input type="checkbox" id="toggleMinimizeToTray" checked>
-                  <span class="slider"></span>
-                </label>
               </div>
             </div>
           </div>
@@ -474,9 +523,82 @@
     </div>
   </div>
 
+  <!-- Pet Wardrobe & Skin Showcase Modal -->
+  <div id="wardrobeModal" class="wardrobe-modal-overlay" style="display: none;">
+    <div class="wardrobe-modal-card">
+      <div class="wardrobe-header">
+        <div class="wardrobe-header-title">
+          <span>✨</span>
+          <span id="wardrobePetTitle">Pet Görünüm Vitrini</span>
+        </div>
+        <button type="button" class="wardrobe-close-btn" id="btnWardrobeClose" title="Kapat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="wardrobe-body">
+        <!-- Turntable Live Large Preview -->
+        <div class="wardrobe-turntable-container" id="wardrobeTurntableBox">
+          <canvas id="wardrobePreviewCanvas" width="160" height="160" class="wardrobe-turntable-canvas"></canvas>
+          <div class="wardrobe-pose-selector">
+            <button type="button" class="wardrobe-pose-btn active" data-pose="idle_breathe">Breathe</button>
+            <button type="button" class="wardrobe-pose-btn" data-pose="walk_normal">Walk</button>
+            <button type="button" class="wardrobe-pose-btn" data-pose="dance_disco_paws">Dance</button>
+            <button type="button" class="wardrobe-pose-btn" data-pose="sleep_curled">Sleep</button>
+          </div>
+        </div>
+
+        <!-- Side-by-Side Skins Showcase Grid -->
+        <div class="wardrobe-skins-grid" id="wardrobeSkinsGrid">
+          <!-- Populated dynamically by sanctuaryModule.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update Notification Modal -->
+  <div id="updateModal" class="update-modal-overlay" style="display: none;">
+    <div class="update-modal-card">
+      <div class="update-modal-icon" id="updateModalIcon">🚀</div>
+      <h3 class="update-modal-title" id="updateModalTitle">Yeni Güncelleme Mevcut!</h3>
+      <p class="update-modal-desc" id="updateModalDesc">NavBarPets yeni sürümü yayınlandı.</p>
+      <div class="update-modal-actions">
+        <button type="button" class="btn-modal-action primary" id="btnUpdateDownload" data-i18n="update_btn_download">İndir / GitHub</button>
+        <button type="button" class="btn-modal-action secondary" id="btnUpdateClose" data-i18n="update_btn_close">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Toast Notification -->
+  <div id="appToast" class="app-toast" style="display: none;">
+    <span class="toast-icon" id="toastIcon">✨</span>
+    <span class="toast-message" id="toastMessage">Bildirim mesajı</span>
+  </div>
+
+  <script src="../overlay/renderers/sharedHelpers.js"></script>
+  <script src="../overlay/renderers/nekoRenderer.js"></script>
+  <script src="../overlay/renderers/shibaRenderer.js"></script>
+  <script src="../overlay/renderers/slimeRenderer.js"></script>
+  <script src="../overlay/renderers/dragonRenderer.js"></script>
+  <script src="../overlay/renderers/duckRenderer.js"></script>
+  <script src="../overlay/renderers/foxRenderer.js"></script>
+  <script src="../overlay/renderers/bunnyRenderer.js"></script>
+  <script src="../overlay/renderers/penguinRenderer.js"></script>
+  <script src="../overlay/renderers/jettRenderer.js"></script>
+  <script src="../overlay/renderers/marioRenderer.js"></script>
+  <script src="../overlay/renderers/pikachuRenderer.js"></script>
   <script src="../overlay/petRenderer.js"></script>
+  <script src="../overlay/behaviors/idleBehaviors.js"></script>
+  <script src="../overlay/behaviors/locomotionBehaviors.js"></script>
+  <script src="../overlay/behaviors/danceBehaviors.js"></script>
+  <script src="../overlay/behaviors/playSleepInteractBehaviors.js"></script>
+  <script src="../overlay/behaviors/speciesModifiers.js"></script>
   <script src="../overlay/animationBehaviors.js"></script>
   <script src="i18n.js"></script>
+  <script src="modules/sanctuaryModule.js"></script>
+  <script src="modules/telemetryModule.js"></script>
+  <script src="modules/settingsModule.js"></script>
+  <script src="modules/eventBinder.js"></script>
   <script src="dashboard.js"></script>
 </body>
 </html>

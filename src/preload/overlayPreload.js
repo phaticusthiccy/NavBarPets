@@ -5,7 +5,17 @@
 
 const { contextBridge, ipcRenderer } = require('electron');
 
+let initialOverlayData = null;
+try {
+  initialOverlayData = ipcRenderer.sendSync('get-initial-overlay-data');
+} catch (err) {
+  console.warn('[OverlayPreload] Could not fetch initial synchronous overlay data:', err);
+}
+
 contextBridge.exposeInMainWorld('electronAPI', {
+  /** Synchronous bootstrap payload containing settings, taskbar geometry, and initial media status */
+  getInitialData: () => initialOverlayData,
+
   /** Subscribes to application configuration updates */
   onSettingsUpdate: (callback) => {
     ipcRenderer.on('settings-updated', (_event, settings) => callback(settings));

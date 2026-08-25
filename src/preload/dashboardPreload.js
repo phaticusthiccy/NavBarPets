@@ -46,5 +46,14 @@ contextBridge.exposeInMainWorld('dashboardAPI', {
   /** Subscribes to real-time media playback updates */
   onMediaStatus: (callback) => {
     ipcRenderer.on('media-status-updated', (_event, status) => callback(status));
-  }
+  },
+
+  /** Opens external URL in default browser */
+  openExternalUrl: (url) => ipcRenderer.invoke('open-external-url', url),
+
+  /** Retrieves current application version string */
+  getAppVersion: () => ipcRenderer.invoke('get-app-version'),
+
+  /** Checks for remote updates via GitHub Releases API */
+  checkForUpdates: () => ipcRenderer.invoke('check-for-updates')
 });

@@ -6,7 +6,7 @@
  * and active fullscreen application detection for dynamic power management.
  */
 
-const { app, BrowserWindow, screen, ipcMain, nativeTheme } = require('electron');
+const { app, BrowserWindow, screen, ipcMain, nativeTheme, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -49,6 +49,7 @@ class MainApp {
    */
   loadSettings() {
     const defaultSettings = {
+      enabled: true, // Master toggle for pet overlay visibility
       species: 'neko',
       scale: 1.0,
       theme: 'theme-midnight',
@@ -57,6 +58,7 @@ class MainApp {
       minimizeToTray: true,
       groundMode: 'taskbar_bottom', // 'taskbar_bottom' (screen bottom baseline) or 'taskbar_top' (taskbar top shelf)
       floorOffset: 0, // Fine-tuning vertical offset in pixels (-40 to +40)
+      petSkins: {},
       audio: {
         enabled: true,
         sensitivity: 0.5
@@ -111,6 +113,9 @@ class MainApp {
     app.whenReady().then(() => {
       const { trayIconPath, appIconPath } = ensureIcons();
 
+      // Register IPC handlers FIRST so synchronous preload requests are ready immediately
+      this.setupIPCHandlers();
+
       this.createOverlayWindow();
       this.createDashboardWindow(appIconPath);
       this.tray = new AppTray(trayIconPath, this);
@@ -127,7 +132,6 @@ class MainApp {
       });
       this.fullscreenDetector.start(1200);
 
-      this.setupIPCHandlers();
       this.setupScreenEvents();
 
       // Show dashboard on standard launch unless launched with --hidden flag
@@ -157,29 +161,27 @@ class MainApp {
   }
 
   /**
-   * Creates the transparent, click-through overlay window positioned above the taskbar.
+   * Creates the transparent, click-through overlay window covering the screen.
    */
   createOverlayWindow() {
+    const primaryDisplay = screen.getPrimaryDisplay();
+    const { bounds } = primaryDisplay;
     const taskbarInfo = TaskbarDetector.getTaskbarInfo();
-    const overlayHeight = 140;
-    const { width, height } = taskbarInfo.bounds;
-    const overlayX = taskbarInfo.bounds.x || 0;
-    const overlayY = (taskbarInfo.bounds.y || 0) + height - overlayHeight;
 
     this.overlayWindow = new BrowserWindow({
-      width: width,
-      height: overlayHeight,
-      x: overlayX,
-      y: overlayY,
+      x: bounds.x,
+      y: bounds.y,
+      width: bounds.width,
+      height: bounds.height,
       transparent: true,
       frame: false,
       alwaysOnTop: true,
       skipTaskbar: true,
       hasShadow: false,
       resizable: false,
+      movable: false,
       focusable: false, // Prevents window focus stealing while staying on top of all windows
-      type: 'toolbar', // System toolbar window type on Windows
-      show: taskbarInfo.isValid,
+      show: false, // Prevents visible size-jumping before DOM/canvas layout is rendered
       webPreferences: {
         preload: path.join(__dirname, '..', 'preload', 'overlayPreload.js'),
         nodeIntegration: false,
@@ -188,15 +190,28 @@ class MainApp {
       }
     });
 
+    // Enforce exact screen bounds
+    this.overlayWindow.setBounds({
+      x: bounds.x,
+      y: bounds.y,
+      width: bounds.width,
+      height: bounds.height
+    });
+
     // Enforce top-level Z-order above all standard application windows
     this.overlayWindow.setAlwaysOnTop(true, 'screen-saver', 999);
-    this.overlayWindow.setVisibleOnAllWorkspaces(true);
-    this.overlayWindow.moveTop();
-
-    // Initially ignore mouse events so Windows taskbar remains 100% interactive
+    this.overlayWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
     this.overlayWindow.setIgnoreMouseEvents(true, { forward: true });
 
     this.overlayWindow.loadFile(path.join(__dirname, '..', 'overlay', 'overlay.html'));
+
+    // Reveal overlay window only after initial layout is computed to guarantee zero visual popping
+    this.overlayWindow.once('ready-to-show', () => {
+      if (taskbarInfo.isValid && !this.isFullscreenApp) {
+        this.overlayWindow.showInactive();
+        this.overlayWindow.moveTop();
+      }
+    });
 
     this.overlayWindow.webContents.on('did-finish-load', () => {
       this.overlayWindow.webContents.send('settings-updated', {
@@ -218,15 +233,15 @@ class MainApp {
     this.isFullscreenApp = isFullscreen;
     if (!this.overlayWindow || this.overlayWindow.isDestroyed()) return;
 
-    if (isFullscreen) {
-      // Fullscreen application active: Hide overlay completely and pause render loop (0% CPU/GPU)
+    if (isFullscreen || this.settings.enabled === false) {
+      // Fullscreen application active or disabled: Hide overlay completely and pause render loop (0% CPU/GPU)
       this.overlayWindow.hide();
       this.overlayWindow.webContents.send('set-paused', true);
     } else {
       // Fullscreen application closed/minimized: Restore overlay, resume render loop, and enforce top Z-order
       const taskbarInfo = TaskbarDetector.getTaskbarInfo();
-      if (taskbarInfo.isValid) {
-        this.overlayWindow.show();
+      if (taskbarInfo.isValid && this.settings.enabled !== false) {
+        this.overlayWindow.showInactive();
         this.overlayWindow.setAlwaysOnTop(true, 'screen-saver', 999);
         this.overlayWindow.moveTop();
         this.overlayWindow.webContents.send('set-paused', false);
@@ -241,27 +256,30 @@ class MainApp {
     if (!this.overlayWindow || this.overlayWindow.isDestroyed()) return;
 
     const taskbarInfo = TaskbarDetector.getTaskbarInfo();
-    const overlayHeight = 140;
 
-    if (!taskbarInfo.isValid || this.isFullscreenApp) {
+    if (this.settings.enabled === false || !taskbarInfo.isValid || this.isFullscreenApp) {
       this.overlayWindow.hide();
+      this.overlayWindow.webContents.send('set-paused', true);
       this.broadcastTaskbarStatus(taskbarInfo);
       return;
     }
 
     const { width, height } = taskbarInfo.bounds;
     const overlayX = taskbarInfo.bounds.x || 0;
-    const overlayY = (taskbarInfo.bounds.y || 0) + height - overlayHeight;
+    const overlayY = taskbarInfo.bounds.y || 0;
+    const overlayWidth = width;
+    const overlayHeight = height;
 
     this.overlayWindow.setBounds({
       x: overlayX,
       y: overlayY,
-      width: width,
+      width: overlayWidth,
       height: overlayHeight
     });
 
-    if (!this.overlayWindow.isVisible() && !this.isFullscreenApp) {
-      this.overlayWindow.show();
+    if (!this.overlayWindow.isVisible() && !this.isFullscreenApp && this.settings.enabled !== false) {
+      this.overlayWindow.showInactive();
+      this.overlayWindow.webContents.send('set-paused', false);
     }
 
     // Maintain top Z-order dominance
@@ -350,6 +368,14 @@ class MainApp {
    * @param {string} action - Action command ('sleep', 'wake', 'dance', 'pet')
    */
   triggerAction(action) {
+    if (action === 'sleep') {
+      this.isPetSleeping = true;
+      if (this.tray) this.tray.updateContextMenu();
+    } else if (action === 'wake') {
+      this.isPetSleeping = false;
+      if (this.tray) this.tray.updateContextMenu();
+    }
+
     if (this.overlayWindow && !this.overlayWindow.isDestroyed()) {
       this.overlayWindow.webContents.send('trigger-action', action);
     }
@@ -419,6 +445,16 @@ class MainApp {
    * Registers IPC handlers for renderer communication.
    */
   setupIPCHandlers() {
+    // Synchronous initial overlay data (instant millisecond-0 bootstrap)
+    ipcMain.on('get-initial-overlay-data', (event) => {
+      const taskbarInfo = TaskbarDetector.getTaskbarInfo();
+      event.returnValue = {
+        settings: this.settings,
+        taskbarHeight: taskbarInfo.height,
+        mediaStatus: this.mediaDetector ? this.mediaDetector.getStatus() : null
+      };
+    });
+
     ipcMain.handle('get-settings', () => {
       return this.settings;
     });
@@ -441,6 +477,7 @@ class MainApp {
       this.saveSettingsToFile();
       this.broadcastSettings();
       if (this.tray) this.tray.updateContextMenu();
+      this.updateOverlayPosition();
       return true;
     });
 
@@ -482,6 +519,69 @@ class MainApp {
         }
       }
     });
+
+    ipcMain.handle('open-external-url', (_event, url) => {
+      if (url && (url.startsWith('https://') || url.startsWith('http://'))) {
+        shell.openExternal(url);
+        return true;
+      }
+      return false;
+    });
+
+    ipcMain.handle('get-app-version', () => {
+      return app.getVersion();
+    });
+
+    ipcMain.handle('check-for-updates', async () => {
+      const currentVersion = app.getVersion();
+      try {
+        const response = await fetch('https://api.github.com/repos/phaticusthiccy/NavBarPets/releases/latest', {
+          headers: { 'User-Agent': 'NavBarPets-App' }
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const data = await response.json();
+        const latestTag = (data.tag_name || '').replace(/^v/, '');
+        const hasUpdate = this.isNewerVersion(latestTag, currentVersion);
+        return {
+          success: true,
+          currentVersion,
+          latestVersion: latestTag || currentVersion,
+          hasUpdate,
+          releaseUrl: data.html_url || 'https://github.com/phaticusthiccy/NavBarPets/releases/latest',
+          releaseName: data.name || data.tag_name,
+          releaseNotes: data.body || ''
+        };
+      } catch (err) {
+        return {
+          success: false,
+          currentVersion,
+          error: err.message,
+          releaseUrl: 'https://github.com/phaticusthiccy/NavBarPets/releases/latest'
+        };
+      }
+    });
+  }
+
+  /**
+   * Compares two semantic version strings to determine if a newer version is available.
+   * @param {string} latest - Remote latest version string (e.g. '1.2.0')
+   * @param {string} current - Local app version string (e.g. '1.1.0')
+   * @returns {boolean}
+   */
+  isNewerVersion(latest, current) {
+    if (!latest || !current) return false;
+    const lParts = latest.split('.').map(n => parseInt(n, 10) || 0);
+    const cParts = current.split('.').map(n => parseInt(n, 10) || 0);
+    const maxLen = Math.max(lParts.length, cParts.length);
+    for (let i = 0; i < maxLen; i++) {
+      const l = lParts[i] || 0;
+      const c = cParts[i] || 0;
+      if (l > c) return true;
+      if (l < c) return false;
+    }
+    return false;
   }
 
   /**

@@ -1,28 +1,51 @@
 /**
  * @file petEngine.js
- * @description Core Pet Simulation & Animation Engine for NavBarPets.
- * Coordinates 60 FPS physics loops, skeletal pose blending, pointer event capture,
- * floor geometry alignment, audio reactions, and sleep schedule timers.
+ * @description Core Pet Simulation & Animation Master Controller for NavBarPets.
+ * Coordinates 60 FPS physics loops, skeletal pose blending, rendering, and merges modular engine subsystems.
  */
+
+let _ParticleSystem = (typeof globalThis !== 'undefined' && globalThis.ParticleSystem) || null;
+let _PetRenderer = (typeof globalThis !== 'undefined' && globalThis.PetRenderer) || null;
+let _AnimationBehaviors = (typeof globalThis !== 'undefined' && globalThis.AnimationBehaviors) || null;
+let _StateTransitioner = (typeof globalThis !== 'undefined' && globalThis.StateTransitioner) || null;
+let _AudioReactive = (typeof globalThis !== 'undefined' && globalThis.AudioReactive) || null;
+
+if (typeof require !== 'undefined') {
+  if (!_ParticleSystem) try { _ParticleSystem = require('./particleSystem.js'); } catch (e) {}
+  if (!_PetRenderer) try { _PetRenderer = require('./petRenderer.js'); } catch (e) {}
+  if (!_AnimationBehaviors) try { _AnimationBehaviors = require('./animationBehaviors.js'); } catch (e) {}
+  if (!_StateTransitioner) try { _StateTransitioner = require('./stateTransitioner.js'); } catch (e) {}
+  if (!_AudioReactive) try { _AudioReactive = require('./audioReactive.js'); } catch (e) {}
+}
 
 class PetEngine {
   /**
    * @param {HTMLCanvasElement} canvas
+   * @param {Object} [initialConfig={}] - Synchronous bootstrap data
    */
-  constructor(canvas) {
+  constructor(canvas, initialConfig = {}) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
 
     // Subsystems
-    this.particles = new ParticleSystem();
-    this.renderer = new PetRenderer();
-    this.behaviors = new AnimationBehaviors();
-    this.transitioner = new StateTransitioner(this.behaviors, this.particles);
-    this.audio = new AudioReactive();
+    const PS = _ParticleSystem || (typeof window !== 'undefined' && window.ParticleSystem) || (typeof globalThis !== 'undefined' && globalThis.ParticleSystem);
+    const PR = _PetRenderer || (typeof window !== 'undefined' && window.PetRenderer) || (typeof globalThis !== 'undefined' && globalThis.PetRenderer);
+    const AB = _AnimationBehaviors || (typeof window !== 'undefined' && window.AnimationBehaviors) || (typeof globalThis !== 'undefined' && globalThis.AnimationBehaviors);
+    const ST = _StateTransitioner || (typeof window !== 'undefined' && window.StateTransitioner) || (typeof globalThis !== 'undefined' && globalThis.StateTransitioner);
+    const AR = _AudioReactive || (typeof window !== 'undefined' && window.AudioReactive) || (typeof globalThis !== 'undefined' && globalThis.AudioReactive);
+
+    this.particles = new PS();
+    this.renderer = new PR();
+    this.behaviors = new AB();
+    this.transitioner = new ST(this.behaviors, this.particles);
+    this.audio = new AR();
+
+    const s = initialConfig.settings || {};
 
     // Pet Configuration
-    this.species = 'neko';
-    this.scale = 1.0;
+    this.species = s.species || 'neko';
+    this.petSkins = s.petSkins || {};
+    this.scale = s.scale !== undefined ? s.scale : 1.0;
     this.facing = 1; // 1: Facing right, -1: Facing left
     this.accessories = {
       hat: false,
@@ -32,10 +55,17 @@ class PetEngine {
 
     // Position, Floor Baseline & Kinematics
     this.x = 200;
-    this.groundMode = 'taskbar_bottom';
-    this.floorOffset = 0;
-    this.taskbarHeight = 48;
-    this.floorY = 126;
+    this.groundMode = s.groundMode || 'taskbar_bottom';
+    this.floorOffset = s.floorOffset !== undefined ? s.floorOffset : 0;
+    this.taskbarHeight = initialConfig.taskbarHeight || 48;
+    this.hasInitializedBaseline = true;
+
+    // Canvas Resize & Geometry Sync
+    this.resize();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', () => this.resize());
+    }
+
     this.y = this.floorY;
     this.vx = 0;
     this.vy = 0;
@@ -53,314 +83,33 @@ class PetEngine {
       sleepTime: '23:00',
       wakeTime: '08:00'
     };
+    if (s.sleepSchedule) this.setScheduleConfig(s.sleepSchedule);
+    this.isManualSleep = false;
 
     // Frame Loop Timing
-    this.lastTime = performance.now();
+    this.lastTime = (typeof performance !== 'undefined') ? performance.now() : Date.now();
     this.isRunning = false;
 
     // Audio & Dance State
     this.isMusicActive = false;
-    this.audioDanceEnabled = false;
+    this.audioDanceEnabled = s.audio?.enabled || false;
+    if (s.audio) this.setAudioDanceConfig(s.audio.enabled, s.audio.sensitivity);
     this.setupAudioListeners();
 
-    // Canvas Resize & Geometry Sync
-    this.resize();
-    window.addEventListener('resize', () => this.resize());
+    if (initialConfig.mediaStatus) {
+      this.setMediaStatus(initialConfig.mediaStatus);
+    }
 
     // Mouse & Pointer Interactions
-    this.setupMouseEvents();
+    if (typeof window !== 'undefined') {
+      this.setupMouseEvents();
+    }
 
     // Sleep Schedule Heartbeat
     this.scheduleInterval = setInterval(() => this.checkSleepSchedule(), 5000);
-  }
-
-  /**
-   * Computes the vertical floor baseline in canvas coordinates based on ground mode.
-   * @returns {number} Target floor Y coordinate
-   */
-  calculateFloorY() {
-    const tbH = this.taskbarHeight || 48;
-    // Screen bottom baseline (sits directly on display bottom edge)
-    let baseFloor = this.canvas.height - 4;
-
-    if (this.groundMode === 'taskbar_top') {
-      // Taskbar top shelf (sits on top of taskbar icons)
-      baseFloor = this.canvas.height - tbH + 4;
+    if (this.scheduleInterval && typeof this.scheduleInterval.unref === 'function') {
+      this.scheduleInterval.unref();
     }
-
-    return baseFloor + (this.floorOffset || 0);
-  }
-
-  /**
-   * Resizes canvas to match overlay window viewport and recalculates ground baseline.
-   */
-  resize() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.floorY = this.calculateFloorY();
-    if (!this.isDragging) {
-      this.y = this.floorY;
-    }
-  }
-
-  /**
-   * Updates ground configuration, fine-tuning offset, and taskbar height.
-   * @param {string} [mode] - Ground mode ('taskbar_bottom' or 'taskbar_top')
-   * @param {number} [offset] - Vertical fine-tuning offset
-   * @param {number} [tbH] - Taskbar height in pixels
-   */
-  setGroundConfig(mode, offset, tbH) {
-    if (mode !== undefined) this.groundMode = mode;
-    if (offset !== undefined) this.floorOffset = offset;
-    if (tbH !== undefined) this.taskbarHeight = tbH;
-    this.floorY = this.calculateFloorY();
-    if (!this.isDragging) {
-      this.y = this.floorY;
-    }
-  }
-
-  /**
-   * Updates audio & dance configuration and triggers/stops dancing immediately based on active music state.
-   * @param {boolean} enabled - Whether dance is enabled
-   * @param {number} [sensitivity] - Sensitivity value
-   */
-  setAudioDanceConfig(enabled, sensitivity) {
-    if (enabled !== undefined) {
-      this.audioDanceEnabled = !!enabled;
-      this.audio.enabled = !!enabled;
-    }
-    if (sensitivity !== undefined) {
-      this.audio.sensitivity = sensitivity;
-    }
-
-    if (this.audioDanceEnabled && this.isMusicActive) {
-      if (this.transitioner.currentState !== 'sleep' && this.transitioner.currentState !== 'drag' && this.transitioner.currentState !== 'dance') {
-        this.transitioner.handleMusicStart(this);
-      }
-    } else {
-      if (this.transitioner.currentState === 'dance') {
-        this.transitioner.handleMusicStop(this);
-      }
-    }
-  }
-
-  /**
-   * Updates real-time media playback state from Electron main process.
-   * @param {Object} status - Media status payload
-   */
-  setMediaStatus(status) {
-    if (!status) return;
-    this.lastMediaStatus = status;
-
-    if (this.isTestDancing) return;
-
-    this.isMusicActive = !!status.isPlaying;
-
-    if (this.isMusicActive && this.audioDanceEnabled) {
-      if (this.transitioner.currentState !== 'sleep' && this.transitioner.currentState !== 'drag' && this.transitioner.currentState !== 'dance') {
-        this.transitioner.handleMusicStart(this);
-      }
-    } else {
-      if (this.transitioner.currentState === 'dance') {
-        this.transitioner.handleMusicStop(this);
-      }
-    }
-  }
-
-  /**
-   * Triggers a temporary test music dance sequence.
-   * @param {number} [durationSec=5.0]
-   */
-  triggerTestDance(durationSec = 5.0) {
-    if (this.transitioner.currentState === 'sleep' || this.transitioner.currentState === 'drag' || this.transitioner.currentState === 'fall') {
-      return;
-    }
-    this.isTestDancing = true;
-    this.isMusicActive = true;
-    this.transitioner.handleMusicStart(this);
-
-    if (this.testDanceTimeout) {
-      clearTimeout(this.testDanceTimeout);
-    }
-
-    this.testDanceTimeout = setTimeout(() => {
-      this.isTestDancing = false;
-      if (!this.lastMediaStatus || !this.lastMediaStatus.isPlaying) {
-        this.isMusicActive = false;
-        this.transitioner.handleMusicStop(this);
-      }
-    }, durationSec * 1000);
-  }
-
-  /**
-   * Configures Web Audio API beat listeners and music state callbacks.
-   */
-  setupAudioListeners() {
-    this.audio.onBeat = (energy) => {
-      if (this.transitioner.currentState === 'dance') {
-        this.particles.spawnMusicNotes(this.x, this.y - 20, 2);
-      }
-    };
-
-    this.audio.onMusicStateChange = (isPlaying, energy) => {
-      if (isPlaying) {
-        this.isMusicActive = true;
-        if (this.audioDanceEnabled && this.transitioner.currentState !== 'sleep' && this.transitioner.currentState !== 'drag') {
-          this.transitioner.handleMusicStart(this);
-        }
-      } else {
-        this.isMusicActive = false;
-        if (this.transitioner.currentState === 'dance') {
-          this.transitioner.handleMusicStop(this);
-        }
-      }
-    };
-  }
-
-  /**
-   * Registers global pointer events and pointer capture handlers.
-   */
-  setupMouseEvents() {
-    this.isHovering = false;
-    this.dragPointerId = null;
-    this.lastDragTime = 0;
-
-    // Pointer Down (Global capture prevents mid-air release loss)
-    this.canvas.addEventListener('pointerdown', (e) => {
-      if (e.button === 0 && this.isPointInsidePet(e.clientX, e.clientY)) {
-        this.isDragging = true;
-        this.dragPointerId = e.pointerId;
-        this.lastDragTime = performance.now();
-        this.canvas.style.cursor = 'grabbing';
-        this.dragOffsetX = e.clientX - this.x;
-        this.dragOffsetY = e.clientY - this.y;
-        this.lastMouseX = e.clientX;
-        this.lastMouseY = e.clientY;
-
-        try {
-          this.canvas.setPointerCapture(e.pointerId);
-        } catch (err) {}
-
-        if (window.electronAPI && window.electronAPI.setInteractiveRegion) {
-          window.electronAPI.setInteractiveRegion(true);
-        }
-        this.transitioner.handleDragStart(this);
-      }
-    });
-
-    // Pointer Move
-    window.addEventListener('pointermove', (e) => {
-      // Safety check: Release drag immediately if primary button is released
-      if (this.isDragging && (e.buttons & 1) === 0) {
-        this.releaseDrag(e.clientX, e.clientY);
-        return;
-      }
-
-      const isInside = this.isPointInsidePet(e.clientX, e.clientY);
-      const shouldBeInteractive = isInside || this.isDragging;
-
-      if (shouldBeInteractive !== this.isHovering) {
-        this.isHovering = shouldBeInteractive;
-        this.canvas.style.cursor = this.isDragging ? 'grabbing' : (isInside ? 'grab' : 'default');
-        if (window.electronAPI && window.electronAPI.setInteractiveRegion) {
-          window.electronAPI.setInteractiveRegion(shouldBeInteractive);
-        }
-      }
-
-      // Petting detection: moving cursor over pet while resting on ground
-      if (!this.isDragging && isInside) {
-        const dx = e.clientX - this.lastMouseX;
-        const dy = e.clientY - this.lastMouseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        this.pettingDistance += dist;
-
-        if (this.pettingDistance > 80) {
-          this.pettingDistance = 0;
-          this.transitioner.handlePetting(this);
-        }
-      } else {
-        this.pettingDistance = 0;
-      }
-
-      // Drag translation
-      if (this.isDragging) {
-        this.lastDragTime = performance.now();
-        const targetX = e.clientX - this.dragOffsetX;
-        const targetY = e.clientY - this.dragOffsetY;
-        const dragDx = targetX - this.x;
-
-        if (Math.abs(dragDx) > 2) {
-          this.facing = dragDx > 0 ? 1 : -1;
-        }
-
-        this.x = targetX;
-        // Clamp top drag bound to keep pet within visible viewport
-        this.y = Math.max(10, Math.min(this.floorY + 20, targetY));
-      }
-
-      this.lastMouseX = e.clientX;
-      this.lastMouseY = e.clientY;
-    });
-
-    // Pointer Up & Cancellation Handlers
-    const handlePointerEnd = (e) => {
-      if (this.isDragging) {
-        if (this.dragPointerId !== null) {
-          try {
-            this.canvas.releasePointerCapture(this.dragPointerId);
-          } catch (err) {}
-          this.dragPointerId = null;
-        }
-        this.releaseDrag(e.clientX, e.clientY);
-      }
-    };
-
-    window.addEventListener('pointerup', handlePointerEnd);
-    window.addEventListener('pointercancel', handlePointerEnd);
-    window.addEventListener('mouseup', handlePointerEnd);
-    window.addEventListener('blur', () => {
-      if (this.isDragging) this.releaseDrag();
-    });
-  }
-
-  /**
-   * Safely ends dragging state, restores cursor, and triggers drop physics.
-   * @param {number} [clientX]
-   * @param {number} [clientY]
-   */
-  releaseDrag(clientX, clientY) {
-    if (!this.isDragging) return;
-    this.isDragging = false;
-    this.canvas.style.cursor = 'default';
-
-    if (this.y < this.floorY) {
-      this.transitioner.handleDrop(this);
-    } else {
-      this.y = this.floorY;
-      this.transitioner.handleGroundLanding(this);
-    }
-
-    const isInside = (clientX !== undefined && clientY !== undefined) ? this.isPointInsidePet(clientX, clientY) : false;
-    this.isHovering = isInside;
-    if (window.electronAPI && window.electronAPI.setInteractiveRegion) {
-      window.electronAPI.setInteractiveRegion(isInside);
-    }
-  }
-
-  /**
-   * Hit-test bounding box evaluation for mouse interaction.
-   * @param {number} px - Point X
-   * @param {number} py - Point Y
-   * @returns {boolean}
-   */
-  isPointInsidePet(px, py) {
-    const boxW = 60 * this.scale;
-    const boxH = 65 * this.scale;
-    const minX = this.x - boxW / 2;
-    const maxX = this.x + boxW / 2;
-    const minY = this.y - boxH;
-    const maxY = this.y + 12;
-    return px >= minX && px <= maxX && py >= minY && py <= maxY;
   }
 
   /**
@@ -427,42 +176,7 @@ class PetEngine {
     }
 
     // 3. Physics & Gravity
-    if (!this.isDragging) {
-      if (this.y < this.floorY) {
-        // Freefall
-        this.vy += this.gravity * dt;
-        this.y += this.vy * dt;
-
-        if (this.y >= this.floorY) {
-          this.y = this.floorY;
-          this.vy = 0;
-          this.transitioner.handleGroundLanding(this);
-        }
-      } else {
-        this.y = this.floorY;
-        this.vy = 0;
-
-        // If sleeping, freeze all horizontal movement completely
-        if (stateInfo.state === 'sleep') {
-          this.vx = 0;
-        }
-
-        // Taskbar Horizontal Roaming
-        this.x += this.vx * dt;
-
-        // Screen boundary bounce
-        const margin = 40;
-        if (this.x < margin) {
-          this.x = margin;
-          this.vx = Math.abs(this.vx);
-          this.facing = 1;
-        } else if (this.x > this.canvas.width - margin) {
-          this.x = this.canvas.width - margin;
-          this.vx = -Math.abs(this.vx);
-          this.facing = -1;
-        }
-      }
-    }
+    this.updatePhysics(dt, stateInfo);
 
     // 4. Calculate Target Pose and Blend Continuously (Pose Blending Engine)
     const targetPose = this.behaviors.calculatePose(
@@ -472,8 +186,8 @@ class PetEngine {
       this.species
     );
 
-    // Smooth Pose Blending (Skeletal Dampener)
-    const blendSpeed = this.isDragging ? 18.0 : 12.0;
+    // Smooth Pose Blending (Skeletal Dampener with responsive landing speed)
+    const blendSpeed = this.isDragging ? 22.0 : (stateInfo.state === 'landing' ? 24.0 : 14.0);
     const blendFactor = 1 - Math.exp(-blendSpeed * dt);
 
     if (!this.currentPose) {
@@ -509,9 +223,10 @@ class PetEngine {
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Render Pet
+    // Render Pet with active skin
     this.renderer.render(this.ctx, {
       species: this.species,
+      skin: (this.petSkins && this.petSkins[this.species]) || 'cool',
       x: this.x,
       y: this.y,
       scale: this.scale,
@@ -524,54 +239,38 @@ class PetEngine {
     this.particles.draw(this.ctx);
   }
 
-  /**
-   * Evaluates if current system time falls within scheduled sleep range.
-   * @returns {boolean}
-   */
-  isSleepScheduled() {
-    if (!this.sleepSchedule.enabled) return false;
-    const now = new Date();
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-    const [sH, sM] = this.sleepSchedule.sleepTime.split(':').map(Number);
-    const [wH, wM] = this.sleepSchedule.wakeTime.split(':').map(Number);
-    const sleepMinutes = sH * 60 + sM;
-    const wakeMinutes = wH * 60 + wM;
-
-    if (sleepMinutes < wakeMinutes) {
-      return currentMinutes >= sleepMinutes && currentMinutes < wakeMinutes;
-    } else {
-      // Overnight range crossing midnight (e.g., 23:00 to 08:00)
-      return currentMinutes >= sleepMinutes || currentMinutes < wakeMinutes;
-    }
-  }
-
-  /**
-   * Checks sleep schedule and transitions state accordingly.
-   */
-  checkSleepSchedule() {
-    const shouldSleep = this.isSleepScheduled();
-    if (shouldSleep && this.transitioner.currentState !== 'sleep') {
-      this.transitioner.enterSleep(this);
-    } else if (!shouldSleep && this.transitioner.currentState === 'sleep') {
-      this.transitioner.wakeUp(this);
-    }
-  }
-
   setSpecies(species) {
     this.species = species;
+  }
+
+  setPetSkins(skins) {
+    this.petSkins = { ...this.petSkins, ...skins };
   }
 
   setScale(scale) {
     this.scale = scale;
   }
-
-  setScheduleConfig(config) {
-    this.sleepSchedule = { ...this.sleepSchedule, ...config };
-    this.checkSleepSchedule();
-  }
 }
 
+const resolveEngineModule = (name, path) => {
+  if (typeof globalThis !== 'undefined' && globalThis[name]) return globalThis[name];
+  if (typeof window !== 'undefined' && window[name]) return window[name];
+  if (typeof require !== 'undefined') {
+    try { return require(path); } catch (e) {}
+  }
+  return null;
+};
+
+const _EnginePhysics = resolveEngineModule('EnginePhysics', './engine/enginePhysics.js');
+const _EngineInput = resolveEngineModule('EngineInput', './engine/engineInput.js');
+const _EngineAudioSchedule = resolveEngineModule('EngineAudioSchedule', './engine/engineAudioSchedule.js');
+
+if (_EnginePhysics) Object.assign(PetEngine.prototype, _EnginePhysics);
+if (_EngineInput) Object.assign(PetEngine.prototype, _EngineInput);
+if (_EngineAudioSchedule) Object.assign(PetEngine.prototype, _EngineAudioSchedule);
+
+if (typeof window !== 'undefined') window.PetEngine = PetEngine;
+if (typeof globalThis !== 'undefined') globalThis.PetEngine = PetEngine;
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = PetEngine;
 }

@@ -158,6 +158,8 @@ class AudioReactive {
   }
 }
 
+if (typeof window !== 'undefined') window.AudioReactive = AudioReactive;
+if (typeof globalThis !== 'undefined') globalThis.AudioReactive = AudioReactive;
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = AudioReactive;
 }

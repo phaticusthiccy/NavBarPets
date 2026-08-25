@@ -1,0 +1,519 @@
+/* Pet Sanctuary Gallery & Companion Card Components */
+
+.section-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pet-visibility-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  padding: 5px 14px;
+  border-radius: 20px;
+  transition: var(--transition-fast);
+}
+
+.pet-visibility-control:hover {
+  border-color: var(--border-glow);
+  background: var(--bg-card-hover);
+}
+
+.visibility-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+  user-select: none;
+}
+
+/* Pet Cards Grid */
+.pet-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.pet-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  user-select: none;
+  transition: var(--transition-smooth);
+}
+
+.pet-card:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-3px);
+  border-color: var(--border-glow);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.pet-card.selected {
+  border: 1.5px solid var(--accent-primary);
+  background: var(--bg-card-hover);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.18);
+}
+
+.pet-active-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--accent-gradient);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Subtle & Clean Preview Box (No excessive blinding glow) */
+.pet-preview-box {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.02) 0%, transparent 65%);
+  transition: background 0.3s ease;
+}
+
+.pet-preview-box.aura-mythic {
+  background: radial-gradient(circle at center, rgba(0, 245, 212, 0.05) 0%, rgba(123, 44, 191, 0.02) 45%, transparent 70%);
+}
+
+.pet-preview-box.aura-classic {
+  background: radial-gradient(circle at center, rgba(255, 209, 102, 0.05) 0%, rgba(239, 71, 111, 0.02) 45%, transparent 70%);
+}
+
+.pet-preview-canvas {
+  width: 120px;
+  height: 120px;
+}
+
+.pet-info {
+  text-align: center;
+  width: 100%;
+}
+
+.pet-name {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 3px;
+}
+
+.pet-species-type {
+  font-size: 11.5px;
+  color: var(--accent-secondary);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.pet-traits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.trait-tag {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 2px 7px;
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   PET SKIN SELECTOR (Clean Segmented Holographic Switcher)
+   ========================================================================== */
+
+.pet-skin-showcase-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  padding: 8px 9px;
+  box-sizing: border-box;
+  transition: var(--transition-smooth);
+}
+
+.pet-skin-showcase-box:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.skin-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.skin-title-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+}
+
+.skin-rarity-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  padding: 1.5px 6px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  transition: var(--transition-fast);
+}
+
+.skin-rarity-badge.badge-mythic {
+  color: #00F5D4;
+  background: rgba(0, 245, 212, 0.08);
+  border: 1px solid rgba(0, 245, 212, 0.25);
+}
+
+.skin-rarity-badge.badge-classic {
+  color: #FFD166;
+  background: rgba(255, 209, 102, 0.08);
+  border: 1px solid rgba(255, 209, 102, 0.25);
+}
+
+/* Segmented Pill Buttons */
+.skin-toggle-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  width: 100%;
+}
+
+.skin-pill-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 5px 4px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.skin-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.skin-pill-btn.active.mythic {
+  background: linear-gradient(135deg, rgba(0, 245, 212, 0.12), rgba(123, 44, 191, 0.14));
+  border: 1px solid rgba(0, 245, 212, 0.4);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 245, 212, 0.12);
+}
+
+.skin-pill-btn.active.classic {
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.12), rgba(239, 71, 111, 0.14));
+  border: 1px solid rgba(255, 209, 102, 0.4);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(255, 209, 102, 0.12);
+}
+
+.skin-glow-orb {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mythic-orb {
+  background: #00F5D4;
+}
+
+.classic-orb {
+  background: #FFD166;
+}
+
+.skin-pill-btn:not(.active) .skin-glow-orb {
+  opacity: 0.3;
+}
+
+.skin-btn-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Action Buttons Grid on Card */
+.pet-card-actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-select-pet {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-select-pet:hover {
+  background: var(--accent-primary);
+  color: #fff;
+  border-color: var(--accent-primary);
+  box-shadow: 0 3px 10px rgba(99, 102, 241, 0.25);
+}
+
+.btn-wardrobe-inspect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-wardrobe-inspect:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  border-color: var(--border-glow);
+  transform: scale(1.03);
+}
+
+/* ==========================================================================
+   WARDROBE & SKIN SHOWCASE MODAL
+   ========================================================================== */
+
+.wardrobe-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 10, 19, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.wardrobe-modal-card {
+  width: 100%;
+  max-width: 650px;
+  background: #0f1527;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.wardrobe-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.025);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.wardrobe-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.wardrobe-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.wardrobe-close-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+}
+
+.wardrobe-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wardrobe-turntable-container {
+  width: 100%;
+  height: 170px;
+  background: radial-gradient(circle at center, rgba(0, 245, 212, 0.06) 0%, rgba(15, 21, 39, 0.8) 70%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.wardrobe-turntable-canvas {
+  width: 160px;
+  height: 160px;
+}
+
+.wardrobe-pose-selector {
+  position: absolute;
+  bottom: 8px;
+  display: flex;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.wardrobe-pose-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.wardrobe-pose-btn.active,
+.wardrobe-pose-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.wardrobe-skins-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.wardrobe-skin-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.wardrobe-skin-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.wardrobe-skin-card.selected.mythic {
+  background: linear-gradient(145deg, rgba(0, 245, 212, 0.08), rgba(123, 44, 191, 0.1));
+  border: 1.5px solid rgba(0, 245, 212, 0.6);
+  box-shadow: 0 2px 12px rgba(0, 245, 212, 0.12);
+}
+
+.wardrobe-skin-card.selected.classic {
+  background: linear-gradient(145deg, rgba(255, 209, 102, 0.08), rgba(239, 71, 111, 0.1));
+  border: 1.5px solid rgba(255, 209, 102, 0.6);
+  box-shadow: 0 2px 12px rgba(255, 209, 102, 0.12);
+}
+
+.wardrobe-skin-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wardrobe-skin-name {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.wardrobe-skin-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.wardrobe-equip-btn {
+  margin-top: 3px;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.wardrobe-skin-card.selected .wardrobe-equip-btn {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #fff;
+}

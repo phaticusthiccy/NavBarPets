@@ -39,7 +39,7 @@ To run NavBarPets on your PC, grab the latest binary release from the links belo
 
 ## 📖 Overview
 
-**NavBarPets** is a modern desktop companion application that roams freely on top of your Windows Taskbar, puts on headphones and grooves along with songs playing on your PC, observes a real-time circadian sleep schedule, and features over 75 procedural kinematic animations.
+**NavBarPets** is a modern desktop companion application that roams freely on top of your Windows Taskbar, puts on headphones and grooves along with songs playing on your PC, observes a real-time circadian sleep schedule, supports a dual-skin system (Legendary & Classic), and features over 75 procedural kinematic animations.
 
 Powered by a transparent overlay engine and hardware-accelerated HTML5 Canvas rendering, it operates quietly in the background with minimal system overhead (low CPU & RAM consumption).
 
@@ -50,24 +50,31 @@ Powered by a transparent overlay engine and hardware-accelerated HTML5 Canvas re
 ### 🐾 1. 11 Unique Pets & Legendary Characters
 11 distinct companions, each with procedural animations, signature particle physics, and audio-reactive dance behaviors:
 
-- **🐱 Neko Cat (`neko`):** Ear twitches, paw grooming, loaf pose, butterfly chasing, and disco grooves.
+- **🐱 Neko Cat (`neko`):** Dual spirit tails, ear twitches, paw grooming, loaf pose, butterfly chasing, and disco grooves.
 - **🐕 Shiba Inu (`shiba`):** Curly tail wags, sniffing ground, bleps, zoomies dashes, and happy hops.
 - **🟢 Cyber Slime (`slime`):** Holographic core, jelly elasticity, electrical discharges, and soft-body squish.
 - **🐉 Mini Dragon (`dragon`):** Smoke rings puffing, wing glides, curling around its tail.
 - **🦆 Pixel Duck (`duck`):** Waddling steps, water dipping head bobs, fluffing feathers, 360 spin dances.
-- **🦊 Kitsune Fox (`fox`):** Bushy mystical flame-tipped tail, ember spark particles, agile leaps.
+- **🦊 Kitsune Fox (`fox`):** Bushy mystical flame-tipped tail, ember spark particles, and agile 4-legged gait mechanics.
 - **🐰 Mochi Bunny (`bunny`):** Long floppy ear bounces, twitching nose, carrot craving, joyful hopping.
 - **🐧 Chilly Penguin (`penguin`):** Red knitted winter scarf, wing flaps, and cute pattering steps.
-- **💨 Valorant Jett (`jett`):** Wind currents, floating cyan neon Kunai daggers, and supersonic dashes.
+- **💨 Valorant Jett (`jett`):** Anime facial features, radiant teal eyes, wind currents, floating cyan neon Kunai daggers, and supersonic dashes.
 - **🍄 Super Mario (`mario`):** Iconic red 'M' cap, blue overalls, mustache wiggles, and bouncy super jumps.
 - **⚡ Pikachu (`pikachu`):** Zigzag lightning bolt tail, red electric cheek pouches, and dynamic ear twitches.
 
 ---
 
-### 🎬 2. 75+ Rich Procedural Kinematic Animations & State Machine
+### 👗 2. Dual-Skin System & Wardrobe Turntable Showcase
+- **✨ Legendary (`✦ MYTHIC`):** High-definition neon cyber particle effects, dynamic ambient lighting, and sleek custom shaders.
+- **🌟 Classic (`★ RETRO`):** Nostalgic retro pixel art style, original vintage color palette, and clean desktop aesthetic.
+- **🔍 Pet Wardrobe Showcase Modal:** Inspect pets on an enlarged 160x160 live turntable platform, preview `Breathe`, `Walk`, `Dance`, and `Sleep` poses in real-time, and equip with a single click.
+
+---
+
+### 🎬 3. 75+ Rich Procedural Kinematic Animations & State Machine
 Pets transition fluidly through 6 core behavior pools with state blending:
 - **Idle:** Ear grooming, air sniffing, full-body fur shake, standing doze, yawning, loafing.
-- **Walk:** Proud parade strut, cautious stalk/prowl, swagger waddle, tiptoe gait.
+- **Walk:** Proud parade strut, cautious stalk/prowl, swagger waddle, 4-leg diagonal gait mechanics.
 - **Run:** Bounding gallop, corner drift slide, agile zigzagging, turbo aerodynamic sprint.
 - **Dance:** Robot pop-and-lock, wave shuffle, hype jumping, tap/step groove, moonwalk.
 - **Play:** Somersault roll, peek-a-boo hiding, butterfly catching, butt-wiggle pounce.
@@ -75,35 +82,36 @@ Pets transition fluidly through 6 core behavior pools with state blending:
 
 ---
 
-### 🎵 3. Spotify & YouTube Live Music Detection
+### 🎵 4. Spotify & YouTube Live Music Detection
 - Detects background media playback automatically from Spotify, YouTube, and media players.
 - Pet immediately **puts on headphones**, starts dancing to the rhythm, and spawns musical notes.
 - Dashboard features real-time track info, artist name, and a live audio visualizer equalizer.
 
 ---
 
-### ⏰ 4. Circadian Sleep Scheduler (Bio Clock)
+### ⏰ 5. Circadian Sleep Scheduler (Bio Clock)
 - During scheduled hours (e.g. `23:00 - 08:00`), companions automatically wear their **nightcaps** and enter deep sleep with drifting Zzz particles.
 - Manual quick sleep and wake controls are accessible from the dashboard and system tray context menu.
 
 ---
 
-### 📏 5. Taskbar Ground Baseline & Scale Settings
+### 📏 6. Taskbar Ground Baseline, Scale & Visibility Controls
+- **👁️ Master Pet Visibility Switch:** Instantly show or hide companions on the taskbar from the dashboard header or system tray.
 - **Pet Scale Multiplier:** Customize size from 0.6x up to 2.0x.
 - **Ground Placement Mode:** Perch along the taskbar bottom base or sit on top of the taskbar shelf.
 - **Vertical Offset Tuning:** Pixel-perfect vertical positioning adjustments for custom Windows themes and high DPI displays.
 
 ---
 
-### 🎨 6. 8 Modern Glassmorphism Themes & Full i18n Localization
+### 🎨 7. 8 Modern Glassmorphism Themes & Full i18n Localization
 - **8 Tailored Themes:** *Midnight Glass, Cyber Neon, Cozy Pastel, Deep OLED, Sunset Aurora, Emerald Forest, Vampire Velvet, Nordic Frost*.
-- **🇹🇷 Turkish & 🇺🇸 English:** Instant real-time UI, system tray, and pet catalog translation with zero restarts.
+- **🇹🇷 Turkish & 🇬🇧 English:** Seamless instant translation with crisp SVG vector flags.
 
 ---
 
-### 🚀 7. Windows System Tray & Integration
+### 🚀 8. Windows System Tray & Integration
 - Seamlessly minimizes to the **System Tray** when closed.
-- Quick tray actions for one-click pet swapping, sleep toggles, and test dance triggers.
+- Quick tray actions for one-click pet swapping, visibility toggle, sleep toggles, and test dance triggers.
 - Automatic launch on Windows startup configuration.
 
 ---
@@ -135,7 +143,7 @@ Compiled setup (`NavBarPets Setup x.x.x.exe`) and portable (`NavBarPets x.x.x.ex
 
 ---
 
-## 📂 Project Architecture
+## 📂 Modular Project Architecture
 
 ```
 NavBarPets/
@@ -147,22 +155,30 @@ NavBarPets/
 │   │   ├── tray.js              # System Tray Management & Dynamic Context Menu
 │   │   ├── mediaDetector.js     # Windows Media Playback Telemetry Engine
 │   │   ├── taskbarDetector.js   # Taskbar Metrics & Coordinate Locator
+│   │   ├── fullscreenDetector.js# Foreground Fullscreen Game & App Detector
 │   │   └── startupManager.js    # Windows Startup Registry Integration
 │   ├── overlay/
 │   │   ├── overlay.html         # Transparent Desktop Canvas Viewport
-│   │   ├── petEngine.js         # Physics, Finite State Machine, and AI Director
-│   │   ├── petRenderer.js       # HTML5 Canvas 2D Character Render System
-│   │   ├── animationBehaviors.js# 75+ Procedural Kinematics & Behavior Pools
-│   │   └── particleSystem.js    # Heart, Note, Zzz, Ember & Snow Particle System
+│   │   ├── petEngine.js         # Core Engine & Subsystem Coordinator
+│   │   ├── petRenderer.js       # Master Character Render Coordinator
+│   │   ├── animationBehaviors.js# Master Kinematics Coordinator
+│   │   ├── particleSystem.js    # Master Particle Coordinator
+│   │   ├── stateTransitioner.js # Master State Transition Coordinator
+│   │   ├── renderers/           # 11 Dedicated Species Renderers + sharedHelpers.js
+│   │   ├── behaviors/           # idle, locomotion, dance, play/sleep & species
+│   │   ├── particles/           # particleRenderers.js & particleEmitters.js
+│   │   ├── states/              # stateInterrupts.js & stateAutonomous.js
+│   │   └── engine/              # physics, input & audioScheduler
 │   ├── preload/
 │   │   ├── dashboardPreload.js  # Dashboard IPC Secure Context Bridge
 │   │   └── overlayPreload.js    # Overlay IPC Secure Context Bridge
 │   └── renderer/
-│       ├── index.html           # Modern Glassmorphism Dashboard UI
-│       ├── index.css            # Design System & 8 Curated UI Themes
-│       ├── dashboard.js         # Dashboard Controller & Real-Time Canvas Previews
-│       └── i18n.js              # Turkish & English Localization Engine
-├── electron-builder.json        # Electron Builder Distribution Configuration
+│       ├── index.html           # Dashboard UI & Wardrobe Modal
+│       ├── dashboard.js         # Dashboard Controller & Live Previews
+│       ├── i18n.js              # Turkish & English Localization Engine
+│       ├── modules/             # sanctuary, telemetry, settings, eventBinder
+│       └── styles/              # variables, themes, layout, components, sanctuary, tabs
+├── electron-builder.json        # NSIS & Portable Distribution Configuration
 ├── package.json
 └── README.md
 ```

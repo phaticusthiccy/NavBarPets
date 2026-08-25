@@ -39,11 +39,13 @@ class AppTray {
   updateContextMenu() {
     const currentSpecies = this.mainApp.settings.species;
     const isSleeping = this.mainApp.isPetSleeping;
+    const isEnabled = this.mainApp.settings.enabled !== false;
     const lang = this.mainApp.settings.language || 'tr';
     const isTr = lang === 'tr';
 
     const labels = {
       dashboard: isTr ? '🖥️ Dashboard / Ayarlar' : '🖥️ Dashboard / Settings',
+      toggleVisibility: isTr ? (isEnabled ? '👁️ Petleri Gizle' : '👁️ Petleri Göster') : (isEnabled ? '👁️ Hide Pets' : '👁️ Show Pets'),
       changePet: isTr ? '🐱 Pet Değiştir' : '🐱 Change Pet',
       wake: isTr ? '☀️ Peti Uyandır' : '☀️ Wake Up Pet',
       sleep: isTr ? '🌙 Peti Uyut' : '🌙 Put Pet to Sleep',
@@ -74,6 +76,16 @@ class AppTray {
       {
         label: labels.dashboard,
         click: () => this.mainApp.showDashboard()
+      },
+      {
+        label: labels.toggleVisibility,
+        click: () => {
+          this.mainApp.settings.enabled = !isEnabled;
+          this.mainApp.saveSettingsToFile();
+          this.mainApp.broadcastSettings();
+          this.mainApp.updateOverlayPosition();
+          this.updateContextMenu();
+        }
       },
       {
         label: labels.changePet,

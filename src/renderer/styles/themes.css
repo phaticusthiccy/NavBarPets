@@ -1,0 +1,145 @@
+/* 8 Curated Aesthetic Themes for NavBarPets */
+
+/* 1. Midnight Glass Theme (Default) */
+body.theme-midnight {
+  --bg-app: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0e1726 100%);
+  --bg-glass: rgba(22, 27, 34, 0.75);
+  --bg-card: rgba(30, 41, 59, 0.45);
+  --bg-card-hover: rgba(51, 65, 85, 0.55);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(99, 102, 241, 0.4);
+  --accent-primary: #6366f1;
+  --accent-primary-hover: #4f46e5;
+  --accent-secondary: #06b6d4;
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --status-live: #10b981;
+}
+
+/* 2. Cyber Neon Theme */
+body.theme-cyber {
+  --bg-app: linear-gradient(135deg, #050508 0%, #0d0a1a 50%, #150927 100%);
+  --bg-glass: rgba(13, 10, 26, 0.85);
+  --bg-card: rgba(26, 16, 51, 0.6);
+  --bg-card-hover: rgba(45, 25, 85, 0.7);
+  --border-glass: rgba(0, 245, 212, 0.2);
+  --border-glow: rgba(247, 37, 133, 0.6);
+  --accent-primary: #00f5d4;
+  --accent-primary-hover: #00bbf9;
+  --accent-secondary: #f72585;
+  --accent-gradient: linear-gradient(135deg, #00f5d4 0%, #7b2cbf 50%, #f72585 100%);
+  --text-main: #ffffff;
+  --text-muted: #b8c1ec;
+  --text-dim: #7371fc;
+  --status-live: #00f5d4;
+}
+
+/* 3. Cozy Pastel Theme */
+body.theme-pastel {
+  --bg-app: linear-gradient(135deg, #2b2038 0%, #3a2b4c 50%, #302244 100%);
+  --bg-glass: rgba(58, 43, 76, 0.75);
+  --bg-card: rgba(77, 56, 100, 0.45);
+  --bg-card-hover: rgba(98, 72, 126, 0.6);
+  --border-glass: rgba(255, 214, 232, 0.15);
+  --border-glow: rgba(255, 175, 204, 0.4);
+  --accent-primary: #ffafcc;
+  --accent-primary-hover: #ff85a1;
+  --accent-secondary: #bde0fe;
+  --accent-gradient: linear-gradient(135deg, #ffafcc 0%, #ffc8dd 50%, #cdb4db 100%);
+  --text-main: #fff0f5;
+  --text-muted: #d8c2e0;
+  --text-dim: #a48cb0;
+  --status-live: #a2d2ff;
+}
+
+/* 4. Deep OLED Theme */
+body.theme-oled {
+  --bg-app: #000000;
+  --bg-glass: rgba(10, 10, 10, 0.95);
+  --bg-card: #121212;
+  --bg-card-hover: #1c1c1c;
+  --border-glass: #262626;
+  --border-glow: #ffffff;
+  --accent-primary: #ffffff;
+  --accent-primary-hover: #e5e5e5;
+  --accent-secondary: #a3a3a3;
+  --accent-gradient: linear-gradient(135deg, #ffffff 0%, #a3a3a3 100%);
+  --text-main: #ffffff;
+  --text-muted: #a3a3a3;
+  --text-dim: #737373;
+  --status-live: #22c55e;
+}
+
+/* 5. Sunset Aurora Theme */
+body.theme-sunset {
+  --bg-app: linear-gradient(135deg, #180d24 0%, #2c1245 50%, #3e1647 100%);
+  --bg-glass: rgba(44, 18, 69, 0.75);
+  --bg-card: rgba(62, 22, 71, 0.5);
+  --bg-card-hover: rgba(85, 30, 95, 0.65);
+  --border-glass: rgba(255, 183, 3, 0.18);
+  --border-glow: rgba(251, 133, 0, 0.5);
+  --accent-primary: #ffb703;
+  --accent-primary-hover: #fb8500;
+  --accent-secondary: #ff758f;
+  --accent-gradient: linear-gradient(135deg, #ff758f 0%, #ffb703 50%, #fb8500 100%);
+  --text-main: #fff8f0;
+  --text-muted: #e0b1cb;
+  --text-dim: #9f7596;
+  --status-live: #ffb703;
+}
+
+/* 6. Emerald Forest Theme */
+body.theme-emerald {
+  --bg-app: linear-gradient(135deg, #051410 0%, #0a241c 50%, #061e17 100%);
+  --bg-glass: rgba(10, 36, 28, 0.8);
+  --bg-card: rgba(16, 54, 42, 0.5);
+  --bg-card-hover: rgba(22, 78, 60, 0.65);
+  --border-glass: rgba(52, 211, 153, 0.18);
+  --border-glow: rgba(16, 185, 129, 0.5);
+  --accent-primary: #10b981;
+  --accent-primary-hover: #059669;
+  --accent-secondary: #34d399;
+  --accent-gradient: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
+  --text-main: #ecfdf5;
+  --text-muted: #a7f3d0;
+  --text-dim: #6ee7b7;
+  --status-live: #10b981;
+}
+
+/* 7. Vampire Velvet Theme */
+body.theme-dracula {
+  --bg-app: linear-gradient(135deg, #14050d 0%, #200a16 50%, #1a0718 100%);
+  --bg-glass: rgba(32, 10, 22, 0.85);
+  --bg-card: rgba(48, 14, 34, 0.55);
+  --bg-card-hover: rgba(72, 20, 52, 0.7);
+  --border-glass: rgba(230, 57, 70, 0.2);
+  --border-glow: rgba(255, 0, 127, 0.55);
+  --accent-primary: #e63946;
+  --accent-primary-hover: #d90429;
+  --accent-secondary: #9d4edd;
+  --accent-gradient: linear-gradient(135deg, #e63946 0%, #9d4edd 50%, #ff007f 100%);
+  --text-main: #fff1f2;
+  --text-muted: #fecdd3;
+  --text-dim: #be185d;
+  --status-live: #ff007f;
+}
+
+/* 8. Nordic Frost Theme */
+body.theme-nordic {
+  --bg-app: linear-gradient(135deg, #09131f 0%, #0f1e33 50%, #162842 100%);
+  --bg-glass: rgba(15, 30, 51, 0.8);
+  --bg-card: rgba(22, 45, 74, 0.5);
+  --bg-card-hover: rgba(30, 62, 102, 0.65);
+  --border-glass: rgba(56, 189, 248, 0.2);
+  --border-glow: rgba(56, 189, 248, 0.5);
+  --accent-primary: #38bdf8;
+  --accent-primary-hover: #0284c7;
+  --accent-secondary: #67e8f9;
+  --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #67e8f9 50%, #93c5fd 100%);
+  --text-main: #f0f9ff;
+  --text-muted: #bae6fd;
+  --text-dim: #7dd3fc;
+  --status-live: #38bdf8;
+}
