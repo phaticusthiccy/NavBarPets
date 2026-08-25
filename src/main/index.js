@@ -134,6 +134,9 @@ class MainApp {
 
       this.setupScreenEvents();
 
+      // Synchronize auto-launch configuration with persisted user settings
+      StartupManager.syncStartup(this.settings.startup);
+
       // Show dashboard on standard launch unless launched with --hidden flag
       const isHidden = process.argv.includes('--hidden');
       if (!isHidden) {
@@ -473,8 +476,12 @@ class MainApp {
     });
 
     ipcMain.handle('save-settings', (_event, newSettings) => {
+      const startupChanged = newSettings.startup !== undefined && newSettings.startup !== this.settings.startup;
       this.settings = { ...this.settings, ...newSettings };
       this.saveSettingsToFile();
+      if (startupChanged) {
+        StartupManager.setStartup(this.settings.startup);
+      }
       this.broadcastSettings();
       if (this.tray) this.tray.updateContextMenu();
       this.updateOverlayPosition();
@@ -486,6 +493,8 @@ class MainApp {
     });
 
     ipcMain.handle('set-startup', (_event, enable) => {
+      this.settings.startup = Boolean(enable);
+      this.saveSettingsToFile();
       StartupManager.setStartup(enable);
       return true;
     });

@@ -17,7 +17,7 @@ NavBarPets/
 │   │   ├── generateIcons.js      # Programmatic fallback icon generator for headless/missing assets
 │   │   ├── index.js              # Main Electron process entry point, lifecycle & IPC coordinator
 │   │   ├── mediaDetector.js      # Native media player watcher (Spotify, YouTube, VLC, browsers)
-│   │   ├── startupManager.js     # Windows registry & login item auto-start manager
+│   │   ├── startupManager.js     # Multi-target Windows registry & login item auto-start manager (NSIS, Portable, Dev)
 │   │   ├── taskbarDetector.js    # Windows taskbar geometry, orientation & height evaluator
 │   │   └── tray.js               # Windows Notification Area (System Tray) context menu controller
 │   ├── overlay/                  # Transparent Pet Overlay Window & Simulation Engine
@@ -95,6 +95,7 @@ flowchart TB
     subgraph MainProcess["Electron Main Process (src/main/index.js)"]
         direction TB
         SettingsStorage[("settings.json\n(Persisted Config)")]
+        StartupMgr["StartupManager\n(startupManager.js)"]
         TrayMgr["AppTray\n(tray.js)"]
         TaskbarDet["TaskbarDetector\n(taskbarDetector.js)"]
         MediaDet["MediaDetector\n(mediaDetector.js)"]
@@ -137,19 +138,25 @@ flowchart TB
    - When the user hovers over the pet canvas bounding box, `setInteractiveRegion(true)` is dispatched to enable direct petting, dragging, and dropping.
 3. **Zero-Resource Fullscreen Suspension:**
    - `FullscreenDetector` uses Windows User32 APIs via PowerShell to detect active foreground games or fullscreen windows. When detected, the overlay is hidden and the `requestAnimationFrame` render loop is completely frozen (0% CPU/GPU overhead).
-4. **Procedural Skeletal Pose Blending & 5-Skin System:**
+4. **Multi-Target Windows Startup Management:**
+   - `StartupManager` inspects the active execution target dynamically:
+     - **Portable (.exe):** Resolves `process.env.PORTABLE_EXECUTABLE_FILE` to prevent pointing to volatile `%TEMP%` extraction folders.
+     - **Development (`npm start`):** Automatically injects the absolute application root path (`app.getAppPath()`) alongside `--hidden` to prevent launching the bare Electron placeholder template.
+     - **Packaged (NSIS Installer):** Targets the installed executable binary (`process.execPath`) with `--hidden`.
+   - Cleans legacy or invalid registry entries (`electron.app.Electron` or stale `%TEMP%` paths) and synchronizes registry state at boot via `StartupManager.syncStartup()`.
+5. **Procedural Skeletal Pose Blending & 5-Skin System:**
    - Animations avoid static sprite sheets. Every companion supports 5 procedural skins with distinct color palettes and tailored morphological features:
      - **✦ Mythic (`cool`):** High-definition neon cyber effects, luminous auras, data circuit veins, and dynamic ambient lighting.
      - **★ Classic (`classic`):** Cozy nostalgic vector charm, organic white-to-green/warm tones, and clean minimalist palette (default skin).
      - **👾 Pixel Art (`pixel`):** Authentic 8-bit/16-bit stepped pixel geometry, square eyes/pupils, blocky tails/wings, and retro arcade aesthetic.
      - **🌸 Sakura (`sakura`):** Japanese spring aesthetic, blooming 5-petal cherry blossom flowers, drifting petals, kimono/shrine ornaments, and serene pastel palettes.
      - **✨ Evori Dreamwings (`evori`):** Translucent glowing butterfly/fairy wings, floating star halos, orbiting astral constellation crystals, and starlight lavender & gold tones.
-5. **High-Performance Dashboard Culling Architecture:**
+6. **High-Performance Dashboard Culling Architecture:**
    - `SanctuaryModule` utilizes an `IntersectionObserver` to track card visibility inside the scroll container.
    - Off-screen cards are completely skipped from canvas rendering.
    - When the user navigates away from the Pet Sanctuary tab, all preview loops are suspended (0% CPU/GPU overhead).
    - Gallery cards are paced at 30 FPS with cached 2D contexts, while the active Wardrobe modal turntable runs at 60 FPS.
-6. **Petting Interaction & Kinematic Love Reactions:**
+7. **Petting Interaction & Kinematic Love Reactions:**
    - Brushing the cursor over the companion triggers continuous petting detection (`engineInput.js`), activating the `petting_love` state interrupt.
    - Companions enter joyful poses (squinted happy eyes, head tilts, body squish, leaf/tail flutter) and spawn multi-layered species-specific heart and shockwave VFX (`particleEmitters.js`).
 
@@ -160,6 +167,7 @@ flowchart TB
 | File Path | Core Responsibility | Common Modification Triggers |
 | :--- | :--- | :--- |
 | `src/main/index.js` | Main process lifecycle, window orchestration, IPC handlers, configuration disk persistence. | Adding new IPC channels, updating window flags, or modifying persistence schema. |
+| `src/main/startupManager.js` | Windows Registry auto-launch manager for NSIS, Portable, and Development environments. | Modifying startup flags, registry keys, or auto-launch lifecycle hooks. |
 | `src/overlay/petEngine.js` | 60 FPS game loop, kinematic updates, gravity, drag physics, floor alignment. | Adjusting gravity/velocity, z-indexing, or floor baseline math. |
 | `src/overlay/petRenderer.js` | Master 2D Canvas dispatcher; handles scaling, direction, squash & stretch, accessories. | Registering a new pet species or adding universal accessories (hats, aura). |
 | `src/overlay/renderers/*.js` | Species-specific 2D Canvas drawing algorithms and 5-Skin (Mythic, Classic, Pixel Art, Sakura, Evori) rendering. | Redesigning pet visuals, color palettes, or skin morphology. |
@@ -183,7 +191,7 @@ flowchart TB
 - **Audio & Beat Engine:** Web Audio API (`AudioContext`, `AnalyserNode` FFT analysis)
 - **OS Entegrations:**
   - Windows API (PowerShell C# P/Invoke `User32.dll` for fullscreen and taskbar detection)
-  - Electron `app.setLoginItemSettings` (Windows startup auto-launch)
+  - Electron `app.setLoginItemSettings` & Windows Registry (`HKCU\Software\Microsoft\Windows\CurrentVersion\Run`)
 - **Design Philosophy:** Zero runtime npm dependencies (`dependencies: {}`); built purely with vanilla JavaScript, modern CSS, and native Electron APIs for lightweight performance and instant startup.
 
 ---
@@ -207,6 +215,7 @@ When implementing changes or debugging issues, use this routing table to directl
 | **Modifying Dashboard UI & Themes** | `src/renderer/index.html` & `src/renderer/styles/*.css` |
 | **Media Player Detection Rules** | `src/main/mediaDetector.js` |
 | **Taskbar & Fullscreen Detection** | `src/main/taskbarDetector.js` & `src/main/fullscreenDetector.js` |
+| **Startup & Auto-Launch Lifecycle** | `src/main/startupManager.js` & `src/main/index.js` |
 
 ---
 
@@ -222,3 +231,4 @@ When implementing changes or debugging issues, use this routing table to directl
    - Every user-facing string, notification toast, and pet profile must be mirrored in both Turkish (`tr`) and English (`en`) inside `src/renderer/i18n.js`.
 5. **Auto-Update Architecture Rule:**
    - Whenever you add, rename, remove, or significantly refactor files/modules/skins/pets, update `ARCHITECTURE.md` to keep the project map completely synchronized.
+
